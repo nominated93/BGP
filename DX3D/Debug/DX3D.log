@@ -1,0 +1,10 @@
+﻿  SceneObjMap.cpp
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(36): warning C4316: 'SkyBox': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(37): warning C4316: 'ObjMap': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(38): warning C4316: 'Player': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(39): warning C4316: 'Picking': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(42): warning C4316: 'BulletManager': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(43): warning C4316: 'ItemManager': object allocated on the heap may not be aligned 16
+c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(44): warning C4316: 'Inventory': object allocated on the heap may not be aligned 16
+  DX3D.vcxproj -> C:\Users\psj25_000\Desktop\두견\Debug\DX3D.exe
+  DX3D.vcxproj -> C:\Users\psj25_000\Desktop\두견\Debug\DX3D.pdb (Full PDB)
