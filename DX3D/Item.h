@@ -12,7 +12,6 @@ private:
 private:
 	bool		m_isCollision;
 	
-
 public:
 	Item();
 	~Item();

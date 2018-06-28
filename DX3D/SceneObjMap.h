@@ -10,6 +10,7 @@ class Picking;
 class BulletManager;
 class ItemManager;
 class Inventory;
+class Equipment;
 class Collision;
 
 class SceneObjMap : public IScene
@@ -23,6 +24,7 @@ private:
 	BulletManager *	m_pBulletManager;
 	ItemManager *   m_pItemManager;
 	Inventory *     m_pInventory;
+	Equipment*		m_pEquipment;
 	Collision *		m_pCollision;
 
 public:
