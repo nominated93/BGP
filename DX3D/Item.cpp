@@ -77,3 +77,55 @@ void Item::Render()
 	Debug->AddText(m_isCollision);
 	Debug->EndLine();
 }
+
+void Item::MouseDrag()
+{
+	RECT rect;
+	D3DXMATRIXA16 mat;
+	m_pSprite->GetTransform(&mat);
+
+	int left = mat._41 + m_pIconImage->m_combinedPos.x;
+	int top = mat._42 + m_pIconImage->m_combinedPos.y;
+	int right = left + m_pIconImage->m_size.x;
+	int bottom = top + m_pIconImage->m_size.y;
+
+	SetRect(&rect, left, top, right, bottom);
+
+	
+
+	POINT mousePoint;
+	GetCursorPos(&mousePoint);
+	ScreenToClient(g_hWnd, &mousePoint);
+
+	//마우스 포인터가 영역 안에 있을 때
+	if (PtInRect(&rect, mousePoint))
+	{
+		/*if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON)
+		{
+			if (m_buttonState == MOUSEOVER)
+			{
+				m_buttonState = SELECTED;
+			}
+		}
+		else
+		{
+			if (m_buttonState == SELECTED)
+			{
+				if (m_pDelegate)
+					m_pDelegate->OnClick(this);
+			}
+			m_buttonState = MOUSEOVER;
+		}
+	}
+	else
+	{
+		if (GetKeyState(VK_LBUTTON) & 0x8000)
+		{
+
+		}
+		else
+		{
+			m_buttonState = NORMAL;
+		}*/
+	}
+}

@@ -24,7 +24,7 @@ void Player::Init()
 
 
 	m_pSkinnedMesh = new SkinnedMesh();
-	m_pSkinnedMesh->Setup("resources/player", "player.X");
+	m_pSkinnedMesh->Setup("../../", "Character.X");
 
 
 	//酒捞袍面倒 备 积己

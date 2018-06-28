@@ -27,10 +27,11 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-private:
-
+public:
+	void MouseDrag();
 
 public:
+
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere; }
 
 	ITEM_LIST GetItemName() { return m_tItemName; }
