@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Item.h"
 #include "SkinnedMesh.h"
+#include "UIImage.h"
 
 Item::Item() :
 	m_pSkinnedMesh(NULL),
+	m_pIconImage(NULL),
 	m_isCollision(false)
 {
 }
@@ -12,22 +14,29 @@ Item::Item() :
 Item::~Item()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
+	SAFE_DELETE(m_pIconImage);
 }
 
 
 
 void Item::Init()
 {
-	m_pSkinnedMesh = new SkinnedMesh();
+	//m_pSkinnedMesh = new SkinnedMesh();
+	m_pIconImage = new UIImage(m_pSprite);
+
 }
 
-void Item::Init(char* fileName,D3DXVECTOR3 pos, D3DXVECTOR3 rot , ITEM_LIST IL)
+void Item::Init(char* fileName,D3DXVECTOR3 pos, D3DXVECTOR3 rot , ITEM_LIST IL, ITEM_INTO II)
 {
 	m_pSkinnedMesh = new SkinnedMesh();
+	m_pIconImage = new UIImage(m_pSprite);
+
+
 	m_pos = pos;
 	m_rot = rot;
 	m_pSkinnedMesh->Setup("resources/weapons", fileName);
-	m_tItemList = IL;
+	m_tItemName = IL;
+	m_tItemInto = II;
 
 	m_tCollisionSphere.center = m_pos;
 	m_tCollisionSphere.radius = 20;

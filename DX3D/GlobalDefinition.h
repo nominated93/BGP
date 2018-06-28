@@ -176,8 +176,24 @@ struct BoundingSphere
 enum class ITEM_LIST
 {
 	AK47,
-	ARMOR
+	ARMOR,
+	END
 };
+
+enum class ITEM_INTO
+{
+	FIELD,
+	INVEN,
+	EQUIPMENT,
+	END
+};
+
+//enum class ITEM_DRAGSTATE
+//{
+//	NORMAR,
+//	DRAG,
+//	DRAG_
+//};
 
 struct VERTEX_BLENDING
 {

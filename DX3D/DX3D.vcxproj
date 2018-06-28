@@ -166,6 +166,7 @@
     <ClInclude Include="DrawingGroup.h" />
     <ClInclude Include="DX.h" />
     <ClInclude Include="DX3D.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GlobalDefinition.h" />
     <ClInclude Include="Heap.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="DrawingGroup.cpp" />
     <ClCompile Include="DX.cpp" />
     <ClCompile Include="DX3D.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GlobalDefinition.cpp" />
     <ClCompile Include="Heap.cpp" />

@@ -11,7 +11,7 @@ enum INVENUI
 	INVENUI_NONE
 };
 
-//class IUIObject;
+class Item;
 class Inventory : public IDisplayObject, public IUIButtonDelegate
 {
 private:
@@ -22,8 +22,8 @@ private:
 	IUIObject*		m_pRootUI;
 
 private:
-	vector<UIImage*> m_vecInvenItemUI;
-	vector<UIImage*>::iterator m_iterInvenItemUI;
+	vector<Item*> m_vecInvenItemIcon;
+	vector<Item*>::iterator m_iterInvenItemIcon;
 
 private:
 	bool m_isInvenUI;
@@ -40,11 +40,11 @@ public:
 
 public:
 	void AddItemToInven(ITEM_LIST IL);
-	void InvenItemUIUpdate();
-	void InvenItemUIRender();
+	void ItemIconImageUpdate();
+	void ItemIconImageRender();
 
 public:
-	vector<UIImage*> GetVecInvenItemUI() { return m_vecInvenItemUI; }
+	vector<Item*> GetVecInvenItemIcon() { return m_vecInvenItemIcon; }
 
 };
 

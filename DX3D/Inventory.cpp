@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Inventory.h"
+#include "Item.h"
 
 Inventory::Inventory():
 	m_pInvenUI(NULL),
@@ -14,7 +15,7 @@ Inventory::~Inventory()
 	SAFE_RELEASE(m_pInvenUI);
 	SAFE_RELEASE(m_pInvenExitUI);
 	m_pRootUI->ReleaseAll();
-	m_vecInvenItemUI.clear();
+	m_vecInvenItemIcon.clear();
 }
 
 void Inventory::Init()
@@ -25,17 +26,12 @@ void Inventory::Init()
 	m_pRootUI = m_pInvenUI;
 	m_pInvenUI->SetPosition(&D3DXVECTOR3(950, 0, 0));
 
-	//m_pInvenUI2 = new UIImage(m_pSprite);
-	//m_pInvenUI2->SetTexture("ui-bankframe.png");
-	//m_pRootUI->AddChild(m_pInvenUI2);
-	//m_pInvenUI2->SetPosition(&D3DXVECTOR3(100, 100, 0));
-
 	m_pInvenExitUI = new UIButton(this,m_pSprite, INVENUI_EXIT);
 	m_pInvenExitUI->SetTexture("resources/ui/UI-Panel-MinimizeButton-Disabled.png",
 		"resources/ui/UI-Panel-MinimizeButton-Up.png",
 		"resources/ui/UI-Panel-MinimizeButton-Down.png");
 	m_pRootUI->AddChild(m_pInvenExitUI);
-	//m_pRootUI = m_pInventoryExitUI;
+
 	m_pInvenExitUI->SetPosition(&D3DXVECTOR3(371, 7, 0));
 }
 
@@ -52,7 +48,7 @@ void Inventory::Update()
 	if (m_isInvenUI)
 	{
 		SAFE_UPDATE(m_pRootUI);
-		InvenItemUIUpdate();
+		ItemIconImageUpdate();
 	}
 
 	//m_pInventoryUI->Update();
@@ -66,7 +62,7 @@ void Inventory::Render()
 	if (m_isInvenUI)
 	{
 		SAFE_RENDER(m_pRootUI);
-		InvenItemUIRender();
+		ItemIconImageRender();
 	}
 	
 	//m_pInventoryUI->Render();
@@ -90,63 +86,63 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 	int iDeltaX = 48;
 	int iDeltaY = 46;
 		
-	if (m_vecInvenItemUI.size())
+	if (m_vecInvenItemIcon.size())
 	{
-		vDeltaPos.x = vDeltaPos.x + (m_vecInvenItemUI.size() % 7) * iDeltaX;
-		vDeltaPos.y = vDeltaPos.y + (m_vecInvenItemUI.size() / 7) * iDeltaY;
+		vDeltaPos.x = vDeltaPos.x + (m_vecInvenItemIcon.size() % 7) * iDeltaX;
+		vDeltaPos.y = vDeltaPos.y + (m_vecInvenItemIcon.size() / 7) * iDeltaY;
 	}
 
 	switch (IL)
 	{
 	case ITEM_LIST::AK47:
 	{
-		UIImage * UIImg;
-		UIImg = new UIImage(m_pSprite);
-		UIImg->SetTexture("resources/ui/Attack.png");
+		Item * CItem;
+		CItem = new Item();
+		CItem->Init();
+		CItem->GetPIconImage()->SetTexture("resources/ui/Attack.png");
 		
-		UIImg->SetPosition(&vDeltaPos);
-		m_pRootUI->AddChild(UIImg);
+		CItem->GetPIconImage()->SetPosition(&vDeltaPos);
+		m_pRootUI->AddChild(CItem->GetPIconImage());
 
-		m_vecInvenItemUI.push_back(UIImg);
+		m_vecInvenItemIcon.push_back(CItem);
 	}
 		break;
 
 	case ITEM_LIST::ARMOR:
 	{
-		UIImage * UIImg;
-		UIImg = new UIImage(m_pSprite);
-		UIImg->SetTexture("resources/ui/FishingCursor.png");
-		m_pRootUI->AddChild(UIImg);
-		UIImg->SetPosition(&vDeltaPos);
+		Item * CItem;
+		CItem = new Item();
+		CItem->Init();
+		CItem->GetPIconImage()->SetTexture("resources/ui/FishingCursor.png");
+		m_pRootUI->AddChild(CItem->GetPIconImage());
+		CItem->GetPIconImage()->SetPosition(&vDeltaPos);
 
-		m_vecInvenItemUI.push_back(UIImg);
+		m_vecInvenItemIcon.push_back(CItem);
 	}
 		break;
 
 	}
 }
 
-void Inventory::InvenItemUIUpdate()
+void Inventory::ItemIconImageUpdate()
 {
-	if (m_vecInvenItemUI.size()>0)
+	if (m_vecInvenItemIcon.size()>0)
 	{
-		//D3DXVECTOR3 vDeltaPos(44,75,0);
-		for (m_iterInvenItemUI = m_vecInvenItemUI.begin(); m_iterInvenItemUI != m_vecInvenItemUI.end(); m_iterInvenItemUI++)
+		for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); m_iterInvenItemIcon++)
 		{
-			(*m_iterInvenItemUI)->Update();
-			//(*m_iterInvenItemUI)->SetPosition(&vDeltaPos);
+			(*m_iterInvenItemIcon)->GetPIconImage()->Update();
 		}
 	}
 	
 }
 
-void Inventory::InvenItemUIRender()
+void Inventory::ItemIconImageRender()
 {
-	if (m_vecInvenItemUI.size() > 0)
+	if (m_vecInvenItemIcon.size() > 0)
 	{
-		for (m_iterInvenItemUI = m_vecInvenItemUI.begin(); m_iterInvenItemUI != m_vecInvenItemUI.end(); m_iterInvenItemUI++)
+		for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); m_iterInvenItemIcon++)
 		{
-			(*m_iterInvenItemUI)->Render();
+			(*m_iterInvenItemIcon)->GetPIconImage()->Render();
 		}
 	}
 }
