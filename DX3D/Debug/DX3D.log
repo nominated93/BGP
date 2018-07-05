@@ -1,10 +1,14 @@
 ﻿  SceneObjMap.cpp
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(36): warning C4316: 'SkyBox': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(37): warning C4316: 'ObjMap': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(38): warning C4316: 'Player': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(39): warning C4316: 'Picking': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(42): warning C4316: 'BulletManager': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(43): warning C4316: 'ItemManager': object allocated on the heap may not be aligned 16
-c:\users\psj25_000\desktop\두견\dx3d\sceneobjmap.cpp(44): warning C4316: 'Inventory': object allocated on the heap may not be aligned 16
-  DX3D.vcxproj -> C:\Users\psj25_000\Desktop\두견\Debug\DX3D.exe
-  DX3D.vcxproj -> C:\Users\psj25_000\Desktop\두견\Debug\DX3D.pdb (Full PDB)
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(40): warning C4316: 'SkyBox': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(41): warning C4316: 'ObjMap': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(42): warning C4316: 'Player': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(43): warning C4316: 'Picking': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(44): warning C4316: 'BulletManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(45): warning C4316: 'ItemManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(46): warning C4316: 'Inventory': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(47): warning C4316: 'Equipment': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bg\dx3d\sceneobjmap.cpp(48): warning C4316: 'Collision': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+  ObjMap.cpp
+c:\users\hecon\documents\bg\dx3d\objmap.cpp(126): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+  코드를 생성하고 있습니다...
+  DX3D.vcxproj -> C:\Users\hecon\Documents\BG\Debug\DX3D.exe

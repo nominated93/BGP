@@ -56,7 +56,6 @@ void ObjMap::Update()
 {
 }
 
-
 void ObjMap::Render()
 {
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);

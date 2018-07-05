@@ -59,6 +59,9 @@ void SceneObjMap::Init()
 
 void SceneObjMap::Update()
 {
+	float height = m_pPlayer->GetPosition().y;
+	m_pObjMap->GetHeight(height, m_pPlayer->GetPosition());
+	m_pPlayer->SetPosition(&D3DXVECTOR3(m_pPlayer->GetPosition().x, height, m_pPlayer->GetPosition().z));
 	OnUpdateIScene();
 }
 

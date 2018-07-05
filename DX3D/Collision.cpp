@@ -43,7 +43,7 @@ bool Collision::CheckSphereIntersect(D3DXVECTOR3 vCenter1, float fRadius1, D3DXV
 {
 	float fDistance;
 	D3DXVECTOR3 vDiff;
-	vDiff = (vCenter2 / 0.05f) - (vCenter1 / 0.05f);   //리소스 크기를 0.05만큼 줄여줘서 계산법에서도 줄여준다
+	vDiff = (vCenter2 / 0.05f) - (vCenter1 / 0.05f);   //리소스 크기를 0.05만큼 줄여줘서 계산법에서 나눈다
 	fDistance = D3DXVec3Length(&vDiff);
 	if (fDistance <= (fRadius1 + fRadius2))
 		return true;
@@ -61,12 +61,11 @@ void Collision::Collision_ItemPlayer()
 		if (CheckSphereIntersect((*iterItem)->GetCollisionSphere().center, (*iterItem)->GetCollisionSphere().radius,
 			m_pPlayer->GetCollisionSphere().center, m_pPlayer->GetCollisionSphere().radius))
 		{
-			bool check = false;
 			(*iterItem)->SetIsCollision(true);
 
-			if (GetKeyState('F') & 0x08000)
+			if (g_pKeyManager->isOnceKeyDown('F'))
 			{
-				m_pInven->AddItemToInven((*iterItem)->GetItemList());
+				m_pInven->AddItemToInven((*iterItem)->GetItemName());
 				iterItem = (*pVecItem).erase(iterItem);
 			}
 			else
