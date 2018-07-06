@@ -10,7 +10,6 @@
 #include "Inventory.h"
 #include "ItemManager.h"
 #include "Item.h"
-#include "Equipment.h"
 #include "Collision.h"
 
 
@@ -28,7 +27,6 @@ SceneObjMap::SceneObjMap()
 	m_pPicking = NULL;
 	m_pBulletManager = NULL;
 	m_pInventory = NULL;
-	m_pEquipment = NULL;
 	m_pCollision = NULL;
 }
 
@@ -53,7 +51,7 @@ void SceneObjMap::Init()
 	//m_pBulletManager = new BulletManager; m_pBulletManager->Init(); AddSimpleDisplayObj(m_pBulletManager);
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
 	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);
-	m_pEquipment = new Equipment; m_pEquipment->Init(); AddSimpleDisplayObj(m_pEquipment);
+	
 
 	//Collision Init이 제일 뒤에 있어야됨
 	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pInventory); AddSimpleDisplayObj(m_pCollision);

@@ -11,7 +11,6 @@ class BulletManager;
 class ItemManager;
 class Inventory;
 class Collision;
-class Equipment;
 
 class SceneObjMap : public IScene
 {
@@ -24,7 +23,6 @@ private:
 	BulletManager *	m_pBulletManager;
 	ItemManager *   m_pItemManager;
 	Inventory *     m_pInventory;
-	Equipment*		m_pEquipment;
 	
 	Collision*		m_pCollision;
 

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "IDisplayObject.h"
 #include "UIButton.h"
 #include "UIImage.h"
 #include "IUIObject.h"
+
+
 
 enum INVENUI
 {
@@ -11,6 +12,8 @@ enum INVENUI
 	INVENUI_NONE
 };
 
+class Cursor;
+class Equipment;
 class Item;
 class Inventory : public IDisplayObject, public IUIButtonDelegate
 {
@@ -20,6 +23,8 @@ private:
 	UIButton *		m_pInvenExitUI;
 	LPD3DXSPRITE	m_pSprite;
 	IUIObject*		m_pRootUI;
+	Equipment*		m_pEquipment;
+	Cursor*			m_pCursor;
 
 private:
 	vector<Item*> m_vecInvenItemIcon;

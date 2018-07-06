@@ -10,7 +10,7 @@ Camera::Camera()
 	m_up = D3DXVECTOR3(0, 1, 0);
 	m_rotX = 0.0f;
 	m_rotY = 0.0f;
-	m_isLbuttonDown = false;
+	m_isAngleMove = true;
 	m_pTarget = NULL;
 }
 
@@ -79,22 +79,22 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-	case WM_LBUTTONDOWN:
-	{
-		m_isLbuttonDown = true;
-		m_ptPrevMouse.x = LOWORD(lParam);
-		m_ptPrevMouse.y = HIWORD(lParam);
-	}
-	break;
-	case WM_LBUTTONUP:
-	{
-		m_isLbuttonDown = false;
-	}
-	break;
+	//case WM_LBUTTONDOWN:
+	//{
+	//	m_isLbuttonDown = true;
+	//	m_ptPrevMouse.x = LOWORD(lParam);
+	//	m_ptPrevMouse.y = HIWORD(lParam);
+	//}
+	//break;
+	//case WM_LBUTTONUP:
+	//{
+	//	m_isLbuttonDown = false;
+	//}
+	//break;
 	case WM_MOUSEMOVE:
 	{
-		/*if (m_isLbuttonDown == true)
-		{*/
+		if (m_isAngleMove == true)
+		{
 			POINT currPoint;
 			currPoint.x = LOWORD(lParam);
 			currPoint.y = HIWORD(lParam);
@@ -112,6 +112,7 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 
 			m_ptPrevMouse = currPoint;
+		}
 
 /*
 			RECT rc2;

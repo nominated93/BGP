@@ -18,13 +18,12 @@ c:\users\hecon\documents\bgp1\dx3d\skinnedmeshmanager.cpp(8): warning C4316: 'Sk
   SkinnedMesh.cpp
 c:\users\hecon\documents\bgp1\dx3d\skinnedmesh.cpp(57): warning C4244: '=': 'DOUBLE'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   SceneObjMap.cpp
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(24): warning C4316: 'SkyBox': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(44): warning C4316: 'ObjMap': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(46): warning C4316: 'Player': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(54): warning C4316: 'ItemManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(55): warning C4316: 'Inventory': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(56): warning C4316: 'Equipment': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(59): warning C4316: 'Collision': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(23): warning C4316: 'SkyBox': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(42): warning C4316: 'ObjMap': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(44): warning C4316: 'Player': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(52): warning C4316: 'ItemManager': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(53): warning C4316: 'Inventory': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\sceneobjmap.cpp(57): warning C4316: 'Collision': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
   SceneManager.cpp
   Ray.cpp
   Player.cpp
@@ -83,10 +82,12 @@ c:\users\hecon\documents\bgp1\dx3d\item.cpp(88): warning C4244: '초기화 중':
 c:\users\hecon\documents\bgp1\dx3d\item.cpp(89): warning C4244: '초기화 중': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\hecon\documents\bgp1\dx3d\item.cpp(90): warning C4244: '초기화 중': 'FLOAT'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Inventory.cpp
-c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(24): warning C4316: 'UIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(29): warning C4316: 'UIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(100): warning C4316: 'Item': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
-c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(114): warning C4316: 'Item': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(29): warning C4316: 'Equipment': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(30): warning C4316: 'Cursor': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(32): warning C4316: 'UIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(39): warning C4316: 'UIButton': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(115): warning C4316: 'Item': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\inventory.cpp(129): warning C4316: 'Item': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
   IDisplayObject.cpp
   Heap.cpp
 c:\users\hecon\documents\bgp1\dx3d\heap.cpp(64): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
@@ -100,17 +101,21 @@ c:\users\hecon\documents\bgp1\dx3d\equipment.cpp(16): warning C4316: 'UIImage': 
   DrawingGroup.cpp
   DeviceManager.cpp
   Debug.cpp
+  Cursor.cpp
+c:\users\hecon\documents\bgp1\dx3d\cursor.cpp(16): warning C4316: 'UIImage': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
+c:\users\hecon\documents\bgp1\dx3d\cursor.cpp(21): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\hecon\documents\bgp1\dx3d\cursor.cpp(29): warning C4244: '인수': 'LONG'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Collision.cpp
   Camera.cpp
   BulletManager.cpp
 c:\users\hecon\documents\bgp1\dx3d\bulletmanager.cpp(45): warning C4316: 'Bullet': 힙에 할당된 개체가 16에 맞추어져 있지 않을 수도 있습니다
   Bullet.cpp
   BaseObject.cpp
-  AStarNode.cpp
-c:\users\hecon\documents\bgp1\dx3d\astarnode.cpp(23): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
 c:\users\hecon\documents\bgp1\dx3d\devicemanager.cpp(51): warning C4715: 'DeviceManager::Init': 모든 제어 경로에서 값을 반환하지는 않습니다.
   컴파일하고 있습니다...
+  AStarNode.cpp
+c:\users\hecon\documents\bgp1\dx3d\astarnode.cpp(23): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   AStar.cpp
 c:\users\hecon\documents\bgp1\dx3d\astar.cpp(135): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\hecon\documents\bgp1\dx3d\astar.cpp(150): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.

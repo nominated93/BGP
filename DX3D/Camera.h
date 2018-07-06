@@ -12,7 +12,7 @@ public:
 	D3DXMATRIXA16	m_matProj;
 	float			m_basePosY;
 	float			m_distance;
-	bool			m_isLbuttonDown;
+	bool			m_isAngleMove;
 	POINT			m_ptPrevMouse;
 	D3DXVECTOR3*	m_pTarget;
 	
@@ -27,5 +27,7 @@ public:
 	void Update();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void SetTarget(D3DXVECTOR3* pTarget) { m_pTarget = pTarget; }
+	bool GetIsAngleMove() { return m_isAngleMove; }
+	void SetIsAngleMove(bool isAngleMove) {	m_isAngleMove = isAngleMove; }
 };
 

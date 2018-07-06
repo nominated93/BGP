@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "Inventory.h"
+#include "Equipment.h"
+#include "Cursor.h"
 #include "Item.h"
 
 Inventory::Inventory():
 	m_pInvenUI(NULL),
 	m_pInvenExitUI(NULL),
+	m_pEquipment(NULL),
+	m_pCursor(NULL),
 	m_pRootUI(NULL),
 	m_isInvenUI(false)
 {
@@ -14,17 +18,23 @@ Inventory::~Inventory()
 {
 	SAFE_RELEASE(m_pInvenUI);
 	SAFE_RELEASE(m_pInvenExitUI);
+	SAFE_RELEASE(m_pEquipment);
+	SAFE_RELEASE(m_pCursor);
 	m_pRootUI->ReleaseAll();
 	m_vecInvenItemIcon.clear();
 }
 
 void Inventory::Init()
 {
-	
+	m_pEquipment = new Equipment; m_pEquipment->Init();
+	m_pCursor = new Cursor; m_pCursor->Init();
+
 	m_pInvenUI = new UIImage(m_pSprite);
 	m_pInvenUI->SetTexture("resources/ui/ui-bankframe.png");
 	m_pRootUI = m_pInvenUI;
 	m_pInvenUI->SetPosition(&D3DXVECTOR3(950, 0, 0));
+
+
 
 	m_pInvenExitUI = new UIButton(this,m_pSprite, INVENUI_EXIT);
 	m_pInvenExitUI->SetTexture("resources/ui/UI-Panel-MinimizeButton-Disabled.png",
@@ -42,6 +52,7 @@ void Inventory::Update()
 	//인벤창 띄우기
 	if (g_pKeyManager->isOnceKeyDown('I'))
 	{
+		g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
 		m_isInvenUI = !m_isInvenUI;
 	}
 
@@ -49,10 +60,13 @@ void Inventory::Update()
 	{
 		SAFE_UPDATE(m_pRootUI);
 		ItemIconImageUpdate();
+		m_pCursor->Update();
+	
 	}
 
-	//m_pInventoryUI->Update();
-	//m_pInventoryExitUI->Update();
+	m_pEquipment->Update();
+
+
 }
 
 void Inventory::Render()
@@ -63,16 +77,17 @@ void Inventory::Render()
 	{
 		SAFE_RENDER(m_pRootUI);
 		ItemIconImageRender();
+		m_pCursor->Render();
 	}
 	
-	//m_pInventoryUI->Render();
-	//m_pInventoryExitUI->Render();
+	m_pEquipment->Render();
 }
 
 void Inventory::OnClick(UIButton * pSender)
 {
 	if (pSender->m_uiTag == INVENUI_EXIT)
 	{
+		g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
 		m_isInvenUI = !m_isInvenUI;
 	}
 }
