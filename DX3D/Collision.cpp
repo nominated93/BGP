@@ -43,7 +43,7 @@ bool Collision::CheckSphereIntersect(D3DXVECTOR3 vCenter1, float fRadius1, D3DXV
 {
 	float fDistance;
 	D3DXVECTOR3 vDiff;
-	vDiff = (vCenter2 / 0.05f) - (vCenter1 / 0.05f);   //리소스 크기를 0.05만큼 줄여줘서 계산법에서 나눈다
+	vDiff = (vCenter2 / 0.04f) - (vCenter1 / 0.04f);   //리소스 크기를 0.04만큼 줄여줘서 계산법에서 나눈다
 	fDistance = D3DXVec3Length(&vDiff);
 	if (fDistance <= (fRadius1 + fRadius2))
 		return true;

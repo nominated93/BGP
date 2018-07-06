@@ -20,64 +20,83 @@ ObjMap::~ObjMap()
 
 void ObjMap::Init()
 {
-
 	D3DXMATRIXA16 matView, matInvView;
 	g_pDevice->GetTransform(D3DTS_WORLD, &matView);
 	D3DXMatrixInverse(&matInvView, NULL, &matView);
 	D3DXVec3TransformCoord(&m_pos, &m_pos, &matView);
 
 	//D3DXMATRIXA16 matRX, matRY, matS, matWorld;
-	D3DXMATRIXA16 matS, matT, matWorld;
+	D3DXMATRIXA16 matS, matT, matRY, matWorld;
 	//D3DXMatrixRotationX(&matRX, -D3DX_PI / 2.0f);
-	//D3DXMatrixRotationY(&matRY, D3DX_PI / 2.0f);
+	D3DXMatrixIdentity(&matRY);
+	//D3DXMatrixRotationY(&matRY, D3DX_PI);
 
 
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y - 50, m_pos.z);
+	D3DXMatrixScaling(&matS, 0.15f, 0.15f, 0.15f);
+	//D3DXMatrixTranslation(&matT, 0, 0, 0);
 	//matWorld = matS * matRX * matRY;
-	m_matWorld = matS * matT;
-	//matWorld = matS;
+	//m_matWorld = matS * matRY * matT;
+	matWorld = matS;
 
 	ObjLoader loader;
 	//loader.Load("resources/obj/cs_militia/", "cs_militia.obj", &matWorld, m_vecDrawingGroup);
 	//loader.Load("resources/obj", "map_surface.obj", &matWorld, m_vecDrawingGroup);
 
-	m_pMesh = loader.LoadMesh("resources/obj/the_city/", "The_City_obj.obj", &m_matWorld, m_vecMtlTex);
-	//loader.CreateSurface(m_vecVertex);
+	m_pMesh = loader.LoadMesh("resources/obj/cs_office/", "cs_office.obj", &matWorld, m_vecMtlTex);
+	loader.CreateSurface(m_vecVertex);
 
 	//loader.LoadSurface("resources/obj/map_surface.obj", &matWorld, m_vecVertex);
-	//g_pMapManager->AddMap("ObjMap", this);
-	//g_pMapManager->SetCurrentMap("ObjMap");
+	g_pMapManager->AddMap("ObjMap", this);
+	g_pMapManager->SetCurrentMap("ObjMap");
 }
 
 void ObjMap::Update()
 {
 }
 
+
 void ObjMap::Render()
 {
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
+
 	//RenderDrawingGroup();
 	RenderMesh();
-	
 	//RenderDrawSpeed();
 	//RenderEachSubset();
 	//RenderSurface();
-/*
-	hdc = GetDC(g_hWnd);
-
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-
-	int radius = 5;
-	Ellipse(hdc, rc.right / 2 - radius, rc.bottom / 2 - radius, rc.right / 2 + radius, rc.bottom / 2 + radius);*/
 }
 
 bool ObjMap::GetHeight(OUT float & height, const D3DXVECTOR3 & pos)
 {
+	/*
+	D3DXVECTOR3 rayPos(pos.x, pos.y + m_rayOffsetY, pos.z);
+	D3DXVECTOR3 rayDir(0, -1, 0);
+	float distance;
+	float tmpHeight;
+	float highest = -99999;
+	for (size_t i = 0; i < m_vecVertex.size(); i += 3)
+	{
+		if (D3DXIntersectTri(&m_vecVertex[i], &m_vecVertex[i + 1], &m_vecVertex[i + 2],
+			&rayPos, &rayDir, NULL, NULL, &distance))
+		{
+			tmpHeight = rayPos.y - distance;
+
+			if (tmpHeight > highest + FLT_EPSILON)
+			{
+				highest = tmpHeight;
+				height = tmpHeight;
+			}
+		}
+	}
+
+	if (highest == -99999)
+		return false;
+	else
+		return true;
+		*/
 	D3DXVECTOR3 rayPos(pos.x, pos.y + m_rayOffsetY, pos.z);
 	D3DXVECTOR3 rayDir(0, -1, 0);
 	float distance;

@@ -3,9 +3,9 @@
 
 Camera::Camera()
 {
-	m_distance = 10.0f;
+	m_distance = 5.0f;
 	m_basePosY = 5.0f;
-	m_eye = D3DXVECTOR3(0, m_basePosY, -m_distance);
+	m_eye = D3DXVECTOR3(0.2f, 1.5f, 1.0f);
 	m_lookAt = D3DXVECTOR3(0, 0, 0);
 	m_up = D3DXVECTOR3(0, 1, 0);
 	m_rotX = 0.0f;
@@ -43,18 +43,22 @@ void Camera::Update()
 	matRot = matRotX * matRotY;
 
 	D3DXVec3TransformCoord(&m_forward, &D3DXVECTOR3(0, 0, 1), &matRot);
-	//D3DXVec3TransformCoord(&m_forward, &D3DXVECTOR3(0,0,1), &matRot);
 
 
 	D3DXVec3TransformCoord(&m_eye, &m_eye, &matRot);
 
+	D3DXVECTOR3 vDir(0, 0, 1);
+	D3DXVec3TransformNormal(&vDir, &vDir, &matRot);
+
 	if (m_pTarget)
 	{
-		m_lookAt = *m_pTarget;
-		m_eye = m_eye + *m_pTarget;
+	/*	m_lookAt = *m_pTarget;
+		m_eye = m_eye + *m_pTarget;*/
+		m_lookAt = (*m_pTarget) + 1000.0f * vDir;
+		m_eye = m_eye + (*m_pTarget);
 		
-		m_lookAt.y += 10.0f;
-		m_eye.y += 10.0f;
+		//m_lookAt.y += 10.0f;
+		//m_eye.y += 10.0f;
 		//m_up.y -= 15;
 
 		//D3DXVECTOR3 temp;

@@ -15,7 +15,6 @@ private:
 public:
 	void AddMap(string mapName, IMap* pMap)
 	{
-		//맵이 존재하면 그냥 리턴
 		if (m_mapList.count(mapName) == 1) return;
 
 		m_mapList[mapName] = pMap;

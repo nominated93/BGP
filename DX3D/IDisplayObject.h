@@ -9,6 +9,7 @@ protected:
 	D3DXMATRIXA16			m_matWorld;
 	IDisplayObject*			m_pParent;
 	vector<IDisplayObject*> m_vecPChild;
+	D3DXVECTOR3				m_scale;
 
 public:
 	IDisplayObject();
@@ -24,5 +25,6 @@ public:
 	void			SetPosition(D3DXVECTOR3* pos) { m_pos = *pos; }
 	D3DXVECTOR3		GetRotation() { return m_rot; }
 	D3DXMATRIXA16	GetWorldMatrix() { return m_matWorld; }
+	void			SetWorldMatrix(D3DXMATRIXA16* matWorld) { m_matWorld = *matWorld; }
 };
 

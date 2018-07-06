@@ -2,18 +2,18 @@
 #include "SkinnedMesh.h"
 #include "AllocateHierarchy.h"
 
+
 SkinnedMesh::SkinnedMesh()
 	: m_pRoot(NULL)
 	, m_pAnimationController(NULL)
 	, m_fPassedBlendTime(0.0f)
-	, m_fBlendTime(0.0f)
+	, m_fBlendTime(0.5f)
 	, m_isBlend(false)
-	, m_bCheck(false)
 	, m_pAniSet(NULL)
-{
-	ZeroMemory(&m_TrackDesc, sizeof(D3DXTRACK_DESC));
-}
 
+{
+	ZeroMemory(&m_stTrackDesc, sizeof(D3DXTRACK_DESC));
+}
 
 SkinnedMesh::~SkinnedMesh()
 {
@@ -23,7 +23,7 @@ SkinnedMesh::~SkinnedMesh()
 	SAFE_RELEASE(m_pAniSet);
 }
 
-void SkinnedMesh::Setup(IN char* szFolder, IN char* szFile)
+void SkinnedMesh::Setup(IN char * szFolder, IN char * szFile)
 {
 	std::string sFullPath(szFolder);
 	sFullPath = sFullPath + std::string("/") + std::string(szFile);
@@ -38,24 +38,23 @@ void SkinnedMesh::Setup(IN char* szFolder, IN char* szFile)
 		NULL,
 		&m_pRoot,
 		&m_pAnimationController);
-	m_vMin = ah.GetMin();
 
 	SetupBoneMatrixPtrs(m_pRoot);
 }
 
 void SkinnedMesh::Update()
 {
-	
 	// animation
 	float nTime = 0;
-
 	if (m_pAnimationController)
 	{
+		// 애니메이션이 바뀔때마다 m_vAniPos = m_vPos 로 초기화 시켜주면 모든상황에서 적용됨
+		// 충돌연산은 m_vPos를 이용하여 계산하면됨
 		if (m_isBlend)
 		{
-			m_pAnimationController->GetTrackDesc(0, &m_TrackDesc);
+			m_pAnimationController->GetTrackDesc(0, &m_stTrackDesc);
 			m_pAnimationController->GetTrackAnimationSet(0, &m_pAniSet);
-			nTime = m_TrackDesc.Position / m_pAniSet->GetPeriod();
+			nTime = m_stTrackDesc.Position / m_pAniSet->GetPeriod();
 			m_fPassedBlendTime += g_pTimeManager->GetEllapsedTime();
 			if (m_fPassedBlendTime >= m_fBlendTime)
 			{
@@ -70,76 +69,31 @@ void SkinnedMesh::Update()
 			}
 		}
 
+		//이것을 주석처리하고 돌리면 캐릭터가 문워크로 이동하는걸 볼 수 있다.
+
+		//예솔이네는 업데이트에 bool값 인자를 넣고 if(!loop)일때
+		//밑에 AdvanceTime을 돌리게 한걸 봤었다고 한다.
+		//		if(!jump)
+		//			m_pAnimationController->AdvanceTime(
+		//				g_pTimeManager->GetEllapsedTime(), NULL);
+		//
+		//		else if (jump)
+		//		{
+		////			m_pAnimationController->SetTrackEnable(1, false);
+		//			m_pAnimationController->AdvanceTime(
+		//				0.08, NULL);
+		//		}
+		//if (nTime <= 0.9f)
+		//{
 		m_pAnimationController->AdvanceTime(
-			g_pTimeManager->GetDeltaTime(), NULL);
+			g_pTimeManager->GetEllapsedTime() * 1.2f, NULL);
+		//}
 	}
 
-	
 	// frame & mesh
 	Update(m_pRoot, NULL);
 	UpdateSkinnedMesh(m_pRoot);
-	//Update(g_pTimeManager->GetDeltaTime());
 }
-/*
-void SkinnedMesh::Update(float timeDelta)
-{
-	LPD3DXANIMATIONSET aaa;
-	m_pAnimationController->GetTrackDesc(0, &m_TrackDesc);
-	m_pAnimationController->GetTrackAnimationSet(0, &aaa);
-	m_AnimationPlayFactor = m_TrackDesc.Position / aaa->GetPeriod();
-
-	if (m_AnimationPlayFactor >= 0.9f)
-	{
-		if (this->m_bLoop == false) {
-
-			if (this->m_pPrevPlayAnimationSet != NULL)
-			{
-				m_fCrossFadeTime = m_fOutCrossFadeTime;
-				m_fLeftCrossFadeTime = m_fOutCrossFadeTime;
-				m_bLoop = true;
-				m_bCheck = true;
-				SetAnimation(aaa);
-				this->m_pPrevPlayAnimationSet = NULL;
-
-			}
-			else
-			{
-				m_bCheck = true;
-				this->Stop();
-			}
-		}
-	}
-	m_AnimationPlayFactor = m_AnimationPlayFactor - (int)m_AnimationPlayFactor;
-
-
-	if (m_bPlay)
-	{
-		m_pAnimationController->AdvanceTime(timeDelta, NULL);
-	}
-
-	if (m_fLeftCrossFadeTime > 0.0f)
-	{
-		this->m_fLeftCrossFadeTime -= timeDelta;
-
-		if (m_fLeftCrossFadeTime <= 0.0f)
-		{
-			m_pAnimationController->SetTrackWeight(0, 1);
-			m_pAnimationController->SetTrackEnable(1, false);
-		}
-
-		else
-		{
-			float w1 = (m_fLeftCrossFadeTime / m_fCrossFadeTime);
-			float w0 = 1.0f - w1;
-
-			m_pAnimationController->SetTrackWeight(0, w0);
-			m_pAnimationController->SetTrackWeight(1, w1);
-		}
-	}
-
-
-}
-*/
 
 void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 {
@@ -152,9 +106,11 @@ void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	}
 	pBone->matCombinedTransformMatrix = pBone->TransformationMatrix;
 
+
 	if (pParent)
 	{
-		pBone->matCombinedTransformMatrix *= ((ST_BONE*)pParent)->matCombinedTransformMatrix;
+		pBone->matCombinedTransformMatrix *=
+			((ST_BONE*)pParent)->matCombinedTransformMatrix;
 	}
 
 	if (pFrame->pFrameFirstChild)
@@ -166,6 +122,8 @@ void SkinnedMesh::Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent)
 	{
 		Update(pFrame->pFrameSibling, pParent);
 	}
+
+
 }
 
 void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
@@ -182,10 +140,11 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
 		if (pBoneMesh->MeshData.pMesh)
 		{
 
-			D3DXMATRIXA16 matR, matWorld;
+			D3DXMATRIXA16 matR, matWorld, matT, matS;
 			D3DXMatrixIdentity(&matR);	//회전행렬초기화
 			D3DXMatrixRotationY(&matR, D3DX_PI);	//리소스랑 실제 방향이 달라서 맞쳐줌
 			matWorld = pBone->matCombinedTransformMatrix * matR * (*m_World);		//다 곱해주고
+																					//matWorld = pBone->matCombinedTransformMatrix * matR * m_matWorld;		//다 곱해주고
 			g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);	//월드메트리스 적용
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); i++)
 			{
@@ -198,7 +157,6 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
 
 	if (pFrame->pFrameFirstChild)
 	{
-
 		Render(pFrame->pFrameFirstChild, m_World);
 	}
 
@@ -207,15 +165,6 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
 		Render(pFrame->pFrameSibling, m_World);
 	}
 }
-
-
-
-/*
-LPD3DXANIMATIONSET set;
-m_pAnimController3->getanimationset(0, &set);
-m_pAnimController4->setanumationset();
-*/
-
 
 void SkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 {
@@ -227,9 +176,11 @@ void SkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 			DWORD dwBoneNum = pBoneMesh->pSkinInfo->GetNumBones();
 			for (DWORD i = 0; i < dwBoneNum; i++)
 			{
-				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pBoneMesh->pSkinInfo->GetBoneName(i));
+				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot,
+					pBoneMesh->pSkinInfo->GetBoneName(i));
 
-				pBoneMesh->ppBoneMatrixPtrs[i] = &(pBone->matCombinedTransformMatrix);
+				pBoneMesh->ppBoneMatrixPtrs[i] =
+					&(pBone->matCombinedTransformMatrix);
 			}
 		}
 	}
@@ -269,7 +220,8 @@ void SkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		pBoneMesh->pOrigMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&src);
 		pBoneMesh->MeshData.pMesh->LockVertexBuffer(0, (void**)&dest);
 
-		pBoneMesh->pSkinInfo->UpdateSkinnedMesh(pBoneMesh->pCurrBoneMarixs, NULL, src, dest);
+		pBoneMesh->pSkinInfo->UpdateSkinnedMesh(
+			pBoneMesh->pCurrBoneMarixs, NULL, src, dest);
 
 		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
 		pBoneMesh->MeshData.pMesh->UnlockVertexBuffer();
@@ -284,7 +236,6 @@ void SkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 	{
 		UpdateSkinnedMesh(pFrame->pFrameSibling);
 	}
-
 }
 
 void SkinnedMesh::SetAnimationIndex(int nIndex)
@@ -301,6 +252,7 @@ void SkinnedMesh::SetAnimationIndex(int nIndex)
 
 void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 {
+
 	m_isBlend = true;
 	m_fPassedBlendTime = 0.0f;
 
@@ -309,22 +261,51 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 
 	LPD3DXANIMATIONSET	pPrevAnimSet = NULL;
 	LPD3DXANIMATIONSET	pNextAnimSet = NULL;
-
 	D3DXTRACK_DESC stTrackDesc;
-	m_pAnimationController->GetTrackDesc(0, &stTrackDesc);
 
 	m_pAnimationController->GetTrackAnimationSet(0, &pPrevAnimSet);
 	m_pAnimationController->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAnimationController->SetTrackDesc(1, &stTrackDesc);
 
+
 	m_pAnimationController->GetAnimationSet(nIndex, &pNextAnimSet);
 	m_pAnimationController->SetTrackAnimationSet(0, pNextAnimSet);
+
 
 	m_pAnimationController->SetTrackWeight(0, 0.0f);
 	m_pAnimationController->SetTrackWeight(1, 1.0f);
 
+
+	m_pAnimationController->GetAnimationSet(nIndex, &m_pAniSet);
+	m_pAnimationController->SetTrackAnimationSet(0, m_pAniSet);
+
+	m_pAnimationController->SetTrackPosition(0, 0);
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
+}
+
+void SkinnedMesh::FindBone(IN char * szBoneName, ST_BONE* pBone, OUT D3DXMATRIXA16 & pMatrix)
+{
+	if (pBone == NULL)
+		pBone = (ST_BONE*)m_pRoot;
+
+	if (pBone->Name)
+	{
+		if (!strcmp(pBone->Name, szBoneName))
+		{
+			pMatrix = pBone->matCombinedTransformMatrix;
+		}
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		FindBone(szBoneName, (ST_BONE*)pBone->pFrameFirstChild, pMatrix);
+	}
+
+	if (pBone->pFrameSibling)
+	{
+		FindBone(szBoneName, (ST_BONE*)pBone->pFrameSibling, pMatrix);
+	}
 }
 
 void SkinnedMesh::Init()

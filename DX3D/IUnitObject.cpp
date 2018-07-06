@@ -7,10 +7,11 @@
 IUnitObject::IUnitObject()
 {
 	m_isMoving = false;
-	m_moveSpeed = 0.2f;
+	m_moveSpeed = 0.15f;
 	m_currMoveSpeedRate = 1.0f;
 	m_rotationSpeed = 0.1f;
 
+	m_jumpCnt = 0;
 	m_isJumping = false;
 	m_jumpPower = 1.0f;
 	m_gravity = 0.05f;
@@ -18,11 +19,8 @@ IUnitObject::IUnitObject()
 
 	m_maxStepHeight = 2.0f;
 	speed = 0.0f;
-	speed_max = 0.1f; 
-	m_gSpeed = 0.000000000000f;
-	Ani_Check = false;
-	m_pos = D3DXVECTOR3(50, 1, 50);
-	////m_destPos = D3DXVECTOR3(5,0,5);
+	speed_max = 0.1f;
+	
 }
 
 
@@ -46,28 +44,29 @@ void IUnitObject::UpdateKeyboardState()
 	if (m_isJumping == false) m_isJumping = m_keyState.bJump;
 
 	//m_deltaPos.z = m_keyState.deltaPos.z;
-	m_deltaPos = m_keyState.deltaPos;
 	//m_deltaPos.x = m_keyState.deltaPos.x;
+	//m_deltaPos.y = m_keyState.deltaPos.y;
+	m_deltaPos = m_keyState.deltaPos;
+
 	m_deltaRot.x = g_pCamera->m_rotX;
 	m_deltaRot.y = g_pCamera->m_rotY;
 
-	if (m_deltaPos.x == 0 && m_deltaPos.z == 0 && m_deltaRot.y == 0)
-		return;
+	//if (m_deltaPos.x == 0 && m_deltaPos.z == 0)
+	//	return;
 
 	D3DXMATRIXA16 matRX, matRY, matLeft, matRX2;
-	//D3DXMatrixRotationX(&matRX, m_deltaRot.x * m_rotationSpeed);
-	//D3DXMatrixRotationX(&matRX2, m_deltaRot.x * D3DX_PI / 2 * m_rotationSpeed);
+
 	D3DXMatrixRotationY(&matRY, m_deltaRot.y * m_rotationSpeed);
 	D3DXMatrixRotationY(&matLeft, m_deltaRot.y * D3DX_PI / 2 * m_rotationSpeed);
+
 	D3DXVec3TransformNormal(&m_forward, &m_forward, &matRY);
-	//D3DXVec3TransformNormal(&m_forward_test, &m_forward_test, &(matRY));
 	D3DXVec3TransformNormal(&m_left, &m_left, &matLeft);
 
 	//이동 속도 비율 고려
-	m_destPos = D3DXVECTOR3(m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate);
+	//m_destPos = D3DXVECTOR3(m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate);
 
-	m_finalDestPos = m_destPos;
-	m_vecAStarIndex.clear();
+	//m_finalDestPos = m_destPos;
+	//m_vecAStarIndex.clear();
 }
 
 void IUnitObject::UpdatePositionToDestination()
@@ -219,55 +218,40 @@ void IUnitObject::ApplyTargetPosition(D3DXVECTOR3 & targetPos)
 
 void IUnitObject::UpdatePosition()
 {
-	//m_rot += m_deltaRot;
-	//m_rot.x = g_pCamera->m_rotX;
-	//m_rot.y = g_pCamera->m_rotY;
-
 	D3DXMATRIXA16 matRotY, matRotX, matRotTmp;
-	D3DXVECTOR3 m_forward2;
-	//D3DXMatrixRotationY(&matRotY, m_rot.y);
-	//D3DXMatrixRotationX(&matRotX, g_pCamera->m_rotX);
+
 	D3DXMatrixRotationY(&matRotY, g_pCamera->m_rotY);
-	//D3DXMatrixRotationX(&matRotTmp, g_pCamera->m_rotX);
 	D3DXVec3TransformNormal(&m_forward, &D3DXVECTOR3(0, 0, 1), &matRotY);
-	//D3DXVec3TransformNormal(&m_forward2, &D3DXVECTOR3(1, 0, 0), &matRotX);
-	//D3DXVec3TransformCoord(&m_forward_test, &(m_forward), &(-matRotX));
-	//D3DXVec3TransformCoord(&m_forward_test, &D3DXVECTOR3(1, 0, 1), &(matRotX * matRotTmp));
-	//D3DXVec3TransformCoord(&m_forward_test, &m_forward2, &(matRotY));
-	//D3DXVec3TransformCoord(&m_forward_test, &D3DXVECTOR3(1, 0, 1), &(matRotX * matRotY));
-	//D3DXVec3TransformCoord(&m_forward_test, &m_forward_test, &m_forward);
-	//D3DXVec3TransformCoord(&m_forward_test, &matRotX, &(matRotY));
 	D3DXVec3TransformNormal(&m_left, &D3DXVECTOR3(1, 0, 0), &matRotY);
 
 	D3DXVECTOR3 targetPos;
 
-	float	basePosY = 0;
 	bool	isIntersected = true;
 	float	height = 0;
 
+	IMap * m_pCurrMap = g_pMapManager->GetCurrentMap();
+
+	m_currMoveSpeedRate = 4.0f;
+
+	targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate
+		+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;
+
+	if (m_pCurrMap != NULL) 
+		isIntersected = m_pCurrMap->GetHeight(height, targetPos);
+
 	if (m_isJumping == true)
 	{
-		m_currMoveSpeedRate = 0.7f;
-
-		//m_pos.x += m_deltaPos.x; //추가
-		targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate
-			+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;
-
-		//targetPos.x += m_deltaPos.x; //추가
+		//targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate
+		//	+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;
 
 		targetPos.y += m_jumpPower - m_currGravity;
 		m_currGravity += m_gravity;
 
-		if (g_pCurrentMap != NULL)
-		{
-			isIntersected = g_pCurrentMap->GetHeight(height, targetPos);
-		}
-
 		if (isIntersected == false)
 		{
-			if (g_pCurrentMap != NULL)
+			if (m_pCurrMap != NULL)
 			{
-				isIntersected = g_pCurrentMap->GetHeight(height, m_pos);
+				isIntersected = m_pCurrMap->GetHeight(height, m_pos);
 			}
 			m_pos.y = targetPos.y;
 		}
@@ -287,47 +271,83 @@ void IUnitObject::UpdatePosition()
 	}
 	else //m_isJumping == false
 	{
-		//m_pos.x += m_deltaPos.x; //추가
-		targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate 
-			+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;
-		//targetPos.x += m_deltaPos.x; //추가
-		//targetPos += m_deltaPos; //추가
+		/*targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate
+			+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;*/
 
-		if (g_pCurrentMap != NULL)
+		if (m_pCurrMap != NULL)
 		{
-			isIntersected = g_pCurrentMap->GetHeight(height, targetPos);
-			int tmp = 0;
-			if (isIntersected == false || fabs(height - m_pos.y) > m_maxStepHeight)
-			{
+			isIntersected = m_pCurrMap->GetHeight(height, targetPos);
 
+			if (isIntersected == false)
+			{
+				targetPos = m_pos;
 			}
 			else
 			{
-				targetPos.y = height;
-				m_pos = targetPos;
+				//이동할 곳과 현재의 높이차가 클 때
+				//하강이면 이동가능, 상승이면 이동 제한
+				if (fabs(height - m_pos.y) > m_maxStepHeight)
+				{
+					if (height < m_pos.y) //하강
+					{
+						StartFall();
+					}
+					else //상승
+					{
+						targetPos = m_pos;
+					}
+				}
+				else
+				{
+					targetPos.y = height; //이동 제한없이 높이 반영
+				}
 			}
 		}
-		else
-		{
-			m_pos = targetPos;
-		}
-
-		m_pos = targetPos;
 	}
 	
-	//m_pos = targetPos;
-	//m_pos.x = targetPos.x;
 
-	//D3DXMATRIXA16 matT;
-	//D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	m_pos = targetPos;
+
+	D3DXMATRIXA16 matT;
+	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	////D3DXMatrixRotationY(&matRotY, m_rot.y + m_baseRotY);
 	//D3DXMatrixRotationY(&matRotY, m_rot.y);
-	//m_matWorld = matRotY * matT;
+	m_matWorld = matT;
 
-	//if (D3DXVec3LengthSq(&m_deltaRot) > D3DX_16F_EPSILON || D3DXVec3LengthSq(&m_deltaPos) > D3DX_16F_EPSILON)
-	if (D3DXVec3LengthSq(&m_deltaPos) > D3DX_16F_EPSILON)
+	if ( D3DXVec3LengthSq(&m_deltaPos) > 0)
 		m_isMoving = true;
 	else
-
 		m_isMoving = false;
+
+	
+
+	Debug->AddText("height : ");
+	Debug->AddText(height);
+	Debug->EndLine();
+		
+}
+
+void IUnitObject::StartFall()
+{
+	m_isJumping = true;
+	m_currMoveSpeedRate = 0.8f;
+	m_currGravity = m_jumpPower;
+}
+
+void IUnitObject::StartJump()
+{
+	if (m_jumpCnt > 0) return;
+
+	m_jumpCnt++;
+	m_isJumping = true;
+	m_currMoveSpeedRate = 0.8f;
+	m_currGravity = 0;
+}
+
+void IUnitObject::FinishJump()
+{
+	m_isJumping = false;
+	m_currMoveSpeedRate = 1.0f;
+	m_currGravity = 0;
+	m_jumpCnt = 0;
 }

@@ -1,18 +1,24 @@
 #pragma once
-
 #define g_pSkinnedMeshManager SkinnedMeshManager::GetInstance()
 
-#include "SkinnedMesh.h"
+class SkinnedMesh;
+
 class SkinnedMeshManager
 {
 private:
 	SINGLETON(SkinnedMeshManager);
-private:
+
+	typedef std::map<std::string, SkinnedMesh*>::iterator m_mapSkinnedMeshIter;
 	std::map<std::string, SkinnedMesh*> m_mapSkinnedMesh;
+
+	D3DXFRAME*	m_pRoot;
 public:
 
-	void Setup(std::string  Name, IN char* szFolder, IN char* szFile);
-	SkinnedMesh* Find(std::string Name);
+	void Load(std::string keyName, IN char * szFolder, IN char * szFile);
+	SkinnedMesh* GetSkinnedMesh(std::string keyName);
+
+	void GetBoneMatrix(std::string MapKey, char* szBoneName, D3DXMATRIXA16& pMatrix);
 
 	void Destroy();
 };
+

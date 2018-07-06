@@ -17,6 +17,7 @@ protected:
 	float			m_currMoveSpeedRate;
 	float			m_rotationSpeed;
 
+	int				m_jumpCnt;
 	bool			m_isJumping;
 	float			m_jumpPower;
 	float			m_gravity;
@@ -27,8 +28,6 @@ protected:
 
 	float			speed;
 	float			speed_max;
-	float			m_gSpeed;
-	bool			Ani_Check;
 
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
@@ -52,5 +51,9 @@ public:
 	D3DXVECTOR3 GetForward() { return m_forward; };
 	D3DXVECTOR3 GetForward2() { return m_forward_test; };
 
+
+	void StartFall();
+	void StartJump();
+	void FinishJump();
 };
 

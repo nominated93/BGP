@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "BulletManager.h"
 #include "Bullet.h"
-#include "Camera.h"
 
 
 BulletManager::BulletManager()
@@ -26,6 +25,10 @@ void BulletManager::Update()
 	}
 
 	Remove();
+	//if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	//{
+	//	Fire();
+	//}
 }
 
 void BulletManager::Render()
@@ -47,7 +50,7 @@ void BulletManager::Fire(D3DXVECTOR3* pos, D3DXVECTOR3* dir)
 
 void BulletManager::Remove()
 {
-	float fRange = 50.f;
+	float fRange = 150.f;
 	for (m_iterBullet = m_vecBullet.begin(); m_iterBullet != m_vecBullet.end(); )
 	{
 		D3DXVECTOR3 vDiff = (*m_iterBullet)->GetStartPosition() - (*m_iterBullet)->GetPosition();

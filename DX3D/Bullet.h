@@ -13,7 +13,6 @@ private:
 	float		m_fSpeed;
 	D3DXVECTOR3 m_vStartPos;
 
-
 public:
 	
 

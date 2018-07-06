@@ -160,7 +160,6 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="D3DUtility.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="DrawingGroup.h" />
@@ -214,7 +213,6 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="D3DUtility.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="DrawingGroup.cpp" />

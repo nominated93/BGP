@@ -17,7 +17,6 @@
 #include <memory.h>
 #include <tchar.h>
 
-
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 #include <d3dx9.h>
 #include <assert.h>//프로세스 킬 용으로 쓰는 헤더
@@ -46,9 +45,7 @@ extern HWND g_hWnd;
 #include <bitset>
 #include "DX.h"
 
-#include "D3DUtility.h"
 #include "DeviceManager.h"
-
 
 #include "Camera.h"
 
@@ -64,6 +61,7 @@ extern HWND g_hWnd;
 #include "Debug.h"
 
 #include "MapManager.h"
+#include "SkinnedMeshManager.h"
 #include "TextureManager.h"
 #include "FontManager.h"
 #include "SceneManager.h"

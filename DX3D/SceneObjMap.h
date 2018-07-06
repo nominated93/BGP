@@ -10,13 +10,13 @@ class Picking;
 class BulletManager;
 class ItemManager;
 class Inventory;
-class Equipment;
 class Collision;
+class Equipment;
 
 class SceneObjMap : public IScene
 {
 private:
-	ObjMap * m_pObjMap;
+	ObjMap *		m_pObjMap;
 	AseCharacter *	m_pAseCharacter;
 	Player *		m_pPlayer;
 	SkyBox *		m_pSkyBox;
@@ -25,13 +25,12 @@ private:
 	ItemManager *   m_pItemManager;
 	Inventory *     m_pInventory;
 	Equipment*		m_pEquipment;
-	Collision *		m_pCollision;
+	
+	Collision*		m_pCollision;
 
 public:
 	SceneObjMap();
 	~SceneObjMap();
-
-
 
 	// IScene을(를) 통해 상속됨
 	virtual void Init() override;
