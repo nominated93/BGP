@@ -8,7 +8,8 @@
 
 Player::Player():
 	m_pSkinnedMesh(NULL),
-	m_pBM(NULL)
+	m_pBM(NULL), 
+	m_pCrossImg(NULL)
 {
 }
 
@@ -17,6 +18,7 @@ Player::~Player()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
 	SAFE_DELETE(m_pBM);
+	SAFE_DELETE(m_pCrossImg);
 }
 
 void Player::Init()
@@ -34,16 +36,17 @@ void Player::Init()
 	//m_pSkinnedMesh->SetAnimationIndex(83);
 	//m_szCurrentFile = "ÁÖÀÎ°ø";
 
+	//crosshair
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
 	m_pCrossImg = new UIImage(m_pSprite);
-	m_pCrossImg->SetTexture("resources/images/crosshair.png");
-	//m_pCrossImg->SetScale(100, 100);
-	m_pCrossImg->SetPosition(&D3DXVECTOR3(100, 100, 0));
-
+	m_pCrossImg->SetTexture("resources/images/crosshair_g.png");	
+	m_pCrossImg->SetPosition(&D3DXVECTOR3(rc.right/2-10, rc.bottom/2, 0));
 	m_pCrossImg->Update();
 
 	//º¼·¿
 	m_pBM = new BulletManager(); m_pBM->Init();
-
+	
 	//¾ÆÀÌÅÛÃæµ¹ ±¸ »ı¼º
 	m_tCollisionSphere_Item.center = m_pos;
 	m_tCollisionSphere_Item.center = D3DXVECTOR3(0,0,0);
@@ -70,7 +73,6 @@ void Player::Update()
 	//ÃÑ½î±â
 	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
-		
 		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
 	}
 	
@@ -93,9 +95,7 @@ void Player::Render()
 
 	matWorld = matS * matRY * matT;
 	
-
 	m_pSkinnedMesh->Render(NULL, &matWorld);
-
 
 	m_pCrossImg->Render();
 

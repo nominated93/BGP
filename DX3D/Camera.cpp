@@ -41,7 +41,7 @@ void Camera::Update()
 	D3DXMatrixRotationY(&matRotY, m_rotY);
 	
 	matRot = matRotX * matRotY;
-
+	
 	D3DXVec3TransformCoord(&m_forward, &D3DXVECTOR3(0, 0, 1), &matRot);
 
 
@@ -113,19 +113,6 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			m_ptPrevMouse = currPoint;
 		}
-
-/*
-			RECT rc2;
-			GetClientRect(g_hWnd, &rc2);
-
-			POINT it, rb;
-			it.x = rc2.left; it.y = rc2.right; rb.x = rc2.top; rb.y = rc2.bottom;
-
-			ClientToScreen(g_hWnd, &it); ClientToScreen(g_hWnd, &rb);
-			rc2.left = it.x; rc2.top = it.y; rc2.right = rb.x; rc2.bottom = rb.y;
-
-			ClipCursor(&rc2);*/
-		/*}*/
 	}
 	break;
 	/*

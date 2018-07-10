@@ -15,6 +15,8 @@ public:
 	bool			m_isAngleMove;
 	POINT			m_ptPrevMouse;
 	D3DXVECTOR3*	m_pTarget;
+	D3DXVECTOR3		m_matRot;
+
 	
 public:
 	float			m_rotX;
