@@ -43,12 +43,12 @@ void Picking::Update()
 
 void Picking::Render()
 {
+	/*
 	HDC hdc = GetDC(g_hWnd);
 	GetClientRect(g_hWnd, &rc);
 
 	const int radius = 5;
-	Ellipse(hdc, rc.right / 2 - radius, rc.bottom / 2 - radius, rc.right / 2 + radius, rc.bottom / 2 + radius);
-	//LineTo(hdc, rc.right / 2 - radius, rc.bottom / 2 - radius);
+	Ellipse(hdc, rc.right / 2 - radius, rc.bottom / 2 - radius, rc.right / 2 + radius, rc.bottom / 2 + radius);*/
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 

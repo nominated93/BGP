@@ -71,7 +71,7 @@ void Player::Update()
 	m_tCollisionSphere_Item.center = m_pos;
 
 	//ÃÑ½î±â
-	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	if (g_pKeyboardManager->isStayKeyDown(VK_LBUTTON))
 	{
 		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
 	}

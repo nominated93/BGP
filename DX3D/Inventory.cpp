@@ -34,8 +34,6 @@ void Inventory::Init()
 	m_pRootUI = m_pInvenUI;
 	m_pInvenUI->SetPosition(&D3DXVECTOR3(950, 0, 0));
 
-
-
 	m_pInvenExitUI = new UIButton(this,m_pSprite, INVENUI_EXIT);
 	m_pInvenExitUI->SetTexture("resources/ui/UI-Panel-MinimizeButton-Disabled.png",
 		"resources/ui/UI-Panel-MinimizeButton-Up.png",
@@ -50,7 +48,7 @@ void Inventory::Update()
 	
 
 	//인벤창 띄우기
-	if (g_pKeyManager->isOnceKeyDown('I'))
+	if (g_pKeyboardManager->isOnceKeyDown('I'))
 	{
 		g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
 		m_isInvenUI = !m_isInvenUI;

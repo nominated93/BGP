@@ -21,7 +21,7 @@ void Equipment::Init()
 
 void Equipment::Update()
 {
-	if (g_pKeyManager->isOnceKeyDown('T'))
+	if (g_pKeyboardManager->isOnceKeyDown('T'))
 	{
 		m_isEquipmentUI = !m_isEquipmentUI;
 	}

@@ -20,8 +20,14 @@ public:
 	void UpdateMoving();
 	void SetMovingTarget(D3DXVECTOR3 * pPos, D3DXVECTOR3 * pRot, bool * pIsJumping);
 	void SetMovingTarget(KEYBOARD_STATE* pKeyState){m_pKeyState = pKeyState;}
-	bool isStayKeyDown(int key);
+
+	HRESULT init(void);
+	void release(void);
+
 	bool isOnceKeyDown(int key);
+	bool isOnceKeyUp(int key);
+	bool isStayKeyDown(int key);
+	bool isToggleKey(int key);
 
 	std::bitset<KEYMAX> getKeyUp() { return _keyUp; }
 	std::bitset<KEYMAX> getKeyDown() { return _keyDown; }

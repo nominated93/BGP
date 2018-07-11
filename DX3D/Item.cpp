@@ -100,7 +100,7 @@ void Item::MouseDrag()
 	//마우스 포인터가 영역 안에 있을 때
 	if (PtInRect(&rect, mousePoint))
 	{
-		/*if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON)
+		/*if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON)
 		{
 			if (m_buttonState == MOUSEOVER)
 			{
