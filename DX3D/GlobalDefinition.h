@@ -5,6 +5,11 @@ extern WORD g_aCubeIndex[];
 #define CUBE_VERTEX_SIZE 8
 extern D3DXVECTOR3 g_aCubeVertex[];
 
+#define WINSTARTX 20						//윈도우 시작좌표X
+#define WINSTARTY 20						//윈도우 시작좌표Y
+#define WINSIZEX 1000						//윈도우 가로크기
+#define WINSIZEY 560						//윈도우 세로크기
+
 
 #define SINGLETON(class_name) private:\
 	class_name();\

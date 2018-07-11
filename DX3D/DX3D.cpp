@@ -46,6 +46,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_DX3D));
+	
 
 	g_pApp->Init();
 	
@@ -105,7 +106,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DX3D));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_DX3D);
+	wcex.lpszMenuName	= NULL;//MAKEINTRESOURCEW(IDC_DX3D);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -127,11 +128,25 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, 1000, 560, nullptr, nullptr, hInstance, nullptr);
+	   WINSTARTX, WINSTARTY, WINSIZEX, WINSIZEY, nullptr, nullptr, hInstance, nullptr);
 
    //윈도우 핸들값 삽입하기
    g_hWnd = hWnd;
 
+   //윈도우 사이즈 셋팅
+   {
+	   RECT winRect;
+
+	   winRect.left = 0;
+	   winRect.top = 0;
+	   winRect.right = WINSIZEX;
+	   winRect.bottom = WINSIZEY;
+
+	   AdjustWindowRect(&winRect, WS_CAPTION | WS_SYSMENU, false);
+
+	   SetWindowPos(hWnd, NULL, WINSTARTX, WINSTARTY, (winRect.right - winRect.left),
+		   (winRect.bottom - winRect.top), SWP_NOZORDER | SWP_NOMOVE);
+   }
 
    if (!hWnd)
    {

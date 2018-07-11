@@ -45,6 +45,7 @@ public:
 
 public:
 	void AddItemToInven(ITEM_LIST IL);
+	void RemoveItemFromInven();
 	void ItemIconImageUpdate();
 	void ItemIconImageRender();
 

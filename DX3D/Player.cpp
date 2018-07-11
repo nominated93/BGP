@@ -16,9 +16,9 @@ Player::Player():
 
 Player::~Player()
 {
-	SAFE_DELETE(m_pSkinnedMesh);
-	SAFE_DELETE(m_pBM);
-	SAFE_DELETE(m_pCrossImg);
+	SAFE_RELEASE(m_pSkinnedMesh);
+	SAFE_RELEASE(m_pBM);
+	SAFE_RELEASE(m_pCrossImg);
 }
 
 void Player::Init()

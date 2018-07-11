@@ -67,8 +67,6 @@ void UIButton::Render()
 
 		m_pSprite->Draw(m_aTexture[m_buttonState],
 			&rect,
-			//&D3DXVECTOR3(m_info.Width / 2.0f,m_info.Height / 2.0f, 0),
-			//&D3DXVECTOR3(0, 0, 0),
 			&D3DXVECTOR3(m_info.Width / 2.0f, m_info.Height / 2.0f, 0),
 			&D3DXVECTOR3(m_combinedPos.x + m_info.Width / 2.0f, m_combinedPos.y + m_info.Height / 2.0f, 0),
 			D3DCOLOR_ARGB(200, 255, 255, 255));
@@ -88,7 +86,7 @@ void UIButton::SetTexture(string normal, string mouseover, string seleted)
 	m_aTexture[NORMAL] = g_pTextureManager->GetTexture(normal);
 	D3DXCreateTextureFromFileEx(
 		g_pDevice,
-		(LPCSTR)&normal,
+		normal.c_str(),
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT,
@@ -107,7 +105,7 @@ void UIButton::SetTexture(string normal, string mouseover, string seleted)
 
 	D3DXCreateTextureFromFileEx(
 		g_pDevice,
-		(LPCSTR)&normal,
+		mouseover.c_str(),
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT,
@@ -126,7 +124,7 @@ void UIButton::SetTexture(string normal, string mouseover, string seleted)
 
 	D3DXCreateTextureFromFileEx(
 		g_pDevice,
-		(LPCSTR)&normal,
+		seleted.c_str(),
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT,

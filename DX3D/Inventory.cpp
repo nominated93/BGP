@@ -30,17 +30,17 @@ void Inventory::Init()
 	m_pCursor = new Cursor; m_pCursor->Init();
 
 	m_pInvenUI = new UIImage(m_pSprite);
-	m_pInvenUI->SetTexture("resources/ui/ui-bankframe.png");
+	m_pInvenUI->SetTexture("resources/ui/inventory.png");
 	m_pRootUI = m_pInvenUI;
-	m_pInvenUI->SetPosition(&D3DXVECTOR3(950, 0, 0));
+	m_pInvenUI->SetPosition(&D3DXVECTOR3(0, 0, 0));
 
-	m_pInvenExitUI = new UIButton(this,m_pSprite, INVENUI_EXIT);
-	m_pInvenExitUI->SetTexture("resources/ui/UI-Panel-MinimizeButton-Disabled.png",
-		"resources/ui/UI-Panel-MinimizeButton-Up.png",
-		"resources/ui/UI-Panel-MinimizeButton-Down.png");
-	m_pRootUI->AddChild(m_pInvenExitUI);
+	//m_pInvenExitUI = new UIButton(this,m_pSprite, INVENUI_EXIT);
+	//m_pInvenExitUI->SetTexture("resources/ui/UI-Panel-MinimizeButton-Disabled.png",
+	//	"resources/ui/UI-Panel-MinimizeButton-Up.png",
+	//	"resources/ui/UI-Panel-MinimizeButton-Down.png");
+	//m_pRootUI->AddChild(m_pInvenExitUI);
 
-	m_pInvenExitUI->SetPosition(&D3DXVECTOR3(371, 7, 0));
+	//m_pInvenExitUI->SetPosition(&D3DXVECTOR3(371, 7, 0));
 }
 
 void Inventory::Update()
@@ -60,6 +60,10 @@ void Inventory::Update()
 		ItemIconImageUpdate();
 		m_pCursor->Update();
 	
+		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
+		{
+			RemoveItemFromInven();
+		}
 	}
 
 	m_pEquipment->Update();
@@ -83,26 +87,24 @@ void Inventory::Render()
 
 void Inventory::OnClick(UIButton * pSender)
 {
-	if (pSender->m_uiTag == INVENUI_EXIT)
-	{
-		g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
-		m_isInvenUI = !m_isInvenUI;
-	}
+	//if (pSender->m_uiTag == INVENUI_EXIT)
+	//{
+	//	g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
+	//	m_isInvenUI = !m_isInvenUI;
+	//}
 }
 
 void Inventory::AddItemToInven(ITEM_LIST IL)
 {
-	D3DXVECTOR3 vFirstDeltaPos(44, 75, 0);
-	D3DXVECTOR3 vDeltaPos(44, 75, 0);
+	D3DXVECTOR3 vDeltaPos(71, 97, 0);
 
-
-	int iDeltaX = 48;
-	int iDeltaY = 46;
+	int iDeltaX = 53;
+	int iDeltaY = 51;
 		
 	if (m_vecInvenItemIcon.size())
 	{
-		vDeltaPos.x = vDeltaPos.x + (m_vecInvenItemIcon.size() % 7) * iDeltaX;
-		vDeltaPos.y = vDeltaPos.y + (m_vecInvenItemIcon.size() / 7) * iDeltaY;
+		vDeltaPos.x = vDeltaPos.x + (m_vecInvenItemIcon.size() % 5) * iDeltaX;
+		vDeltaPos.y = vDeltaPos.y + (m_vecInvenItemIcon.size() / 5) * iDeltaY;
 	}
 
 	switch (IL)
@@ -134,6 +136,57 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 	}
 		break;
 
+	}
+}
+
+void Inventory::RemoveItemFromInven()
+{
+	int iNum = 0;	//vec¹øÈ£
+
+	for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); )
+	{
+
+		LPD3DXSPRITE pSprite;
+		D3DXCreateSprite(g_pDevice, &pSprite);
+
+		D3DXMATRIXA16 mat;
+
+		pSprite->GetTransform(&mat);
+
+		int left = mat._41 + (*m_iterInvenItemIcon)->GetPIconImage()->GetCombinedPosition().x;
+		int top = mat._42 + (*m_iterInvenItemIcon)->GetPIconImage()->GetCombinedPosition().y;
+		int right = left + (*m_iterInvenItemIcon)->GetPIconImage()->GetInfo().Width;
+		int bottom = top + (*m_iterInvenItemIcon)->GetPIconImage()->GetInfo().Height;
+
+		RECT rc;
+		SetRect(&rc, left, top, right, bottom);
+
+		POINT mousePoint;
+		GetCursorPos(&mousePoint);
+		ScreenToClient(g_hWnd, &mousePoint);
+
+		if (PtInRect(&rc, mousePoint))
+		{
+			m_pRootUI->RemoveChild(iNum);
+			m_iterInvenItemIcon = m_vecInvenItemIcon.erase(m_iterInvenItemIcon);
+
+			int iDeltaX = 53;
+			int iDeltaY = 51;
+			for (int i = 0; i < m_vecInvenItemIcon.size(); i++)
+			{
+				D3DXVECTOR3 vDeltaPos(71, 97, 0);
+				vDeltaPos.x = vDeltaPos.x + (i % 5) * iDeltaX;
+				vDeltaPos.y = vDeltaPos.y + (i / 5) * iDeltaY;
+				m_vecInvenItemIcon[i]->GetPIconImage()->SetPosition(&vDeltaPos);
+			}
+	
+		
+		}
+		else
+		{
+			m_iterInvenItemIcon++;
+			iNum++;
+		}
 	}
 }
 

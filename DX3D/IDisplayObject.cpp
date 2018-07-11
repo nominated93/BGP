@@ -21,6 +21,11 @@ void IDisplayObject::AddChild(IDisplayObject * pChild)
 
 }
 
+void IDisplayObject::RemoveChild(int iNum)
+{
+	m_vecPChild.erase(m_vecPChild.begin() + iNum);
+}
+
 void IDisplayObject::ReleaseAll()
 {
 	for (auto child:m_vecPChild)

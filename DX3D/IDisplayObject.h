@@ -19,6 +19,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	virtual void AddChild(IDisplayObject* pChild);
+	virtual void RemoveChild(int iNum);
 	virtual void ReleaseAll();
 
 	D3DXVECTOR3		GetPosition() { return m_pos; }

@@ -12,6 +12,9 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+
+public:
+	D3DXIMAGE_INFO GetInfo() { return m_info; }
 	void SetTexture(string fullPath);
 };
 

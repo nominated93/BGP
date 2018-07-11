@@ -63,7 +63,7 @@ void Collision::Collision_ItemPlayer()
 		{
 			(*iterItem)->SetIsCollision(true);
 
-			if (g_pKeyManager->isOnceKeyDown('F'))
+			if (g_pKeyboardManager->isOnceKeyDown('F'))
 			{
 				m_pInven->AddItemToInven((*iterItem)->GetItemName());
 				iterItem = (*pVecItem).erase(iterItem);
