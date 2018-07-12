@@ -9,6 +9,7 @@ class Picking;
 class ItemManager;
 class Inventory;
 class Collision;
+class MonsterManager;
 
 class SceneObjMap : public IScene
 {
@@ -21,6 +22,7 @@ private:
 	Inventory *     m_pInventory;
 	
 	Collision*		m_pCollision;
+	MonsterManager*	m_pMonsterManager;
 
 public:
 	SceneObjMap();

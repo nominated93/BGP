@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "ItemManager.h"
 #include "Collision.h"
-
+#include "MonsterManager.h"
 
 SceneObjMap::SceneObjMap()
 {
@@ -17,6 +17,7 @@ SceneObjMap::SceneObjMap()
 	m_pPicking = NULL;
 	m_pInventory = NULL;
 	m_pCollision = NULL;
+	m_pMonsterManager = NULL;
 }
 
 
@@ -35,7 +36,7 @@ void SceneObjMap::Init()
 		"resources/skybox/sahara_bk.tga");	//AddSimpleDisplayObj(m_pSkyBox);  추가하면 이상현상발생
 	m_pObjMap = new ObjMap; m_pObjMap->Init(); AddSimpleDisplayObj(m_pObjMap);
 	m_pPlayer = new Player; m_pPlayer->Init();  AddSimpleDisplayObj(m_pPlayer);
-
+	m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
 	//m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
 	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);

@@ -79,6 +79,11 @@ void Player::Update()
 
 	m_pBM->Update();
 
+	//À§Ä¡
+	Debug->AddText("pos : ");
+	Debug->AddText(m_pos);
+	Debug->EndLine();
+
 
 }
 
