@@ -15,6 +15,8 @@ public:
 
 public:
 	D3DXIMAGE_INFO GetInfo() { return m_info; }
+	void SetInfo(D3DXIMAGE_INFO info) { m_info = info; }
+
 	void SetTexture(string fullPath);
 };
 

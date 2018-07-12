@@ -8,7 +8,8 @@
 Player::Player():
 	m_pSkinnedMesh(NULL),
 	m_pBM(NULL), 
-	m_pCrossImg(NULL)
+	m_pCrossImg(NULL),
+	m_pPB(NULL)
 {
 }
 
@@ -17,6 +18,7 @@ Player::~Player()
 	SAFE_RELEASE(m_pSkinnedMesh);
 	SAFE_RELEASE(m_pBM);
 	SAFE_RELEASE(m_pCrossImg);
+	SAFE_RELEASE(m_pPB);
 }
 
 void Player::Init()
@@ -51,6 +53,12 @@ void Player::Init()
 	//볼렛
 	m_pBM = new BulletManager(); m_pBM->Init();
 	
+	//체력바
+	m_fMaxHP = m_fCurrHP = 100.f;
+	m_pPB = new ProgressBarManager; m_pPB->Init();
+	m_pPB->SetPosition(WINSIZEX / 2 - m_pPB->GetPUIImg()->GetInfo().Width / 2, WINSIZEY - WINSIZEY / 7);
+	m_pPB->SetGauge(m_fCurrHP, m_fMaxHP);
+
 	//아이템충돌 구 생성
 	m_tCollisionSphere_Item.center = m_pos;
 	m_tCollisionSphere_Item.center = D3DXVECTOR3(0,0,0);
@@ -75,8 +83,20 @@ void Player::Update()
 	{
 		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
 	}
-	
 	m_pBM->Update();
+
+	//체력바
+	if (g_pKeyboardManager->isStayKeyDown('1'))
+	{
+		m_fCurrHP -= 0.5f;
+	}
+
+	if (g_pKeyboardManager->isStayKeyDown('2'))
+	{
+		m_fCurrHP += 0.5f;
+	}
+	m_pPB->Update();
+	m_pPB->SetGauge(m_fCurrHP, m_fMaxHP);
 
 	//위치
 	Debug->AddText("pos : ");
@@ -109,6 +129,12 @@ void Player::Render()
 	m_pMesh->DrawSubset(0);
 
 	m_pBM->Render();
+
+	//체력바
+	m_pPB->Render();
+	Debug->AddText("HP : ");
+	Debug->AddText(m_fCurrHP);
+	Debug->EndLine();
 } 
 
 void Player::SetAnimationIndexBlend(int nIndex)

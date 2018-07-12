@@ -1,5 +1,6 @@
 #pragma once
 #include "IUnitObject.h"
+#include "ProgressBarManager.h"
 
 class SkinnedMesh;
 class UIImage;
@@ -25,6 +26,8 @@ private:
 	ePlayerState	m_eState;
 	LPD3DXSPRITE	m_pSprite;
 	BulletManager*	m_pBM;
+	ProgressBarManager*		m_pPB;
+
 
 	D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
 
@@ -33,6 +36,11 @@ private:
 	int nextAniIndex;
 	int baseAniIndex;
 	int walkAniIndex;
+
+private:
+	float m_fCurrHP;
+	float m_fMaxHP;
+
 
 public:
 	Player();

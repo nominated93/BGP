@@ -189,6 +189,7 @@
     <ClInclude Include="ObjMap.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProgressBarManager.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneManager.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="ObjMap.cpp" />
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProgressBarManager.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObjMap.cpp" />

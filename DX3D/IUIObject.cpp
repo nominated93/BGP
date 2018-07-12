@@ -6,6 +6,7 @@ IUIObject::IUIObject(LPD3DXSPRITE pSprite, int uiTag)
 	, m_pSprite(pSprite)
 	, m_uiTag(uiTag)
 	, m_color(D3DXCOLOR(1,1,1,1))
+	, m_AlphaBlendValue(200)
 {
 
 }

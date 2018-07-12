@@ -33,7 +33,7 @@ void UIImage::Render()
 			&rect,//&rc,
 			&D3DXVECTOR3(m_info.Width / 2.0f, m_info.Height / 2.0f, 0),
 			&D3DXVECTOR3(m_combinedPos.x + m_info.Width / 2.0f, m_combinedPos.y + m_info.Height / 2.0f, 0),
-			D3DCOLOR_ARGB(200, 255, 255, 255));
+			D3DCOLOR_ARGB(m_AlphaBlendValue, 255, 255, 255));
 	}
 
 	IUIObject::Render();

@@ -12,6 +12,7 @@ public:
 	D3DXVECTOR3 m_pivot;
 	D3DXVECTOR2 m_size;
 	D3DCOLOR	m_color;
+	int			m_AlphaBlendValue;
 
 	bool		m_bDrawBorder;
 
