@@ -2,12 +2,10 @@
 #include "IScene.h"
 
 class ObjMap;
-class AseCharacter;
 class Player;
 class SkyBox;
 class Picking;
 
-class BulletManager;
 class ItemManager;
 class Inventory;
 class Collision;
@@ -16,11 +14,9 @@ class SceneObjMap : public IScene
 {
 private:
 	ObjMap *		m_pObjMap;
-	AseCharacter *	m_pAseCharacter;
 	Player *		m_pPlayer;
 	SkyBox *		m_pSkyBox;
 	Picking *		m_pPicking;
-	BulletManager *	m_pBulletManager;
 	ItemManager *   m_pItemManager;
 	Inventory *     m_pInventory;
 	
