@@ -53,7 +53,6 @@ extern HWND g_hWnd;
 #include "SkinnedMesh.h"
 
 #include "KeyboardManager.h"
-#include "KeyManager.h"
 
 #include "IMap.h"
 #include "IUnitObject.h"
@@ -61,6 +60,8 @@ extern HWND g_hWnd;
 #include "Debug.h"
 
 #include "MapManager.h"
+#include "Mesh.h"
+#include "MeshManager.h"
 #include "SkinnedMeshManager.h"
 #include "TextureManager.h"
 #include "FontManager.h"

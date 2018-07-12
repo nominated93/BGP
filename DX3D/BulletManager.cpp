@@ -25,7 +25,7 @@ void BulletManager::Update()
 	}
 
 	Remove();
-	//if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	//if (g_pKeyboardManager->isStayKeyDown(VK_LBUTTON))
 	//{
 	//	Fire();
 	//}

@@ -48,8 +48,6 @@ void SkinnedMesh::Update()
 	float nTime = 0;
 	if (m_pAnimationController)
 	{
-		// 애니메이션이 바뀔때마다 m_vAniPos = m_vPos 로 초기화 시켜주면 모든상황에서 적용됨
-		// 충돌연산은 m_vPos를 이용하여 계산하면됨
 		if (m_isBlend)
 		{
 			m_pAnimationController->GetTrackDesc(0, &m_stTrackDesc);
@@ -69,25 +67,7 @@ void SkinnedMesh::Update()
 			}
 		}
 
-		//이것을 주석처리하고 돌리면 캐릭터가 문워크로 이동하는걸 볼 수 있다.
-
-		//예솔이네는 업데이트에 bool값 인자를 넣고 if(!loop)일때
-		//밑에 AdvanceTime을 돌리게 한걸 봤었다고 한다.
-		//		if(!jump)
-		//			m_pAnimationController->AdvanceTime(
-		//				g_pTimeManager->GetEllapsedTime(), NULL);
-		//
-		//		else if (jump)
-		//		{
-		////			m_pAnimationController->SetTrackEnable(1, false);
-		//			m_pAnimationController->AdvanceTime(
-		//				0.08, NULL);
-		//		}
-		//if (nTime <= 0.9f)
-		//{
-		m_pAnimationController->AdvanceTime(
-			g_pTimeManager->GetEllapsedTime() * 1.2f, NULL);
-		//}
+		m_pAnimationController->AdvanceTime(g_pTimeManager->GetEllapsedTime() * 1.2f, NULL);
 	}
 
 	// frame & mesh
@@ -141,9 +121,10 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
 		{
 
 			D3DXMATRIXA16 matR, matWorld, matT, matS;
+			D3DXMatrixScaling(&matS, 0.04f, 0.04f, 0.04f);
 			D3DXMatrixIdentity(&matR);	//회전행렬초기화
 			D3DXMatrixRotationY(&matR, D3DX_PI);	//리소스랑 실제 방향이 달라서 맞쳐줌
-			matWorld = pBone->matCombinedTransformMatrix * matR * (*m_World);		//다 곱해주고
+			matWorld = pBone->matCombinedTransformMatrix * (*m_World);		//다 곱해주고
 																					//matWorld = pBone->matCombinedTransformMatrix * matR * m_matWorld;		//다 곱해주고
 			g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);	//월드메트리스 적용
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); i++)
