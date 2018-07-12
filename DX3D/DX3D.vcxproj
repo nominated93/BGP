@@ -180,6 +180,10 @@
     <ClInclude Include="IUnitObject.h" />
     <ClInclude Include="KeyboardManager.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterManager.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="ObjManager.h" />
     <ClInclude Include="ObjMap.h" />
@@ -231,6 +235,10 @@
     <ClCompile Include="IUnitObject.cpp" />
     <ClCompile Include="KeyboardManager.cpp" />
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterManager.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="ObjManager.cpp" />
     <ClCompile Include="ObjMap.cpp" />

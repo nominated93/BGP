@@ -5,14 +5,12 @@
 #include "BulletManager.h"
 
 
-
 Player::Player():
 	m_pSkinnedMesh(NULL),
 	m_pBM(NULL), 
 	m_pCrossImg(NULL)
 {
 }
-
 
 Player::~Player()
 {
@@ -29,12 +27,15 @@ void Player::Init()
 	g_pCamera->SetTarget(&m_pos);
 	g_pKeyboardManager->SetMovingTarget(&m_keyState);
 
-	m_pSkinnedMesh = new SkinnedMesh();
-	m_pSkinnedMesh->Setup("../../", "Character.X");
+	//m_pSkinnedMesh = new SkinnedMesh();
+	//m_pSkinnedMesh->Setup("../../", "Character.X");
 
-	//m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("주인공");
+	g_pSkinnedMeshManager->Load("Player", "../../", "Character.X");
+	g_pMeshManager->AddMesh("AK-47", "resources/weapons", "AK-47.X"); //AK-47 추가
+
+	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Player");
+	m_pSkinnedMesh->SetAnimationIndex(83-45);
 	//m_pSkinnedMesh->SetAnimationIndex(83);
-	//m_szCurrentFile = "주인공";
 
 	//crosshair
 	RECT rc;
@@ -59,12 +60,6 @@ void Player::Update()
 	IUnitObject::UpdateKeyboardState();
 	m_rot.y = g_pCamera->m_rotY;
 	IUnitObject::UpdatePosition();
-	
-	//if (GetKeyState('W') & 0x8000)
-	//{
-	//	//m_eState = Melee_stand_run_front;
-	//	m_pSkinnedMesh->SetAnimationIndexBlend(76);//무기없이 뛰어서 앞으로
-	//}
 
 	m_pSkinnedMesh->Update();
 
@@ -76,7 +71,6 @@ void Player::Update()
 		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
 	}
 	
-
 	m_pBM->Update();
 
 	//위치
@@ -84,33 +78,33 @@ void Player::Update()
 	Debug->AddText(m_pos);
 	Debug->EndLine();
 
-
 }
 
 void Player::Render()
 {
 	
-	D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld;
-
+	D3DXMATRIXA16 matS, matR, matRY, matT, matWorld, matBone;
 	D3DXMatrixScaling(&matS, 0.04f, 0.04f, 0.04f);
-	//D3DXMatrixRotationX(&matRX, -D3DX_PI / 2);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixRotationY(&matR, D3DX_PI);
 	D3DXMatrixRotationY(&matRY, m_rot.y);
-	//D3DXMatrixIdentity(&matT);
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
+	m_matWorld = matS  * matRY * matT;
 
-	matWorld = matS * matRY * matT;
-	
-	m_pSkinnedMesh->Render(NULL, &matWorld);
+	g_pSkinnedMeshManager->GetBoneMatrix("Player", "hand_r", matBone);
+	matWorld = matBone * matR *m_matWorld;
+
+	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	g_pMeshManager->Render("AK-47");
+
+	m_pSkinnedMesh->Render(NULL, &m_matWorld);
 
 	m_pCrossImg->Render();
 
 	m_pMesh->DrawSubset(0);
-	//m_pSkinnedMesh->Render(NULL, &g_pCamera->m_matView); //1인칭
-	//m_pSkinnedMesh->Render(NULL, &m_matWorld);
 
 	m_pBM->Render();
-
-}
+} 
 
 void Player::SetAnimationIndexBlend(int nIndex)
 {

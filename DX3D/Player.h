@@ -18,6 +18,8 @@ private:
 	LPD3DXSPRITE	m_pSprite;
 	BulletManager*	m_pBM;
 
+	D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
+
 public:
 	Player();
 	~Player();

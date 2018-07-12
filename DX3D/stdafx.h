@@ -60,6 +60,8 @@ extern HWND g_hWnd;
 #include "Debug.h"
 
 #include "MapManager.h"
+#include "Mesh.h"
+#include "MeshManager.h"
 #include "SkinnedMeshManager.h"
 #include "TextureManager.h"
 #include "FontManager.h"

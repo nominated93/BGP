@@ -4,8 +4,8 @@
 Camera::Camera()
 {
 	m_distance = 5.0f;
-	m_basePosY = 5.0f;
-	m_eye = D3DXVECTOR3(0.2f, 1.5f, 1.0f);
+	m_basePosY = 6.5f;
+	m_eye = D3DXVECTOR3(0.2f, m_basePosY, m_distance);
 	m_lookAt = D3DXVECTOR3(0, 0, 0);
 	m_up = D3DXVECTOR3(0, 1, 0);
 	m_rotX = 0.0f;
@@ -34,7 +34,7 @@ void Camera::Init()
 
 void Camera::Update()
 {
-	m_eye = D3DXVECTOR3(0, m_basePosY, -m_distance);
+	m_eye = D3DXVECTOR3(0.2f, m_basePosY, -m_distance);
 
 	D3DXMATRIXA16 matRotX, matRotY, matRot;
 	D3DXMatrixRotationX(&matRotX, m_rotX);
@@ -43,8 +43,6 @@ void Camera::Update()
 	matRot = matRotX * matRotY;
 	
 	D3DXVec3TransformCoord(&m_forward, &D3DXVECTOR3(0, 0, 1), &matRot);
-
-
 	D3DXVec3TransformCoord(&m_eye, &m_eye, &matRot);
 
 	D3DXVECTOR3 vDir(0, 0, 1);
@@ -71,7 +69,6 @@ void Camera::Update()
 
 	D3DXMatrixLookAtLH(&m_matView, &m_eye, &m_lookAt, &m_up);
 	g_pDevice->SetTransform(D3DTS_VIEW, &m_matView);
-
 }
 
 void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
