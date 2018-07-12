@@ -58,6 +58,16 @@ void KeyboardManager::UpdateMoving()
 	else
 		m_pKeyState->bJump = false;
 
+	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
+		m_pKeyState->bSit = true;
+	else
+		m_pKeyState->bSit = false;
+
+	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+		m_pKeyState->bWalk = true;
+	else
+		m_pKeyState->bWalk = false;
+
 
 	if (GetAsyncKeyState(VK_LEFT) & 0x0001)
 	{

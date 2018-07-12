@@ -5,6 +5,14 @@ class SkinnedMesh;
 class UIImage;
 class BulletManager;
 
+enum eAniDirection {
+	Front = 4, Left_front, Left, Left_back, Back, Right_back, Right, Right_front
+};
+
+//enum eAniPunch {
+//
+//};
+
 class Player : public IUnitObject
 {
 
@@ -20,6 +28,12 @@ private:
 
 	D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
 
+	// 애니메이션
+	int curAniIndex;
+	int nextAniIndex;
+	int baseAniIndex;
+	int walkAniIndex;
+
 public:
 	Player();
 	~Player();
@@ -28,6 +42,9 @@ public:
 	void Update();
 	void Render();
 	void SetAnimationIndexBlend(int nIndex);
+
+	// 애니메이션
+	void AnimationConversion();
 
 public:
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere_Item; }

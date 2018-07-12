@@ -34,8 +34,11 @@ void Player::Init()
 	g_pMeshManager->AddMesh("AK-47", "resources/weapons", "AK-47.X"); //AK-47 추가
 
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Player");
-	m_pSkinnedMesh->SetAnimationIndex(83-45);
-	//m_pSkinnedMesh->SetAnimationIndex(83);
+
+	// 애니메이션 셋팅 기본 서있는 아이들
+	walkAniIndex = 0;
+	curAniIndex = baseAniIndex = Rifle_stand_idle;
+	m_pSkinnedMesh->SetAnimationIndex(curAniIndex);
 
 	//crosshair
 	RECT rc;
@@ -61,6 +64,8 @@ void Player::Update()
 	m_rot.y = g_pCamera->m_rotY;
 	IUnitObject::UpdatePosition();
 
+
+	AnimationConversion();
 	m_pSkinnedMesh->Update();
 
 	m_tCollisionSphere_Item.center = m_pos;
@@ -108,6 +113,47 @@ void Player::Render()
 
 void Player::SetAnimationIndexBlend(int nIndex)
 {
-	m_pSkinnedMesh->SetAnimationIndexBlend(nIndex);
+	if (curAniIndex != nIndex)
+	{
+		m_pSkinnedMesh->SetAnimationIndexBlend(nIndex);
+		curAniIndex = nIndex;
+	}
 }
 
+void Player::AnimationConversion()
+{
+	m_moveSpeed = 0.15;
+
+	// 애니메이션 셋팅
+	if (m_keyState.bSit)	// 앉아있냐 아니냐
+	{
+		m_moveSpeed = 0.09;
+		baseAniIndex = Rifle_crouch_idle;
+	}
+	else
+		baseAniIndex = Rifle_stand_idle;
+
+
+	nextAniIndex = baseAniIndex;
+
+	if (m_keyState.bWalk && !m_keyState.bSit)
+	{
+		m_moveSpeed = 0.09;
+		walkAniIndex = 9;
+	}
+	else
+		walkAniIndex = 0;
+
+	if (m_keyState.deltaPos.x < 0)
+		nextAniIndex = baseAniIndex - walkAniIndex - Left;
+	else if (m_keyState.deltaPos.x > 0)
+		nextAniIndex = baseAniIndex - walkAniIndex - Right;
+
+	if (m_keyState.deltaPos.z > 0)
+		nextAniIndex = baseAniIndex - walkAniIndex - Front;
+	else if (m_keyState.deltaPos.z < 0)
+		nextAniIndex = baseAniIndex - walkAniIndex - Back;
+
+
+	SetAnimationIndexBlend(nextAniIndex);
+}

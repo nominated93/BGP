@@ -77,124 +77,126 @@ enum class ITEM_INTO
 };
 
 enum ePlayerState {
-	//무기 안들고 서 있을때 애니메이션
-	Melee_stand_idle,		//기본상태
-	Melee_stand_pickup,		//템줍는 모션
-	Melee_stand_jump,		//점프
-	Melee_stand_punch1,		//주먹질1
-	Melee_stand_punch2,		//주먹질2
-	Melee_stand_punch3,		//주먹질3
-	Melee_stand_fastrun,		//뛰기
-	Melee_stand_run_front,		//(뛰면서)앞으로
-	Melee_stand_run_left_front,	//(뛰면서)왼쪽앞
-	Melee_stand_run_left,		//(뛰면서)왼쪽
-	Melee_stand_run_left_back,	//(뛰면서)왼쪽뒤
-	Melee_stand_run_back,		//(뛰면서)뒤로
-	Melee_stand_run_right_back,	//(뛰면서)오른쪽뒤
-	Melee_stand_run_right,		//(뛰면서)오른쪽
-	Melee_stand_run_right_front,//(뛰면서)오른쪽앞
-	Melee_stand_walk_front,		//(걸으면서)앞으로
-	Melee_stand_walk_left_front,//(걸으면서)왼쪽앞
-	Melee_stand_walk_left,		//(걸으면서)왼쪽
-	Melee_stand_walk_left_back,	//(걸으면서)왼쪽뒤
-	Melee_stand_walk_back,		//(걸으면서)뒤로
-	Melee_stand_walk_right_back,//(걸으면서)오른쪽뒤
-	Melee_stand_walk_right,		//(걸으면서)오른쪽
-	Melee_stand_walk_right_front,//(걸으면서)오른쪽앞
-
-	//무기 안들고 앉아있을때 애니메이션
-	Melee_crouch_idle,		//기본상태
-	Melee_crouch_pickup,		//템줍는 모션
-	Melee_crouch_punch1,		//주먹질1
-	Melee_crouch_punch2,		//주먹질2
-	Melee_crouch_punch3,		//주먹질3
-	Melee_crouch_fastrun,		//뛰기
-	Melee_crouch_run_front,			//(뛰면서)앞으로
-	Melee_crouch_run_left_front,	//(뛰면서)왼쪽앞
-	Melee_crouch_run_left,			//(뛰면서)왼쪽
-	Melee_crouch_run_left_back,		//(뛰면서)왼쪽뒤
-	Melee_crouch_run_back,			//(뛰면서)뒤로
-	Melee_crouch_run_right_back,	//(뛰면서)오른쪽뒤
-	Melee_crouch_run_right,			//(뛰면서)오른쪽
-	Melee_crouch_run_right_front,	//(뛰면서)오른쪽앞
-	Melee_crouch_walk_front,		//(걸으면서)앞으로
-	Melee_crouch_walk_left_front,	//(걸으면서)왼쪽앞
-	Melee_crouch_walk_left,			//(걸으면서)왼쪽
-	Melee_crouch_walk_left_back,	//(걸으면서)왼쪽뒤
-	Melee_crouch_walk_back,			//(걸으면서)뒤로
-	Melee_crouch_walk_right_back,	//(걸으면서)오른쪽뒤
-	Melee_crouch_walk_right,		//(걸으면서)오른쪽
-	Melee_crouch_walk_right_front,	//(걸으면서)오른쪽앞
+	//무기 들고 앉아있을때 애니메이션
+	Rifle_crouch_walk_right_front,   //(걸으면서)오른쪽앞
+	Rifle_crouch_walk_right,      //(걸으면서)오른쪽
+	Rifle_crouch_walk_right_back,   //(걸으면서)오른쪽뒤
+	Rifle_crouch_walk_back,      //(걸으면서)뒤로
+	Rifle_crouch_walk_left_back,   //(걸으면서)왼쪽뒤
+	Rifle_crouch_walk_left,      //(걸으면서)왼쪽
+	Rifle_crouch_walk_left_front,   //(걸으면서)왼쪽앞
+	Rifle_crouch_walk_front,      //(걸으면서)앞으로
+	Rifle_crouch_run_right_front,   //(뛰면서)오른쪽앞
+	Rifle_crouch_run_right,      //(뛰면서)오른쪽
+	Rifle_crouch_run_right_back,   //(뛰면서)오른쪽뒤
+	Rifle_crouch_run_back,         //(뛰면서)뒤로
+	Rifle_crouch_run_left_back,   //(뛰면서)왼쪽뒤
+	Rifle_crouch_run_left,         //(뛰면서)왼쪽
+	Rifle_crouch_run_left_front,   //(뛰면서)왼쪽앞
+	Rifle_crouch_run_front,      //(뛰면서)앞으로
+	Rifle_crouch_fastrun,   //뛰기
+	Rifle_crouch_pickup,   //템줍는 모션
+	Rifle_crouch_idle,      //기본상태
 
 	//무기 들고 서 있을때 애니메이션
-	Rifle_stand_idle,		//기본상태
-	Rifle_stand_pickup,		//템줍는 모션
-	Rifle_stand_jump,		//점프
-	Rifle_stand_fastrun,	//뛰기
-	Rifle_stand_run_front,		//(뛰면서)앞으로
-	Rifle_stand_run_left_front,	//(뛰면서)왼쪽앞
-	Rifle_stand_run_left,		//(뛰면서)왼쪽
-	Rifle_stand_run_left_back,	//(뛰면서)왼쪽뒤
-	Rifle_stand_run_back,		//(뛰면서)뒤로
-	Rifle_stand_run_right_back,	//(뛰면서)오른쪽뒤
-	Rifle_stand_run_right,		//(뛰면서)오른쪽
-	Rifle_stand_run_right_front,//(뛰면서)오른쪽앞
-	Rifle_stand_walk_front,		//(걸으면서)앞으로
-	Rifle_stand_walk_left_front,//(걸으면서)왼쪽앞
-	Rifle_stand_walk_left,		//(걸으면서)왼쪽
-	Rifle_stand_walk_left_back,	//(걸으면서)왼쪽뒤
-	Rifle_stand_walk_back,		//(걸으면서)뒤로
-	Rifle_stand_walk_right_back,//(걸으면서)오른쪽뒤
-	Rifle_stand_walk_right,		//(걸으면서)오른쪽
 	Rifle_stand_walk_right_front,//(걸으면서)오른쪽앞
+	Rifle_stand_walk_right,      //(걸으면서)오른쪽
+	Rifle_stand_walk_right_back,//(걸으면서)오른쪽뒤
+	Rifle_stand_walk_back,      //(걸으면서)뒤로
+	Rifle_stand_walk_left_back,   //(걸으면서)왼쪽뒤
+	Rifle_stand_walk_left,      //(걸으면서)왼쪽
+	Rifle_stand_walk_left_front,//(걸으면서)왼쪽앞
+	Rifle_stand_walk_front,      //(걸으면서)앞으로
+	Rifle_stand_run_right_front,//(뛰면서)오른쪽앞
+	Rifle_stand_run_right,      //(뛰면서)오른쪽
+	Rifle_stand_run_right_back,   //(뛰면서)오른쪽뒤
+	Rifle_stand_run_back,      //(뛰면서)뒤로
+	Rifle_stand_run_left_back,   //(뛰면서)왼쪽뒤
+	Rifle_stand_run_left,      //(뛰면서)왼쪽
+	Rifle_stand_run_left_front,   //(뛰면서)왼쪽앞
+	Rifle_stand_run_front,      //(뛰면서)앞으로
+	Rifle_stand_fastrun,   //뛰기
+	Rifle_stand_jump,      //점프
+	Rifle_stand_pickup,      //템줍는 모션
+	Rifle_stand_idle,      //기본상태
 
-	//무기 들고 앉아있을때 애니메이션
-	Rifle_crouch_idle,		//기본상태
-	Rifle_crouch_pickup,	//템줍는 모션
-	Rifle_crouch_fastrun,	//뛰기
-	Rifle_crouch_run_front,		//(뛰면서)앞으로
-	Rifle_crouch_run_left_front,	//(뛰면서)왼쪽앞
-	Rifle_crouch_run_left,			//(뛰면서)왼쪽
-	Rifle_crouch_run_left_back,	//(뛰면서)왼쪽뒤
-	Rifle_crouch_run_back,			//(뛰면서)뒤로
-	Rifle_crouch_run_right_back,	//(뛰면서)오른쪽뒤
-	Rifle_crouch_run_right,		//(뛰면서)오른쪽
-	Rifle_crouch_run_right_front,	//(뛰면서)오른쪽앞
-	Rifle_crouch_walk_front,		//(걸으면서)앞으로
-	Rifle_crouch_walk_left_front,	//(걸으면서)왼쪽앞
-	Rifle_crouch_walk_left,		//(걸으면서)왼쪽
-	Rifle_crouch_walk_left_back,	//(걸으면서)왼쪽뒤
-	Rifle_crouch_walk_back,		//(걸으면서)뒤로
-	Rifle_crouch_walk_right_back,	//(걸으면서)오른쪽뒤
-	Rifle_crouch_walk_right,		//(걸으면서)오른쪽
-	Rifle_crouch_walk_right_front,	//(걸으면서)오른쪽앞
+   
+    //무기 안들고 앉아있을때 애니메이션
+    Melee_crouch_walk_right_front,   //(걸으면서)오른쪽앞
+    Melee_crouch_walk_right,      //(걸으면서)오른쪽
+    Melee_crouch_walk_right_back,   //(걸으면서)오른쪽뒤
+    Melee_crouch_walk_back,         //(걸으면서)뒤로
+    Melee_crouch_walk_left_back,   //(걸으면서)왼쪽뒤
+    Melee_crouch_walk_left,         //(걸으면서)왼쪽
+    Melee_crouch_walk_left_front,   //(걸으면서)왼쪽앞
+    Melee_crouch_walk_front,      //(걸으면서)앞으로
+    Melee_crouch_run_right_front,   //(뛰면서)오른쪽앞
+    Melee_crouch_run_right,         //(뛰면서)오른쪽
+    Melee_crouch_run_right_back,   //(뛰면서)오른쪽뒤
+    Melee_crouch_run_back,         //(뛰면서)뒤로
+    Melee_crouch_run_left_back,      //(뛰면서)왼쪽뒤
+    Melee_crouch_run_left,         //(뛰면서)왼쪽
+    Melee_crouch_run_left_front,   //(뛰면서)왼쪽앞
+    Melee_crouch_run_front,         //(뛰면서)앞으로
+    Melee_crouch_fastrun,      //뛰기
+    Melee_crouch_punch1,      //주먹질3
+    Melee_crouch_punch2,      //주먹질2
+    Melee_crouch_punch3,      //주먹질1
+    Melee_crouch_pickup,      //템줍는 모션
+    Melee_crouch_idle,      //기본상태
+   
+   
+    //무기 안들고 서 있을때 애니메이션
+    Melee_stand_walk_right_front,//(걸으면서)오른쪽앞
+    Melee_stand_walk_right,      //(걸으면서)오른쪽
+    Melee_stand_walk_right_back,//(걸으면서)오른쪽뒤
+    Melee_stand_walk_back,      //(걸으면서)뒤로
+    Melee_stand_walk_left_back,   //(걸으면서)왼쪽뒤
+    Melee_stand_walk_left,      //(걸으면서)왼쪽
+    Melee_stand_walk_left_front,//(걸으면서)왼쪽앞
+    Melee_stand_walk_front,      //(걸으면서)앞으로
+    Melee_stand_run_right_front,//(뛰면서)오른쪽앞
+    Melee_stand_run_right,      //(뛰면서)오른쪽
+    Melee_stand_run_right_back,   //(뛰면서)오른쪽뒤
+    Melee_stand_run_back,      //(뛰면서)뒤로
+    Melee_stand_run_left_back,   //(뛰면서)왼쪽뒤
+    Melee_stand_run_left,      //(뛰면서)왼쪽
+    Melee_stand_run_left_front,   //(뛰면서)왼쪽앞
+    Melee_stand_run_front,      //(뛰면서)앞으로
+    Melee_stand_fastrun,      //뛰기
+    Melee_stand_punch1,      //주먹질1
+    Melee_stand_punch2,      //주먹질2
+    Melee_stand_punch3,      //주먹질3
+    Melee_stand_jump,      //점프
+    Melee_stand_pickup,      //템줍는 모션
+    Melee_stand_idle,      //기본상태
 
-	////Action.x파일의 내용.
-	Medkit,		//구급상자
-	Bandage,	//붕대
-	Drink,		//드링크
-	PainKiller,	//진통제
-	Aiming,		//정조준
-	Rebound,	//반동
-	Reload,		//장전
-	Stand_idle,	//서있는 상태
-	Crouch_idle,//앉아있는 상태
-	Gun_acceptance,	//총 넣기
-	Null,		//null이라는데 what?
-	Swap_Weapon,//총 꺼내기
-	Stand_Punch1,		//서서 펀치1
-	Stand_Punch2,		//서서 펀치2
-	Stand_Punch3,		//서서 펀치3
-	Crouch_punch1,		//앉아서 펀치1
-	Crouch_punch2,		//앉아서 펀치2
-	Crouch_punch3,		//앉아서 펀치3
-	Aiming2,			//정조준2
-	Stand_Rifle_idle,	//서서 앉은 상태
-	Crouch_rifle_idle,	//총들고 앉은 상태
-	Kar98_reload,
-	Kar98_boltAction,
-	Falldown,	//쓰러지는 모션
-	Faint_idle	//기절모션
+    //////Action.x파일의 내용.
+    //Medkit,      //구급상자
+    //Bandage,   //붕대
+    //Drink,      //드링크
+    //PainKiller,   //진통제
+    //Aiming,      //정조준
+    //Rebound,   //반동
+    //Reload,      //장전
+    //Stand_idle,   //서있는 상태
+    //Crouch_idle,//앉아있는 상태
+    //Gun_acceptance,   //총 넣기
+    //Null,      //null이라는데 what?
+    //Swap_Weapon,//총 꺼내기
+    //Stand_Punch1,      //서서 펀치1
+    //Stand_Punch2,      //서서 펀치2
+    //Stand_Punch3,      //서서 펀치3
+    //Crouch_punch1,      //앉아서 펀치1
+    //Crouch_punch2,      //앉아서 펀치2
+    //Crouch_punch3,      //앉아서 펀치3
+    //Aiming2,         //정조준2
+    //Stand_Rifle_idle,   //서서 앉은 상태
+    //Crouch_rifle_idle,   //총들고 앉은 상태
+    //Kar98_reload,
+    //Kar98_boltAction,
+    //Falldown,   //쓰러지는 모션
+    //Faint_idle   //기절모션
 };
 
 struct KEYBOARD_STATE
@@ -202,6 +204,8 @@ struct KEYBOARD_STATE
 	D3DXVECTOR3 deltaPos;
 	D3DXVECTOR3 deltaRot;
 	bool bJump;
+	bool bSit;
+	bool bWalk;
 };
 
 //	1. Position 정점의 좌표 x,y,z(float)				: D3DFVF_XYZ
