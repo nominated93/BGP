@@ -32,7 +32,7 @@ void Monster::Init(char* fileName, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	m_pSkinnedMesh->SetPosition(&D3DXVECTOR3(900, 0, 0));
 	m_pos = pos;
 	m_rot = rot;
-	m_pSkinnedMesh->Setup("../../", fileName);
+	m_pSkinnedMesh->Setup("resources/monster", fileName);
 
 
 }
