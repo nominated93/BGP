@@ -4,6 +4,7 @@
 
 ProgressBarManager::ProgressBarManager()
 {
+	m_alphaValue = 50;
 }
 
 
@@ -17,11 +18,12 @@ void ProgressBarManager::Init()
 {
 	
 	m_pProgressBarTop = new UIImage(m_pSprite);
+	m_pProgressBarTop->m_AlphaBlendValue = m_alphaValue;
 	m_pProgressBarTop->SetTexture("resources/ui/HpBarUp.bmp"); 
 	
 
 	m_pProgressBarBottom = new UIImage(m_pSprite);
-	m_pProgressBarBottom->m_AlphaBlendValue = 50;
+	m_pProgressBarBottom->m_AlphaBlendValue = m_alphaValue;
 	m_pProgressBarBottom->SetTexture("resources/ui/HpBarDown.bmp");
 	
 

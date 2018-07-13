@@ -9,7 +9,8 @@ Player::Player():
 	m_pSkinnedMesh(NULL),
 	m_pBM(NULL), 
 	m_pCrossImg(NULL),
-	m_pPB(NULL)
+	m_pPB(NULL),
+	m_isZoom(false)
 {
 }
 
@@ -50,13 +51,23 @@ void Player::Init()
 	m_pCrossImg->SetPosition(&D3DXVECTOR3(rc.right/2-10, rc.bottom/2, 0));
 	m_pCrossImg->Update();
 
+	m_pZoomin = new UIImage(m_pSprite);
+	m_pZoomin->SetTexture("resources/weapons/zoom_in.png");
+	m_pZoomin->SetPosition(&D3DXVECTOR3(rc.right / 2 - m_pZoomin->GetInfo().Width / 2 , rc.bottom / 2 - m_pZoomin->GetInfo().Height / 2, 0));
+	m_pZoomin->Update();
+
 	//볼렛
-	m_pBM = new BulletManager(); m_pBM->Init();
+	//m_pBM = new BulletManager(); m_pBM->Init();
 	
+	m_pAk47Img = new UIImage(m_pSprite);
+	m_pAk47Img->SetTexture("resources/UI/ak-47_back.png");
+	m_pAk47Img->SetPosition(&D3DXVECTOR3(rc.right / 2 - m_pAk47Img->GetInfo().Width / 2, WINSIZEY - WINSIZEY / 6, 0));
+	m_pAk47Img->Update();
+
 	//체력바
 	m_fMaxHP = m_fCurrHP = 100.f;
 	m_pPB = new ProgressBarManager; m_pPB->Init();
-	m_pPB->SetPosition(WINSIZEX / 2 - m_pPB->GetPUIImg()->GetInfo().Width / 2, WINSIZEY - WINSIZEY / 7);
+	m_pPB->SetPosition(WINSIZEX / 2 - m_pPB->GetPUIImg()->GetInfo().Width / 2, WINSIZEY - WINSIZEY / 15);
 	m_pPB->SetGauge(m_fCurrHP, m_fMaxHP);
 
 	//아이템충돌 구 생성
@@ -81,19 +92,46 @@ void Player::Update()
 	//총쏘기
 	if (g_pKeyboardManager->isStayKeyDown(VK_LBUTTON))
 	{
-		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
+		//m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
 	}
-	m_pBM->Update();
+	//m_pBM->Update();
+
+	if (m_isZoom == false)
+	{
+		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
+		{
+			m_isZoom = true;
+			m_pZoomin->Update();
+			g_pCamera->SetDistance(-30.0f);
+		}
+	}
+	else
+	{
+		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON) || g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+		{
+			m_isZoom = false;
+			m_pZoomin->Update();
+			g_pCamera->SetDistance(5.0f);
+		}
+	}
 
 	//체력바
+
 	if (g_pKeyboardManager->isStayKeyDown('1'))
 	{
-		m_fCurrHP -= 0.5f;
+		m_fCurrHP -= 0.5f;	
 	}
-
 	if (g_pKeyboardManager->isStayKeyDown('2'))
 	{
 		m_fCurrHP += 0.5f;
+	}
+	if (m_fCurrHP == 100)
+	{
+		m_pPB->SetAlphaValue(80);
+	}
+	else
+	{
+		m_pPB->SetAlphaValue(50);
 	}
 	m_pPB->Update();
 	m_pPB->SetGauge(m_fCurrHP, m_fMaxHP);
@@ -124,13 +162,22 @@ void Player::Render()
 
 	m_pSkinnedMesh->Render(NULL, &m_matWorld);
 
-	m_pCrossImg->Render();
+	
+	if (m_isZoom)
+	{
+		m_pZoomin->Render();
+	}
+	else 
+	{
+		m_pCrossImg->Render();
+	}
 
-	m_pMesh->DrawSubset(0);
+	//m_pMesh->DrawSubset(0);
 
-	m_pBM->Render();
+	//m_pBM->Render();
 
 	//체력바
+	m_pAk47Img->Render();
 	m_pPB->Render();
 	Debug->AddText("HP : ");
 	Debug->AddText(m_fCurrHP);

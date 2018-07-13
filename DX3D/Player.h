@@ -18,18 +18,21 @@ class Player : public IUnitObject
 {
 
 private:
-	SkinnedMesh*	m_pSkinnedMesh;
-	UIImage*		m_pCrossImg;
-	BoundingSphere	m_tCollisionSphere_Item;
-	LPD3DXMESH      m_pMesh;
-	string			m_szCurrentFile;
-	ePlayerState	m_eState;
-	LPD3DXSPRITE	m_pSprite;
-	BulletManager*	m_pBM;
+	SkinnedMesh*			m_pSkinnedMesh;
+	UIImage*				m_pCrossImg;
+	UIImage*				m_pZoomin;
+	UIImage*				m_pAk47Img;
+	BoundingSphere			m_tCollisionSphere_Item;
+	LPD3DXMESH				m_pMesh;
+	string					m_szCurrentFile;
+	ePlayerState			m_eState;
+	LPD3DXSPRITE			m_pSprite;
+	BulletManager*			m_pBM;
 	ProgressBarManager*		m_pPB;
 
+	//D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
 
-	D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
+	bool m_isZoom;
 
 	// 애니메이션
 	int curAniIndex;

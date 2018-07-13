@@ -21,6 +21,7 @@ void Picking::Init()
 	float radius = 1.2f;
 	D3DXCreateSphere(g_pDevice, radius, 10, 10, &m_pSphere, NULL);
 
+	
 	m_vecBoundary.reserve(dim * dim * dim);
 	for (int i = 0; i < dim; i++)
 	{
@@ -28,8 +29,7 @@ void Picking::Init()
 		{
 			for (int k = 0; k < dim; k++)
 			{
-				BoundingSphere* s = new BoundingSphere(
-					D3DXVECTOR3(i + 5, j + 5, k + 5), radius);
+				BoundingSphere* s = new BoundingSphere(D3DXVECTOR3(5, -60, -70), radius);
 				m_vecBoundary.push_back(s);
 			}
 		}
@@ -39,17 +39,11 @@ void Picking::Init()
 
 void Picking::Update()
 {
+
 }
 
 void Picking::Render()
 {
-	/*
-	HDC hdc = GetDC(g_hWnd);
-	GetClientRect(g_hWnd, &rc);
-
-	const int radius = 5;
-	Ellipse(hdc, rc.right / 2 - radius, rc.bottom / 2 - radius, rc.right / 2 + radius, rc.bottom / 2 + radius);*/
-
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 
 	for (auto p : m_vecBoundary)

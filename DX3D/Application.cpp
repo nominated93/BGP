@@ -34,7 +34,7 @@ void Application::Update()
 	g_pTimeManager->Update();
 	g_pKeyboardManager->Update();
 	g_pSceneManager->Update();
-	g_pCamera->Update();
+	g_pCamera->Update(1000);
 }
 
 void Application::Render()

@@ -37,7 +37,7 @@ void SceneObjMap::Init()
 	m_pObjMap = new ObjMap; m_pObjMap->Init(); AddSimpleDisplayObj(m_pObjMap);
 	m_pPlayer = new Player; m_pPlayer->Init();  AddSimpleDisplayObj(m_pPlayer);
 	m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
-	//m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
+	m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
 	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);
 	

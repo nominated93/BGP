@@ -15,6 +15,8 @@ private:
 
 	LPD3DXSPRITE m_pSprite;
 
+	float m_alphaValue;
+
 public:
 	ProgressBarManager();
 	~ProgressBarManager();
@@ -32,6 +34,8 @@ public:
 
 	void SetX(int x) { m_iX = x; }
 	void SetY(int y) { m_iY = y; }
+
+	void SetAlphaValue(float alphaValue) { m_alphaValue = alphaValue; }
 
 };
 

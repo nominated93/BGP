@@ -5,7 +5,7 @@ Camera::Camera()
 {
 	m_distance = 5.0f;
 	m_basePosY = 6.5f;
-	m_eye = D3DXVECTOR3(0.2f, m_basePosY, m_distance);
+	m_eye = D3DXVECTOR3(1.0f, m_basePosY, m_distance);
 	m_lookAt = D3DXVECTOR3(0, 0, 0);
 	m_up = D3DXVECTOR3(0, 1, 0);
 	m_rotX = 0.0f;
@@ -32,9 +32,9 @@ void Camera::Init()
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
-void Camera::Update()
+void Camera::Update(float lookat_value)
 {
-	m_eye = D3DXVECTOR3(0.2f, m_basePosY, -m_distance);
+	m_eye = D3DXVECTOR3(1.0f, m_basePosY, -m_distance);
 
 	D3DXMATRIXA16 matRotX, matRotY, matRot;
 	D3DXMatrixRotationX(&matRotX, m_rotX);
