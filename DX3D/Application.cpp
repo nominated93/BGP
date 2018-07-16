@@ -16,6 +16,7 @@ void Application::Init()
 	g_pDeviceManager->Init();
 	g_pSceneManager->Init();
 	g_pCamera->Init();
+	g_pSoundManager->Init();
 }
 
 void Application::Destroy()
@@ -26,6 +27,7 @@ void Application::Destroy()
 	g_pFontMgr->Destroy();
 	Debug->Destroy();
 	g_pDeviceManager->Destroy();
+	g_pSoundManager->Destroy();
 }
 
 void Application::Update()
@@ -35,6 +37,7 @@ void Application::Update()
 	g_pKeyboardManager->Update();
 	g_pSceneManager->Update();
 	g_pCamera->Update(1000);
+	g_pSoundManager->Update();
 }
 
 void Application::Render()
