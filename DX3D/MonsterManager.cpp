@@ -26,6 +26,24 @@ void MonsterManager::Init()
 
 void MonsterManager::Update()
 {
+	for (Monster* sprEnemy : m_vecMonster)
+	{
+		D3DXVECTOR3 playerPos = (static_cast <IUnitObject *> (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition());
+		// 추격 스피드
+		float speed = 0.1f;
+		// 적 위치 구하기
+		D3DXVECTOR3 enemyPos = sprEnemy->GetPosition();
+		// 플레이어 위치에서 적 위치를 빼서
+		// 플레이어로 향하는 벡터 구하기
+		D3DXVECTOR3 direction = playerPos - enemyPos;
+		// 방향벡터 정규화
+		D3DXVec3Normalize(&direction, &direction);
+		direction *= speed;
+
+		D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
+		sprEnemy->SetPosition(&pos);
+		sprEnemy->Update();
+	}
 	for (m_iterMonster = m_vecMonster.begin(); m_iterMonster != m_vecMonster.end(); m_iterMonster++)
 	{
 		(*m_iterMonster)->Update();
