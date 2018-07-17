@@ -31,9 +31,10 @@ void MonsterManager::Update()
 		float a;
 		D3DXVECTOR3 playerPos = (static_cast <IUnitObject *> (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition());
 
-		Debug->AddText("플레이어 좌표: ");
+		/*Debug->AddText("플레이어 좌표: ");
 		Debug->AddText(playerPos);
-		Debug->EndLine();
+		Debug->EndLine();*/
+
 		// 추격 스피드
 		float speed = 0.5f;
 		// 적 위치 구하기
@@ -42,17 +43,23 @@ void MonsterManager::Update()
 		// 플레이어로 향하는 벡터 구하기
 		D3DXVECTOR3 direction = playerPos - enemyPos;
 		D3DXVECTOR3 direction2 = playerPos - enemyPos;
+		direction2.y = .0f;
 
 		// 방향벡터 정규화
 		D3DXVec3Normalize(&direction, &direction);
 		a = D3DXVec3Length(&direction2);
 
+
+		Debug->AddText("벡터 길이: ");
+		Debug->AddText(a);
+		Debug->EndLine();
 		
-		if (a <= 50) {
+		if (a <= 40)
+		{
 			direction *= speed;
 			D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
 			sprEnemy->SetPosition(&pos);
-			//sprEnemy->Update();
+			sprEnemy->Update();
 		}
 	}
 	for (m_iterMonster = m_vecMonster.begin(); m_iterMonster != m_vecMonster.end(); m_iterMonster++)
