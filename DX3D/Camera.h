@@ -23,7 +23,7 @@ public:
 
 public:
 	void Init();
-	void Update(float lookat_value);
+	void Update();
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void SetTarget(D3DXVECTOR3* pTarget) { m_pTarget = pTarget; }
 	bool GetIsAngleMove() { return m_isAngleMove; }
@@ -31,5 +31,6 @@ public:
 
 	void SetLookAt(D3DXVECTOR3 lookAt) { m_lookAt = lookAt; }
 	void SetDistance(float distance) { m_distance = distance; }
+	void SetBasePosY(float posY) { m_basePosY = posY; }
 };
 

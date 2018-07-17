@@ -7,8 +7,10 @@ extern D3DXVECTOR3 g_aCubeVertex[];
 
 #define WINSTARTX 20						//윈도우 시작좌표X
 #define WINSTARTY 20						//윈도우 시작좌표Y
-#define WINSIZEX 1600						//윈도우 가로크기
-#define WINSIZEY 960						//윈도우 세로크기
+//#define WINSIZEX 1600						//윈도우 가로크기
+#define WINSIZEX 1300						//윈도우 가로크기
+//#define WINSIZEY 960						//윈도우 세로크기
+#define WINSIZEY 660						//윈도우 세로크기
 
 
 #define SINGLETON(class_name) private:\
@@ -50,6 +52,11 @@ public: inline void Set##funName(varType& var) { varName = var; }
 #define BLUE	D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f)
 #define YELLOW	D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f)
 
+enum FontType
+{
+	FontType_NORMAL,
+	FontType_BULLETTOTAL
+};
 
 enum SCENE_INDEX {
 	SCENE_OBJMAP
@@ -171,33 +178,62 @@ enum ePlayerState {
     Melee_stand_pickup,      //템줍는 모션
     Melee_stand_idle,      //기본상태
 
-    //////Action.x파일의 내용.
-    //Medkit,      //구급상자
-    //Bandage,   //붕대
-    //Drink,      //드링크
-    //PainKiller,   //진통제
-    //Aiming,      //정조준
-    //Rebound,   //반동
-    //Reload,      //장전
-    //Stand_idle,   //서있는 상태
-    //Crouch_idle,//앉아있는 상태
-    //Gun_acceptance,   //총 넣기
-    //Null,      //null이라는데 what?
-    //Swap_Weapon,//총 꺼내기
-    //Stand_Punch1,      //서서 펀치1
-    //Stand_Punch2,      //서서 펀치2
-    //Stand_Punch3,      //서서 펀치3
-    //Crouch_punch1,      //앉아서 펀치1
-    //Crouch_punch2,      //앉아서 펀치2
-    //Crouch_punch3,      //앉아서 펀치3
-    //Aiming2,         //정조준2
-    //Stand_Rifle_idle,   //서서 앉은 상태
-    //Crouch_rifle_idle,   //총들고 앉은 상태
-    //Kar98_reload,
-    //Kar98_boltAction,
-    //Falldown,   //쓰러지는 모션
-    //Faint_idle   //기절모션
+    ////Action.x파일
+    Medkit,      //구급상자
+    Bandage,   //붕대
+    Drink,      //드링크
+    PainKiller,   //진통제
+    Aiming,      //정조준
+    Rebound,   //반동
+    Reload,      //장전
+    Stand_idle,   //서있는 상태
+    Crouch_idle,//앉아있는 상태
+    Gun_acceptance,   //총 넣기
+    Null,      //null이라는데 what?
+    Swap_Weapon,//총 꺼내기
+    Stand_Punch1,      //서서 펀치1
+    Stand_Punch2,      //서서 펀치2
+    Stand_Punch3,      //서서 펀치3
+    Crouch_punch1,      //앉아서 펀치1
+    Crouch_punch2,      //앉아서 펀치2
+    Crouch_punch3,      //앉아서 펀치3
+    Aiming2,         //정조준2
+    Stand_Rifle_idle,   //서서 앉은 상태
+    Crouch_rifle_idle,   //총들고 앉은 상태
+    Kar98_reload,
+    Kar98_boltAction,
+    Falldown,   //쓰러지는 모션
+    Faint_idle   //기절모션
 };
+
+enum eActionState {
+	////Action.x파일
+	//Medkit,      //구급상자
+	//Bandage,   //붕대
+	//Drink,      //드링크
+	//PainKiller,   //진통제
+	//Aiming,      //정조준
+	//Rebound,   //반동
+	//Reload,      //장전
+	//Stand_idle,   //서있는 상태
+	//Crouch_idle,//앉아있는 상태
+	//Gun_acceptance,   //총 넣기
+	//Null,      //null이라는데 what?
+	//Swap_Weapon,//총 꺼내기
+	//Stand_Punch1,      //서서 펀치1
+	//Stand_Punch2,      //서서 펀치2
+	//Stand_Punch3,      //서서 펀치3
+	//Crouch_punch1,      //앉아서 펀치1
+	//Crouch_punch2,      //앉아서 펀치2
+	//Crouch_punch3,      //앉아서 펀치3
+	//Aiming2,         //정조준2
+	//Stand_Rifle_idle,   //서서 앉은 상태
+	//Crouch_rifle_idle,   //총들고 앉은 상태
+	//Kar98_reload,
+	//Kar98_boltAction,
+	//Falldown,   //쓰러지는 모션
+	//Faint_idle   //기절모션
+ };
 
 struct KEYBOARD_STATE
 {
@@ -375,6 +411,8 @@ struct BoundingSphere
 DWORD FtoDw(float f);
 
 float GetRandomFloat(float lowBound, float highBound);
+
+LPD3DXFONT GetFont(FontType type);
 
 bool CompareStr(const char * str1, const char * str2);
 

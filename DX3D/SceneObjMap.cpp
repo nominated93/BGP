@@ -7,7 +7,10 @@
 #include "Inventory.h"
 #include "ItemManager.h"
 #include "Collision.h"
+#include "BulletManager.h"
 #include "MonsterManager.h"
+#include "EnemyManager.h"
+#include "OBB.h"
 
 SceneObjMap::SceneObjMap()
 {
@@ -18,6 +21,7 @@ SceneObjMap::SceneObjMap()
 	m_pInventory = NULL;
 	m_pCollision = NULL;
 	m_pMonsterManager = NULL;
+	m_pEnemyManager = NULL;
 }
 
 
@@ -28,21 +32,36 @@ SceneObjMap::~SceneObjMap()
 
 void SceneObjMap::Init()
 {
+
 	m_pSkyBox = new SkyBox("resources/skybox/sahara_up.tga",
 		"resources/skybox/sahara_dn.tga",
 		"resources/skybox/sahara_lf.tga",
 		"resources/skybox/sahara_rt.tga",
 		"resources/skybox/sahara_ft.tga",
-		"resources/skybox/sahara_bk.tga");	//AddSimpleDisplayObj(m_pSkyBox);  추가하면 이상현상발생
+		"resources/skybox/sahara_bk.tga");
+
+	g_pSkinnedMeshManager->Load("PlayerAction", "resources/player", "action.X");
+	g_pSkinnedMeshManager->Load("Action", "resources/player", "action.X");
+	g_pSkinnedMeshManager->Load("Character", "../../", "Character.X");
+	g_pMeshManager->AddMesh("AK-47", "resources/weapons", "AK-47.X"); //AK-47 추가
+
 	m_pObjMap = new ObjMap; m_pObjMap->Init(); AddSimpleDisplayObj(m_pObjMap);
 	m_pPlayer = new Player; m_pPlayer->Init();  AddSimpleDisplayObj(m_pPlayer);
-	m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
+	m_pEnemyManager = new EnemyManager; m_pEnemyManager->Init(); AddSimpleDisplayObj(m_pEnemyManager);
+	m_pBulletManager = new BulletManager; m_pBulletManager->Setup(m_pPlayer, m_pEnemyManager, m_pObjMap); AddSimpleDisplayObj(m_pBulletManager);
+	//m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
 	m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
 	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);
 	
 	//Collision Init이 제일 뒤에 있어야됨
 	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pInventory); AddSimpleDisplayObj(m_pCollision);
+	
+	//test
+	m_pEnemyManager->Init(m_pPlayer, m_pBulletManager, m_pObjMap);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(16, -60, 0),	D3DXVECTOR3(0, 0, 1), 0);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(4, -60, 0),	D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(12, -60, -99), D3DXVECTOR3(-0.07, 0, 0.99), 2);
 
 
 	D3DXVECTOR3 dir(1.0f, -1.0f, 1.0f);

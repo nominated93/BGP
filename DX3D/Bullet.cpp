@@ -35,7 +35,6 @@ void Bullet::Render()
 {
 	D3DXMATRIXA16 matS, matR, matT, matWorld;
 
-
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matT);
@@ -52,8 +51,6 @@ void Bullet::Render()
 
 void Bullet::Move()
 {
-	//D3DXVECTOR3 v(0, 0, 1);
-	//m_pos = m_pos + (m_rot * m_fSpeed);
 	m_pos = m_pos + (m_rot * m_fSpeed);
 }
 

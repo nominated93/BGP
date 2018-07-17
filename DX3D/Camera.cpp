@@ -32,7 +32,7 @@ void Camera::Init()
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
-void Camera::Update(float lookat_value)
+void Camera::Update()
 {
 	m_eye = D3DXVECTOR3(1.0f, m_basePosY, -m_distance);
 

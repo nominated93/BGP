@@ -1,6 +1,7 @@
 #pragma once
 #include "IScene.h"
 
+class IMap;
 class ObjMap;
 class Player;
 class SkyBox;
@@ -10,6 +11,10 @@ class ItemManager;
 class Inventory;
 class Collision;
 class MonsterManager;
+class EnemyManager;
+
+class BulletManager;
+class OBB;
 
 class SceneObjMap : public IScene
 {
@@ -23,6 +28,8 @@ private:
 	
 	Collision*		m_pCollision;
 	MonsterManager*	m_pMonsterManager;
+	EnemyManager*	m_pEnemyManager;
+	BulletManager*	m_pBulletManager;
 
 public:
 	SceneObjMap();

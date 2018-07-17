@@ -68,6 +68,33 @@ bool CompareStr(const char * str1, const char * str2)
 	return strcmp(str1, str2) == 0;
 }
 
+map<FontType, LPD3DXFONT> m_pFontList;
+LPD3DXFONT GetFont(FontType type)
+{
+	//if (m_pFontList.find(type) == m_pFontList.end())
+	//{
+	if (type == FontType_NORMAL)
+	{
+		/*		if (FAILED(D3DXCreateFont(g_pDevice, 24, 12, FW_NORMAL, 1, false, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("µ¸¿òÃ¼"), &m_pFontList[type])))
+		assert(false && "FAILED(D3DXCreateFont)");*/
+		D3DXCreateFont(g_pDevice, 28, NULL, FW_NORMAL, 1, false, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial Black", &m_pFontList[type]);
+	}
+	else if (type == FontType_BULLETTOTAL)
+	{
+		//AddFontResource(_T("Fonts/umberto.ttf"));
+		//if (FAILED(D3DXCreateFont(g_pDevice, 24, 12, FW_NORMAL, 1, false, DEFAULT_CHARSET,
+		//	OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, _T("umberto"), &m_pFontList[type])))
+		//	assert(false && "FAILED(D3DXCreateFont)");
+
+		D3DXCreateFont(g_pDevice, 14, NULL, FW_NORMAL, 1, false, DEFAULT_CHARSET,
+			OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial Black", &m_pFontList[type]);
+	}
+
+	return m_pFontList[type];
+}
+
 namespace DXUtil
 {
 
