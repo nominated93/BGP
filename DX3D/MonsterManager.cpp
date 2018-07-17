@@ -26,23 +26,34 @@ void MonsterManager::Init()
 
 void MonsterManager::Update()
 {
-	for (Monster* sprEnemy : m_vecMonster)
+	for (auto& sprEnemy : m_vecMonster)
 	{
+		float a;
 		D3DXVECTOR3 playerPos = (static_cast <IUnitObject *> (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->GetPosition());
+
+		Debug->AddText("플레이어 좌표: ");
+		Debug->AddText(playerPos);
+		Debug->EndLine();
 		// 추격 스피드
-		float speed = 0.1f;
+		float speed = 0.5f;
 		// 적 위치 구하기
 		D3DXVECTOR3 enemyPos = sprEnemy->GetPosition();
 		// 플레이어 위치에서 적 위치를 빼서
 		// 플레이어로 향하는 벡터 구하기
 		D3DXVECTOR3 direction = playerPos - enemyPos;
+		D3DXVECTOR3 direction2 = playerPos - enemyPos;
+
 		// 방향벡터 정규화
 		D3DXVec3Normalize(&direction, &direction);
-		direction *= speed;
+		a = D3DXVec3Length(&direction2);
 
-		D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
-		sprEnemy->SetPosition(&pos);
-		sprEnemy->Update();
+		
+		if (a <= 50) {
+			direction *= speed;
+			D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
+			sprEnemy->SetPosition(&pos);
+			//sprEnemy->Update();
+		}
 	}
 	for (m_iterMonster = m_vecMonster.begin(); m_iterMonster != m_vecMonster.end(); m_iterMonster++)
 	{
