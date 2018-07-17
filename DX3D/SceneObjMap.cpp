@@ -40,8 +40,8 @@ void SceneObjMap::Init()
 		"resources/skybox/sahara_ft.tga",
 		"resources/skybox/sahara_bk.tga");
 
-	g_pSkinnedMeshManager->Load("PlayerAction", "resources/player", "action.X");
-	g_pSkinnedMeshManager->Load("Action", "resources/player", "action.X");
+	g_pSkinnedMeshManager->Load("PlayerAction", "../../", "action.X");
+	g_pSkinnedMeshManager->Load("Action", "../../", "action.X");
 	g_pSkinnedMeshManager->Load("Character", "../../", "Character.X");
 	g_pMeshManager->AddMesh("AK-47", "resources/weapons", "AK-47.X"); //AK-47 Ãß°¡
 

@@ -167,8 +167,11 @@
     <ClInclude Include="DrawingGroup.h" />
     <ClInclude Include="DX.h" />
     <ClInclude Include="DX3D.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GlobalDefinition.h" />
     <ClInclude Include="Heap.h" />
     <ClInclude Include="IDisplayObject.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterManager.h" />
+    <ClInclude Include="OBB.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="ObjManager.h" />
     <ClInclude Include="ObjMap.h" />
@@ -226,8 +230,11 @@
     <ClCompile Include="DrawingGroup.cpp" />
     <ClCompile Include="DX.cpp" />
     <ClCompile Include="DX3D.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GlobalDefinition.cpp" />
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="IDisplayObject.cpp" />
@@ -242,6 +249,7 @@
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterManager.cpp" />
+    <ClCompile Include="OBB.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="ObjManager.cpp" />
     <ClCompile Include="ObjMap.cpp" />

@@ -51,17 +51,17 @@ void BulletManager::Update()
 				//Remove();
 			}
 		}
-		if (m_pEnemyManager)
-		{
-			if (OBB::IsCollision(&tempOBB2, &tempOBB))
-			{
-				m_pEnemyManager->SetPosition(&(m_pPlayer->GetPosition() + D3DXVECTOR3(0.02f, 0.02f, 0)));
-				//m_pPlayer->SetCurrHP(50);
-				m_pEnemyManager->BulletHit();
+		//if (m_pEnemyManager)
+		//{
+		//	if (OBB::IsCollision(&tempOBB2, &tempOBB))
+		//	{
+		//		m_pEnemyManager->SetPosition(&(m_pPlayer->GetPosition() + D3DXVECTOR3(0.02f, 0.02f, 0)));
+		//		//m_pPlayer->SetCurrHP(50);
+		//		m_pEnemyManager->BulletHit();
 
-				//Remove();
-			}
-		}
+		//		//Remove();
+		//	}
+		//}
 
 		(*m_iterBullet)->Update();
 	}
