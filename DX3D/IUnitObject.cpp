@@ -20,6 +20,8 @@ IUnitObject::IUnitObject()
 	m_maxStepHeight = 2.0f;
 	speed = 0.0f;
 	speed_max = 0.1f;
+
+	m_isFire = false;
 	
 }
 

@@ -37,6 +37,11 @@ Player::~Player()
 	SAFE_RELEASE(m_pAniSet);
 }
 
+void Player::Init(BulletManager* bm)
+{
+	m_pBM = bm;
+}
+
 void Player::Init()
 {
 	m_pos = D3DXVECTOR3(50, -60, 0);
@@ -179,9 +184,9 @@ void Player::Update()
 			m_bulletCurrCnt--;
 			UpdateBulletText();
 		}
-		//m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
+		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
+		//m_pBM->Fire(&m_pos, &D3DXVECTOR3(10,10,0));
 	}
-	//m_pBM->Update();
 
 
 

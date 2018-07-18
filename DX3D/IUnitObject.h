@@ -32,6 +32,8 @@ protected:
 	D3DXVECTOR3		m_destPos;
 	D3DXVECTOR3		m_finalDestPos;
 	vector<int>		m_vecAStarIndex;
+
+	SYNTHESIZE(bool, m_isFire, IsFire);
 	
 	IUnitObject();
 
@@ -49,7 +51,6 @@ public:
 	void UpdatePosition();
 
 	D3DXVECTOR3 GetForward() { return m_forward; };
-	D3DXVECTOR3 GetForward2() { return m_forward_test; };
 
 
 	void StartFall();

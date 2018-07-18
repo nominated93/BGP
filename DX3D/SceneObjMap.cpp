@@ -53,14 +53,16 @@ void SceneObjMap::Init()
 	m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
 	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);
-	
+
 	//Collision Init이 제일 뒤에 있어야됨
 	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pInventory); AddSimpleDisplayObj(m_pCollision);
-	
+
 	//test
+	m_pPlayer->Init(m_pBulletManager);
+
 	m_pEnemyManager->Init(m_pPlayer, m_pBulletManager, m_pObjMap);
-	m_pEnemyManager->makeEnemy(D3DXVECTOR3(16, -60, 0),	D3DXVECTOR3(0, 0, 1), 0);
-	m_pEnemyManager->makeEnemy(D3DXVECTOR3(4, -60, 0),	D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(16, -60, 0), D3DXVECTOR3(0, 0, 1), 0);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(4, -60, 0), D3DXVECTOR3(0.8, 0, 0.6), 1);
 	m_pEnemyManager->makeEnemy(D3DXVECTOR3(12, -60, -99), D3DXVECTOR3(-0.07, 0, 0.99), 2);
 
 
@@ -84,6 +86,6 @@ void SceneObjMap::Render()
 }
 
 void SceneObjMap::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{ 
+{
 	SAFE_WNDPROC(m_pPicking);
 }

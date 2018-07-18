@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Player.h"
 #include "EnemyManager.h"
+#include "Enemy.h"
 #include "OBB.h"
 #include "IMap.h"
 
@@ -36,9 +37,9 @@ void BulletManager::Update()
 
 		OBB tempOBB2;
 		tempOBB2.Init(m_pPlayer->GetPosition(), m_pPlayer->GetPosition());
-		//D3DXMATRIXA16 tempMat;
-		//D3DXMatrixIdentity(&tempMat);
-		//tempOBB.Update(&tempMat);
+
+		OBB tempOBB3;
+		tempOBB.Init(tempPos, (*m_iterBullet)->GetPosition());
 
 		if (m_pPlayer)
 		{
@@ -51,15 +52,35 @@ void BulletManager::Update()
 				//Remove();
 			}
 		}
-		//if (m_pEnemyManager)
-		//{
-		//	if (OBB::IsCollision(&tempOBB2, &tempOBB))
-		//	{
-		//		m_pEnemyManager->SetPosition(&(m_pPlayer->GetPosition() + D3DXVECTOR3(0.02f, 0.02f, 0)));
-		//		//m_pPlayer->SetCurrHP(50);
-		//		m_pEnemyManager->BulletHit();
 
-		//		//Remove();
+		if (m_pEnemyManager)
+		{
+			for (int j = 0; j < m_pEnemyManager->GetvecEnemy().size(); j++)
+			{
+
+				if (OBB::IsCollision(m_pEnemyManager->GetvecEnemy()[j]->GetObb(), &tempOBB3))
+				{
+					if (m_pEnemyManager->GetvecEnemy()[j]->GetIsAlive() == false) continue;
+					m_pEnemyManager->GetvecEnemy()[j]->BulletHit(30);
+					//m_arrBullets[i].SetisAlive(false);
+					//Remove();
+					break;
+				}
+			}
+		}
+
+
+		//float tempHeight;
+		//if (tempPos.x < 125.0f &&
+		//	tempPos.z < 125.0f &&
+		//	tempPos.x > 0.0f &&
+		//	tempPos.z > 0.0f)
+		//{
+		//	m_pHeightMap->GetHeight(tempPos.x, tempHeight, tempPos.z);
+		//	if (tempPos.y <= tempHeight)
+		//	{
+		//		m_arrBullets[i].SetisAlive(false);
+		//		continue;
 		//	}
 		//}
 

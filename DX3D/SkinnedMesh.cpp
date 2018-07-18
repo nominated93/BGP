@@ -122,11 +122,11 @@ void SkinnedMesh::Render(LPD3DXFRAME pFrame, D3DXMATRIXA16* m_World)
 
 			D3DXMATRIXA16 matR, matWorld, matT, matS;
 			D3DXMatrixScaling(&matS, 0.04f, 0.04f, 0.04f);
-			D3DXMatrixIdentity(&matR);	//회전행렬초기화
-			D3DXMatrixRotationY(&matR, D3DX_PI);	//리소스랑 실제 방향이 달라서 맞쳐줌
-			matWorld = pBone->matCombinedTransformMatrix * matR * (*m_World);		//다 곱해주고
-																					//matWorld = pBone->matCombinedTransformMatrix * matR * m_matWorld;		//다 곱해주고
-			g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);	//월드메트리스 적용
+			D3DXMatrixIdentity(&matR);
+			D3DXMatrixRotationY(&matR, D3DX_PI);
+			matWorld = pBone->matCombinedTransformMatrix * matR * (*m_World);
+	
+			g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);	
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); i++)
 			{
 				g_pDevice->SetTexture(0, pBoneMesh->vecTexture[i]);
@@ -233,7 +233,6 @@ void SkinnedMesh::SetAnimationIndex(int nIndex)
 
 void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 {
-
 	m_isBlend = true;
 	m_fPassedBlendTime = 0.0f;
 
@@ -248,19 +247,17 @@ void SkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	m_pAnimationController->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAnimationController->SetTrackDesc(1, &stTrackDesc);
 
-
 	m_pAnimationController->GetAnimationSet(nIndex, &pNextAnimSet);
 	m_pAnimationController->SetTrackAnimationSet(0, pNextAnimSet);
 
-
 	m_pAnimationController->SetTrackWeight(0, 0.0f);
 	m_pAnimationController->SetTrackWeight(1, 1.0f);
-
 
 	m_pAnimationController->GetAnimationSet(nIndex, &m_pAniSet);
 	m_pAnimationController->SetTrackAnimationSet(0, m_pAniSet);
 
 	m_pAnimationController->SetTrackPosition(0, 0);
+
 	SAFE_RELEASE(pPrevAnimSet);
 	SAFE_RELEASE(pNextAnimSet);
 }

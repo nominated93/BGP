@@ -62,7 +62,7 @@ bool OBB::IsCollision(OBB * pObb1, OBB * pObb2)
 	D3DXVECTOR3 vSA;
 	D3DXVECTOR3 vElement1[3];
 	D3DXVECTOR3 vElement2[3];
-	float r0, r1, r2; // r0 = 분리축에 사영한 중심간 거리 
+	float r0, r1, r2;
 
 
 	for (int i = 0; i < 3; i++)
@@ -71,8 +71,6 @@ bool OBB::IsCollision(OBB * pObb1, OBB * pObb2)
 		vElement2[i] = pObb2->m_fAxisHalfLen[i] * pObb2->m_vAxisDir[i];
 	}
 
-
-	//1. obb 1의 면의 법선벡터를 분리축으로 사용했음.
 	for (int i = 0; i<3; i++)
 	{
 		vSA = pObb1->m_vAxisDir[i];
@@ -91,7 +89,6 @@ bool OBB::IsCollision(OBB * pObb1, OBB * pObb2)
 		if (r0 > r1 + r2) return false;
 	}
 
-	//2. obb 2의 면의 법선벡터를 분리축으로 사용했음.
 	for (int i = 0; i<3; i++)
 	{
 		vSA = pObb2->m_vAxisDir[i];
@@ -108,9 +105,6 @@ bool OBB::IsCollision(OBB * pObb1, OBB * pObb2)
 		r0 = fabs(D3DXVec3Dot(&vSA, &(vDist)));
 		if (r0 > r1 + r2) return false;
 	}
-
-
-	//3. obb1 cross obb2
 
 	for (int _1 = 0; _1 < 3; _1++)
 	{
@@ -142,9 +136,6 @@ void OBB::Render_Debug(D3DCOLOR c)
 
 
 	std::vector<VERTEX_PC> vecVertex;
-	//vecVertex.reserve(16);
-
-	//버텍스 설정해주는 코드 들어가는곳
 
 	VERTEX_PC v[8];
 	for (int i = 0; i < 8; i++)
@@ -152,35 +143,34 @@ void OBB::Render_Debug(D3DCOLOR c)
 		v[i].c = c;
 	}
 
-	//0번점
 	v[0].p = m_vCenterPos - m_fAxisHalfLen[0] * m_vAxisDir[0]
 		+ m_fAxisHalfLen[1] * m_vAxisDir[1]
 		+ m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//1번점
+	
 	v[1].p = m_vCenterPos - m_fAxisHalfLen[0] * m_vAxisDir[0]
 		+ m_fAxisHalfLen[1] * m_vAxisDir[1]
 		- m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//2번점
+
 	v[2].p = m_vCenterPos + m_fAxisHalfLen[0] * m_vAxisDir[0]
 		+ m_fAxisHalfLen[1] * m_vAxisDir[1]
 		- m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//3번점
+
 	v[3].p = m_vCenterPos + m_fAxisHalfLen[0] * m_vAxisDir[0]
 		+ m_fAxisHalfLen[1] * m_vAxisDir[1]
 		+ m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//4번점
+
 	v[4].p = m_vCenterPos - m_fAxisHalfLen[0] * m_vAxisDir[0]
 		- m_fAxisHalfLen[1] * m_vAxisDir[1]
 		+ m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//5번점
+
 	v[5].p = m_vCenterPos - m_fAxisHalfLen[0] * m_vAxisDir[0]
 		- m_fAxisHalfLen[1] * m_vAxisDir[1]
 		- m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//6번점
+
 	v[6].p = m_vCenterPos + m_fAxisHalfLen[0] * m_vAxisDir[0]
 		- m_fAxisHalfLen[1] * m_vAxisDir[1]
 		- m_fAxisHalfLen[2] * m_vAxisDir[2];
-	//7번점
+
 	v[7].p = m_vCenterPos + m_fAxisHalfLen[0] * m_vAxisDir[0]
 		- m_fAxisHalfLen[1] * m_vAxisDir[1]
 		+ m_fAxisHalfLen[2] * m_vAxisDir[2];
@@ -213,44 +203,16 @@ void OBB::Render_Debug(D3DCOLOR c)
 	vecVertex.push_back(v[7]);
 	vecVertex.push_back(v[4]);
 
-
-	//// 인덱스 설정
-	//std::vector<WORD> vecIndex;
-	//vecIndex.reserve(24);
-
-	////인덱스 설정하는 코드 들어갈것
-	//vecIndex.push_back(0);
-
-
 	D3DXMATRIXA16 m_matWorldTM;
 	D3DXMatrixIdentity(&m_matWorldTM);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetFVF(VERTEX_PC::FVF);
-	/*g_pD3DDevice->DrawIndexedPrimitiveUP(D3DPT_LINELIST,
-	0, 8, 12,
-	&vecIndex[0], D3DFMT_D16, &vecVertex[0], sizeof(ST_PC_VERTEX));*/
-
-
-	/*g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-	m_vecVertex.size() / 3,
-	&m_vecVertex[0],
-	sizeof(ST_PT_VERTEX));
-	*/
-
-
-
 
 	g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 		vecVertex.size() / 2,
 		&vecVertex[0],
 		sizeof(VERTEX_PC));
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
-	/*g_pD3DDevice->SetStreamSource(0,
-	m_pVB, 0, sizeof(ST_PC_VERTEX));
-
-	g_pD3DDevice->DrawPrimitive(D3DPT_LINELIST,
-	0, m_vecVertex.size() / 2);*/
 
 }

@@ -70,6 +70,8 @@ public:
 	Player();
 	~Player();
 
+	void Init(BulletManager * bm);
+
 	void Init();
 	void Update();
 	void Render();

@@ -22,6 +22,7 @@ Enemy::Enemy()
 	, m_pAniController2(NULL)
 	, m_vDirForMoving(0, 0, 0)
 	, m_pMap(NULL)
+	, m_isMove(true)
 {
 	ZeroMemory(&m_stTrackDesc, sizeof(D3DXTRACK_DESC));
 
@@ -42,12 +43,12 @@ void Enemy::Init(Player* player, std::string keyName, BulletManager* bulletsMana
 {
 
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Action");
-	//m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
-	//	&m_pAniController2);
-	m_pAniController2 = m_pSkinnedMesh->GetAnimationController();
+	m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
+		&m_pAniController2);
+	//m_pAniController2 = m_pSkinnedMesh->GetAnimationController();
 
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(keyName);
 
@@ -57,12 +58,12 @@ void Enemy::Init(Player* player, std::string keyName, BulletManager* bulletsMana
 
 	m_pBulletsManager = bulletsManager;
 
-	//m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
-	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
-	//	&m_pAniController);
-	m_pAniController = m_pSkinnedMesh->GetAnimationController();
+	m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
+		m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
+		&m_pAniController);
+	//m_pAniController = m_pSkinnedMesh->GetAnimationController();
 
 	m_pOBB = new OBB;
 	m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
@@ -112,7 +113,6 @@ void Enemy::reMake(D3DXVECTOR3 pos, D3DXVECTOR3 dir, int patternNum)
 		SetAnimationIndexBlend(28);
 		m_ePattern = m_ePattern = Pattern_MOVE_RIGHT;
 		m_vMoveStartPos = m_pos;
-
 	}
 
 	m_vDirForMoving = dir;
@@ -123,14 +123,30 @@ void Enemy::Update()
 {
 	setDirByGetPlayerPos();
 
+	if(m_ePattern != Pattern_RELOAD &&
+		m_ePattern != Pattern_Dying &&
+		m_ePattern != Pattern_End)
+	{
+		Move();
+	}
+
 	if (g_pKeyboardManager->isOnceKeyDown('O'))
 	{
-		bulletHit(30);
+		BulletHit(30);
+	}
+	else if(m_pPlayer->GetIsFire() == true)
+	{
+		//BulletHit(30);
 	}
 
 	setWorldMat();
 
 	m_pOBB->Update(&m_matWorld);
+
+	if (m_ePattern == Pattern_Move)
+	{
+		/*Move();*/
+	}
 
 	if (m_ePattern == Pattern_ATTACK)
 	{
@@ -225,6 +241,10 @@ void Enemy::Render()
 	}
 
 	D3DXMATRIXA16 matBone, matWorld;
+	D3DXMATRIXA16 matR;
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixRotationY(&matR, D3DX_PI);
+
 	if (m_pSkinnedMesh == g_pSkinnedMeshManager->GetSkinnedMesh("Character"))
 	{
 		g_pSkinnedMeshManager->GetBoneMatrix("Character", "hand_r", matBone);
@@ -234,7 +254,7 @@ void Enemy::Render()
 		g_pSkinnedMeshManager->GetBoneMatrix("Action", "hand_r", matBone);
 	}
 
-	matWorld = matBone * m_matWorld;
+	matWorld = matBone * matR * m_matWorld;
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	if (m_pGun)
@@ -295,7 +315,7 @@ void Enemy::SetAnimationIndexBlend(int nIndex)
 	SAFE_RELEASE(pNextAnimSet);
 }
 
-void Enemy::bulletHit(int damage)
+void Enemy::BulletHit(int damage)
 {
 	int prevHP;
 	prevHP = m_nCurrentHp;
@@ -466,6 +486,50 @@ void Enemy::moveRightPattern()
 		{
 			SetAnimationIndexBlend(38);
 			m_ePattern = Pattern_ATTACK;
+		}
+	}
+}
+
+
+void Enemy::Move()
+{
+
+	float a;
+	D3DXVECTOR3 playerPos = m_pPlayer->GetPosition();
+
+	Debug->AddText("플레이어 좌표: ");
+	Debug->AddText(playerPos);
+	Debug->EndLine();
+	// 추격 스피드
+	float speed = 0.5;
+	// 적 위치 구하기
+	D3DXVECTOR3 enemyPos = GetPosition();
+	// 플레이어 위치에서 적 위치를 빼서
+	// 플레이어로 향하는 벡터 구하기
+	D3DXVECTOR3 direction = playerPos - enemyPos;
+	D3DXVECTOR3 length = playerPos - enemyPos;
+	//length.y = 0;
+
+	// 방향벡터 정규화
+	D3DXVec3Normalize(&direction, &direction);
+	a = D3DXVec3Length(&length);
+
+	if (a <= 50 && a >= 10) {
+		direction *= speed;
+		D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
+		SetPosition(&pos);
+
+		m_fReloadPatternCount += g_pTimeManager->GetEllapsedTime();
+		if (m_fReloadPatternCount >= 200 * g_pTimeManager->GetEllapsedTime())
+		{
+			m_fReloadPatternCount = 0.0f;
+			m_nAmmoRemain = 5;
+			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
+
+			SetAnimationIndexBlend(19);
+			m_ePattern = Pattern_Move;
+			m_vMoveStartPos = enemyPos;
+
 		}
 	}
 }

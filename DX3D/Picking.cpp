@@ -71,6 +71,7 @@ void Picking::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_LBUTTONDOWN:
 	{
+		static_cast <IUnitObject *> (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->SetIsFire(true);
 		//Ray r = Ray::RayAtWorldSpace(SCREEN_POINT(lParam));
 
 		float vpWidth = rc.right - rc.left;
@@ -104,6 +105,7 @@ void Picking::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	break;
 	default:
+		static_cast <IUnitObject *> (g_pObjMgr->FindObjectByTag(TAG_PLAYER))->SetIsFire(false);
 		break;
 	}
 }

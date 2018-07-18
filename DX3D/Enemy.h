@@ -16,7 +16,8 @@ enum E_Pattern
 	Pattern_ATTACK,
 	Pattern_RELOAD,
 	Pattern_Dying,
-	Pattern_End
+	Pattern_End,
+	Pattern_Move
 };
 
 class Enemy : public IDisplayObject
@@ -38,7 +39,7 @@ private:
 	D3DXVECTOR3					m_vMoveStartPos;
 	D3DXVECTOR3					m_vDirForMoving;
 
-	SYNTHESIZE(OBB*, m_pOBB, OBB);
+	SYNTHESIZE(OBB*, m_pOBB, Obb);
 
 	SYNTHESIZE(int, m_nAniIndex, AniIndex);
 	LPD3DXANIMATIONSET			m_pAniSet;
@@ -47,6 +48,7 @@ private:
 	float						m_fPassedBlendTime;
 	D3DXTRACK_DESC				m_stTrackDesc;
 	SYNTHESIZE(bool, m_IsAlive, IsAlive);
+	SYNTHESIZE(bool, m_isMove, IsMove);
 	float						m_fAttackPatternCount;
 	float						m_fReloadPatternCount;
 	float						m_fEndPatternCount;
@@ -63,6 +65,7 @@ private:
 	void reloadPattern();
 	void moveLeftPattern();
 	void moveRightPattern();
+	void Move();
 
 public:
 	void Init(Player* player, std::string keyName, BulletManager* bulletsManager, IMap* map);
@@ -74,9 +77,7 @@ public:
 
 	void SetAnimationIndex(int nIndex);
 	void SetAnimationIndexBlend(int nIndex);
-	void bulletHit(int damage);
-
-	OBB* GetOBB() { return m_pOBB; }
+	void BulletHit(int damage);
 
 	Enemy();
 	~Enemy();
