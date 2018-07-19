@@ -112,13 +112,11 @@ void Camera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	/*
-	case WM_MOUSEWHEEL:
-		m_distance -= GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
-		if (m_distance <= 10) m_distance = 10;
-		if (m_distance >= 30) m_distance = 30;
-		break;
-	*/
+	
+	//case WM_MOUSEWHEEL:
+	//	m_distance -= GET_WHEEL_DELTA_WPARAM(wParam) / 50.0f;
+	//	if (m_distance <= 10) m_distance = 10;
+	//	if (m_distance >= 30) m_distance = 30;
+	//	break;
 	}
-
 }

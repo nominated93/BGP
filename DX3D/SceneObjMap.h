@@ -15,6 +15,7 @@ class EnemyManager;
 
 class BulletManager;
 class OBB;
+class Minimap;
 
 class SceneObjMap : public IScene
 {
@@ -25,6 +26,7 @@ private:
 	Picking *		m_pPicking;
 	ItemManager *   m_pItemManager;
 	Inventory *     m_pInventory;
+	Minimap *		m_pMinimap;
 	
 	Collision*		m_pCollision;
 	MonsterManager*	m_pMonsterManager;

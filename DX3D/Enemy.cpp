@@ -514,7 +514,7 @@ void Enemy::Move()
 	D3DXVec3Normalize(&direction, &direction);
 	a = D3DXVec3Length(&length);
 
-	if (a <= 50 && a >= 10) {
+	if (a <= 50) {
 		direction *= speed;
 		D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
 		SetPosition(&pos);

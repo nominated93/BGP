@@ -45,7 +45,7 @@ void BulletManager::Update()
 		{
 			if (OBB::IsCollision(&tempOBB2, &tempOBB))
 			{
-				m_pPlayer->SetPosition(&(m_pPlayer->GetPosition() + D3DXVECTOR3(0.02f, 0.02f, 0)));
+				//m_pPlayer->SetPosition(&(m_pPlayer->GetPosition() + D3DXVECTOR3(0.02f, 0, 0.02f)));
 				//m_pPlayer->SetCurrHP(50);
 				m_pPlayer->BulletHit();
 
@@ -53,39 +53,42 @@ void BulletManager::Update()
 			}
 		}
 
-		if (m_pEnemyManager)
-		{
-			for (int j = 0; j < m_pEnemyManager->GetvecEnemy().size(); j++)
-			{
-
-				if (OBB::IsCollision(m_pEnemyManager->GetvecEnemy()[j]->GetObb(), &tempOBB3))
-				{
-					if (m_pEnemyManager->GetvecEnemy()[j]->GetIsAlive() == false) continue;
-					m_pEnemyManager->GetvecEnemy()[j]->BulletHit(30);
-					//m_arrBullets[i].SetisAlive(false);
-					//Remove();
-					break;
-				}
-			}
-		}
-
-
-		//float tempHeight;
-		//if (tempPos.x < 125.0f &&
-		//	tempPos.z < 125.0f &&
-		//	tempPos.x > 0.0f &&
-		//	tempPos.z > 0.0f)
+		//if (m_pEnemyManager)
 		//{
-		//	m_pHeightMap->GetHeight(tempPos.x, tempHeight, tempPos.z);
-		//	if (tempPos.y <= tempHeight)
+		//	for (int j = 0; j < m_pEnemyManager->GetvecEnemy().size(); j++)
 		//	{
-		//		m_arrBullets[i].SetisAlive(false);
-		//		continue;
+
+		//		if (OBB::IsCollision(m_pEnemyManager->GetvecEnemy()[j]->GetObb(), &tempOBB3))
+		//		{
+		//			//if (m_pEnemyManager->GetvecEnemy()[j]->GetIsAlive() == false) continue;
+		//			m_pEnemyManager->GetvecEnemy()[j]->BulletHit(30);
+		//			//m_arrBullets[i].SetisAlive(false);
+		//			//Remove();
+		//			//break;
+		//		}
 		//	}
 		//}
 
 		(*m_iterBullet)->Update();
 	}
+
+
+	//	float tempHeight;
+	//	if (tempPos.x < 125.0f &&
+	//		tempPos.z < 125.0f &&
+	//		tempPos.x > 0.0f &&
+	//		tempPos.z > 0.0f)
+	//	{
+	//		//g_pCurrentMap->GetHeight(tempPos.x, tempHeight, tempPos.z);
+	//		if (tempPos.y <= tempHeight)
+	//		{
+	//			m_arrBullets[i].SetisAlive(false);
+	//			continue;
+	//		}
+	//	}
+
+	//	(*m_iterBullet)->Update();
+	//}
 
 
 	Remove();

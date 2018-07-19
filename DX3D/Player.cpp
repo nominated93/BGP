@@ -44,7 +44,7 @@ void Player::Init(BulletManager* bm)
 
 void Player::Init()
 {
-	m_pos = D3DXVECTOR3(50, -60, 0);
+	m_pos = D3DXVECTOR3(0, -60, 0);
 	m_bulletCurrCnt = m_bulletTotalCnt;
 
 	g_pObjMgr->AddToTagList(TAG_PLAYER, this);
@@ -53,11 +53,12 @@ void Player::Init()
 
 	//Player 애니메이션 셋팅
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("PlayerAction");
-	m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
-		m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
-		m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
-		m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
-		&aniControlerTmp);
+	//m_pSkinnedMesh->GetAnimationController()->CloneAnimationController(m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationOutputs(),
+	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumAnimationSets(),
+	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumTracks(),
+	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
+	//	&aniControlerTmp);
+	aniControlerTmp = m_pSkinnedMesh->GetAnimationController();
 	//m_pSkinnedMesh->SetAnimationIndex(6);
 
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Character");
@@ -771,6 +772,10 @@ void Player::BulletHit()
 		aniControlerTmp->SetTrackAnimationSet(0, pAnimSet);
 
 		SAFE_RELEASE(pAnimSet);
+	}
+	else if (m_fCurrHP >= 100)
+	{
+		m_fCurrHP = 100;
 	}
 	else
 	{
