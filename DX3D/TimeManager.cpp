@@ -18,6 +18,7 @@ void TimeManager::Update()
 {
 	auto currentTime = GetTickCount();
 	deltaTime = currentTime - prevTime;
+	deltaTimeScene = deltaTime * 0.001f;
 	prevTime = currentTime;
 
 	frameCnt++;

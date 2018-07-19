@@ -8,14 +8,15 @@ class TimeManager
 private:
 	DWORD prevTime;
 	DWORD deltaTime;
+	float deltaTimeScene;
 	float sumTime;
 	int frameCnt;
 	int fps;
 
 public:
 	void Update();
-	float GetDeltaTime() { return deltaTime / 1000.f; }
-	float GetEllapsedTime(){ return deltaTime / 1000.f; }
+	float GetDeltaTime() { return deltaTimeScene; }
+	float GetEllapsedTime(){ return deltaTimeScene; }
 	int GetFPS() { return fps; }
 };
 

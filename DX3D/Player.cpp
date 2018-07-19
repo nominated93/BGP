@@ -313,7 +313,7 @@ void Player::AnimationConversion()
 		// 애니메이션 셋팅
 		if (m_keyState.bSit)	// 앉아있냐 아니냐
 		{
-			m_moveSpeed = 0.09;
+			m_currMoveSpeedRate = 0.5f;
 			baseAniIndex = Rifle_crouch_idle;
 			m_eState = Rifle_crouch_idle; //sj
 			g_pCamera->SetLookAt(m_rot + D3DXVECTOR3(0, -10, 0));
@@ -329,7 +329,7 @@ void Player::AnimationConversion()
 
 		if (m_keyState.bWalk && !m_keyState.bSit && !m_isJumping)
 		{
-			m_moveSpeed = 0.09;
+			m_currMoveSpeedRate = 0.6f;
 			walkAniIndex = 9;
 		}
 		else

@@ -7,7 +7,7 @@
 IUnitObject::IUnitObject()
 {
 	m_isMoving = false;
-	m_moveSpeed = 0.15f;
+	m_moveSpeed = 40.0f;;
 	m_currMoveSpeedRate = 1.0f;
 	m_rotationSpeed = 0.1f;
 
@@ -220,6 +220,8 @@ void IUnitObject::ApplyTargetPosition(D3DXVECTOR3 & targetPos)
 
 void IUnitObject::UpdatePosition()
 {
+	float deltaMoveSpeed = m_moveSpeed * g_pTimeManager->GetDeltaTime();
+
 	D3DXMATRIXA16 matRotY, matRotX, matRotTmp;
 
 	D3DXMatrixRotationY(&matRotY, g_pCamera->m_rotY);
@@ -233,10 +235,8 @@ void IUnitObject::UpdatePosition()
 
 	IMap * m_pCurrMap = g_pMapManager->GetCurrentMap();
 
-	m_currMoveSpeedRate = 4.0f;
-
-	targetPos = m_pos + m_forward * m_deltaPos.z * m_moveSpeed * m_currMoveSpeedRate
-		+ m_left * m_deltaPos.x * m_moveSpeed * m_currMoveSpeedRate;
+	m_currMoveSpeedRate = 1.0f;
+	targetPos = m_pos + (m_forward * m_deltaPos.z + m_left * m_deltaPos.x) * deltaMoveSpeed * m_currMoveSpeedRate;
 
 	if (m_pCurrMap != NULL) 
 		isIntersected = m_pCurrMap->GetHeight(height, targetPos);
@@ -267,7 +267,7 @@ void IUnitObject::UpdatePosition()
 			m_pos.y = height;
 			m_isJumping = false;
 			m_currGravity = 0;
-			m_currMoveSpeedRate = 1.0f;
+			m_currMoveSpeedRate = 0.5f;
 		}
 		//m_pos = targetPos;
 	}
