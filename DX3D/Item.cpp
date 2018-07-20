@@ -6,23 +6,28 @@
 Item::Item() :
 	m_pSkinnedMesh(NULL),
 	m_pIconImage(NULL),
-	m_isCollision(false)
+	m_pIconBackGroundImage(NULL),
+	m_isCollision(false),
+	m_eMouseState(NORMAL),
+	m_isPick(false),
+	m_pRootIcon(NULL)
 {
 }
-
 
 Item::~Item()
 {
 	SAFE_DELETE(m_pSkinnedMesh);
 	SAFE_DELETE(m_pIconImage);
+	SAFE_DELETE(m_pIconBackGroundImage);
+	SAFE_DELETE_ARRAY(m_pRootIcon);
 }
-
 
 
 void Item::Init()
 {
 	//m_pSkinnedMesh = new SkinnedMesh();
 	m_pIconImage = new UIImage(m_pSprite);
+	m_pIconBackGroundImage = new UIImage(m_pSprite);
 
 }
 
@@ -30,7 +35,6 @@ void Item::Init(char* fileName,D3DXVECTOR3 pos, D3DXVECTOR3 rot , ITEM_LIST IL, 
 {
 	m_pSkinnedMesh = new SkinnedMesh();
 	m_pIconImage = new UIImage(m_pSprite);
-
 
 	m_pos = pos;
 	m_rot = rot;
@@ -78,54 +82,95 @@ void Item::Render()
 	Debug->EndLine();
 }
 
-void Item::MouseDrag()
+void Item::MouseDrag(bool isClick)
 {
-	RECT rect;
+	LPD3DXSPRITE pSprite;
+	D3DXCreateSprite(g_pDevice, &pSprite);
+
 	D3DXMATRIXA16 mat;
-	m_pSprite->GetTransform(&mat);
+	pSprite->GetTransform(&mat);
 
-	int left = mat._41 + m_pIconImage->m_combinedPos.x;
-	int top = mat._42 + m_pIconImage->m_combinedPos.y;
-	int right = left + m_pIconImage->m_size.x;
-	int bottom = top + m_pIconImage->m_size.y;
+	int left = mat._41 + m_pIconBackGroundImage->GetCombinedPosition().x;
+	int top = mat._42 + m_pIconBackGroundImage->GetCombinedPosition().y;
+	int right = left + m_pIconBackGroundImage->GetInfo().Width;
+	int bottom = top + m_pIconBackGroundImage->GetInfo().Height;
 
+	RECT rect;
 	SetRect(&rect, left, top, right, bottom);
 
-	
+	POINT ptMouse;
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
 
-	POINT mousePoint;
-	GetCursorPos(&mousePoint);
-	ScreenToClient(g_hWnd, &mousePoint);
+
+	static D3DXVECTOR3 vStartPos;
+
+	Debug->AddText("0 normal   1 over   2 seleted   3 seletedmove  : ");
+	Debug->AddText(m_eMouseState);
+
+	Debug->EndLine();
 
 	//마우스 포인터가 영역 안에 있을 때
-	if (PtInRect(&rect, mousePoint))
-	{
-		/*if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON)
-		{
-			if (m_buttonState == MOUSEOVER)
-			{
-				m_buttonState = SELECTED;
-			}
-		}
-		else
-		{
-			if (m_buttonState == SELECTED)
-			{
-				if (m_pDelegate)
-					m_pDelegate->OnClick(this);
-			}
-			m_buttonState = MOUSEOVER;
-		}
-	}
-	else
-	{
-		if (GetKeyState(VK_LBUTTON) & 0x8000)
-		{
 
+	if (!isClick || m_isPick)
+	{
+		if (PtInRect(&rect, ptMouse))
+		{
+			if (m_eMouseState == MOUSEOVER && (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON)))
+			{
+				vStartPos = m_pIconBackGroundImage->GetPosition();
+				m_isPick = true;
+			}
+
+			if (m_eMouseState == SELECTEDMOVE && (g_pKeyboardManager->isOnceKeyUp(VK_LBUTTON)))
+			{
+				m_pIconBackGroundImage->SetPosition(&vStartPos);
+				m_isPick = false;
+				m_eMouseState = NORMAL;
+			}
+
+			if (g_pKeyboardManager->isStayKeyDown(VK_LBUTTON))
+			{
+				m_eMouseState = SELECTEDMOVE;
+				m_pIconBackGroundImage->SetPosition(&D3DXVECTOR3(ptMouse.x - 40, ptMouse.y - 8, 0));
+			}
+
+			else
+			{
+				m_eMouseState = MOUSEOVER;
+			}
 		}
 		else
 		{
-			m_buttonState = NORMAL;
-		}*/
+			if (m_eMouseState == SELECTEDMOVE && g_pKeyboardManager->isStayKeyDown(VK_LBUTTON))
+			{
+				m_pIconBackGroundImage->SetPosition(&D3DXVECTOR3(ptMouse.x - 40, ptMouse.y - 8, 0));
+			}
+			else
+			{
+				m_eMouseState = NORMAL;
+			}
+		}
 	}
+
+
+	if (m_eMouseState == MOUSEOVER)
+	{
+		m_pIconBackGroundImage->m_AlphaBlendValue = 30;
+	}
+	else if (m_eMouseState == NORMAL)
+	{
+		m_pIconBackGroundImage->m_AlphaBlendValue = 15;
+	}
+
+}
+
+void Item::IconUpdate()
+{
+	SAFE_UPDATE(m_pRootIcon)
+}
+
+void Item::IconRender()
+{
+	SAFE_RENDER(m_pRootIcon)
 }

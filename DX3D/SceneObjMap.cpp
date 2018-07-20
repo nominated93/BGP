@@ -20,7 +20,6 @@ SceneObjMap::SceneObjMap()
 	m_pMinimap = NULL;
 	m_pPlayer = NULL;
 	m_pPicking = NULL;
-	m_pInventory = NULL;
 	m_pCollision = NULL;
 	m_pMonsterManager = NULL;
 	m_pEnemyManager = NULL;
@@ -55,14 +54,11 @@ void SceneObjMap::Init()
 	m_pBulletManager = new BulletManager; m_pBulletManager->Setup(m_pPlayer, m_pEnemyManager, m_pObjMap); AddSimpleDisplayObj(m_pBulletManager);
 	//m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
 	m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
-
 	m_pMinimap = new Minimap; m_pMinimap->Init(); AddSimpleDisplayObj(m_pMinimap);
-
 	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
-	m_pInventory = new Inventory; m_pInventory->Init(); AddSimpleDisplayObj(m_pInventory);
 
 	//Collision Init이 제일 뒤에 있어야됨
-	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pInventory); AddSimpleDisplayObj(m_pCollision);
+	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pPlayer->GetPInven()); AddSimpleDisplayObj(m_pCollision);
 
 	//test
 	m_pPlayer->Init(m_pBulletManager);

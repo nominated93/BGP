@@ -1,7 +1,17 @@
 #pragma once
 
+enum eMouseState
+{
+	NORMAL,
+	MOUSEOVER,
+	SELECTED,
+	SELECTEDMOVE,
+	COUNT
+};
+
 class SkinnedMesh;
 class UIImage;
+class IUIObject;
 class Item : public IDisplayObject
 {
 private:
@@ -9,14 +19,19 @@ private:
 	BoundingSphere	m_tCollisionSphere;
 	LPD3DXMESH		m_pMesh;
 	UIImage*		m_pIconImage;
+	UIImage*		m_pIconBackGroundImage;
+
 	LPD3DXSPRITE	m_pSprite;
 	ITEM_LIST		m_tItemName;
+	eMouseState		m_eMouseState;
 
 private:
 	bool		m_isCollision;
-	
+	bool		m_isPick;
+
 public:
 	ITEM_INTO		m_tItemInto;
+	IUIObject*		m_pRootIcon;
 public:
 	Item();
 	~Item();
@@ -28,15 +43,19 @@ public:
 	virtual void Render() override;
 
 public:
-	void MouseDrag();
-
+	void MouseDrag(bool isClick);
+	void IconUpdate();
+	void IconRender();
 public:
 
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere; }
 
 	ITEM_LIST GetItemName() { return m_tItemName; }
+	void SetItemName(ITEM_LIST tItemName) { m_tItemName = tItemName; }
 
 	UIImage* GetPIconImage() { return m_pIconImage; }
+
+	UIImage* GetPBGIconImage() { return m_pIconBackGroundImage; }
 
 	bool GetIsCollision() { return m_isCollision; }
 	void SetIsCollision(bool isCollision) { m_isCollision = isCollision; }

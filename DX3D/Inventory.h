@@ -30,7 +30,7 @@ private:
 	vector<Item*> m_vecInvenItemIcon;
 	vector<Item*>::iterator m_iterInvenItemIcon;
 
-private:
+public:
 	bool m_isInvenUI;
 
 public:
@@ -49,6 +49,7 @@ public:
 	void ItemIconImageUpdate();
 	void ItemIconImageRender();
 
+	void Drag();
 public:
 	vector<Item*> GetVecInvenItemIcon() { return m_vecInvenItemIcon; }
 

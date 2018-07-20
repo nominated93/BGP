@@ -5,6 +5,7 @@
 #include "SkinnedMesh.h"
 #include "BulletManager.h"
 #include "OBB.h"
+#include "Inventory.h"
 
 
 Player::Player() :
@@ -20,7 +21,8 @@ Player::Player() :
 	m_isReload(false),
 	m_eState(Melee_stand_idle),
 	aniControlerTmp(NULL),
-	m_pAniSet(NULL)
+	m_pAniSet(NULL),
+	m_pInven(NULL)
 {
 }
 
@@ -35,6 +37,7 @@ Player::~Player()
 	SAFE_RELEASE(m_pPB);
 	SAFE_RELEASE(aniControlerTmp);
 	SAFE_RELEASE(m_pAniSet);
+	SAFE_RELEASE(m_pInven);
 }
 
 void Player::Init(BulletManager* bm)
@@ -85,6 +88,9 @@ void Player::Init()
 	//볼렛
 	//m_pBM = new BulletManager(); m_pBM->Init();
 
+	//인벤토리
+	m_pInven = new Inventory(); m_pInven->Init();
+
 	//충돌
 	m_pOBB = new OBB;
 	m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
@@ -122,7 +128,7 @@ void Player::Init()
 
 	//아이템충돌 구 생성
 	m_tCollisionSphere_Item.center = m_pos;
-	m_tCollisionSphere_Item.center = D3DXVECTOR3(0,0,0);
+	//m_tCollisionSphere_Item.center = D3DXVECTOR3(0,0,0);
 	m_tCollisionSphere_Item.radius = 20;
 	D3DXCreateSphere(g_pDevice, m_tCollisionSphere_Item.radius, 10, 10, &m_pMesh, NULL);
 }
@@ -173,45 +179,52 @@ void Player::Update()
 
 	m_pSkinnedMesh->Update();
 
+	//스피어충돌 좌표갱신
 	m_tCollisionSphere_Item.center = m_pos;
 
 	m_pOBB->Update(&m_matWorld);
 
-	//총쏘기
-	if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+	//인벤이 아닐때
+	if (!(m_pInven->m_isInvenUI))
 	{
-		if (m_bulletCurrCnt > 0)
+		//총쏘기
+		if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
 		{
-			m_bulletCurrCnt--;
-			UpdateBulletText();
+			if (m_bulletCurrCnt > 0)
+			{
+				m_bulletCurrCnt--;
+				UpdateBulletText();
+			}
+			m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
+			//m_pBM->Fire(&m_pos, &D3DXVECTOR3(10,10,0));
 		}
-		m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
-		//m_pBM->Fire(&m_pos, &D3DXVECTOR3(10,10,0));
-	}
 
-
-
-	if (m_isZoom == false)
-	{
-		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
+		//줌
+		if (m_isZoom == false)
 		{
-			m_isZoom = true;
-			m_pZoomin->Update();
-			g_pCamera->SetDistance(-30.0f);
+			if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
+			{
+				m_isZoom = true;
+				m_pZoomin->Update();
+				g_pCamera->SetDistance(-30.0f);
+			}
 		}
-	}
-	else
-	{
-		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON) || g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+		else
 		{
-			m_isZoom = false;
-			m_pZoomin->Update();
-			g_pCamera->SetDistance(5.0f);
+			if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON) || g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+			{
+				m_isZoom = false;
+				m_pZoomin->Update();
+				g_pCamera->SetDistance(5.0f);
+			}
 		}
 	}
 
 
 	//PlayerMotion();
+
+	//인벤토리
+	m_pInven->Update();
 
 	//체력바
 	if (g_pKeyboardManager->isStayKeyDown('1'))
@@ -280,6 +293,8 @@ void Player::Render()
 
 	m_pOBB->Render_Debug(255);
 
+	//인벤토리
+	m_pInven->Render();
 	
 
 	//체력바

@@ -1,47 +1,33 @@
 #include "stdafx.h"
 #include "Equipment.h"
+#include "Item.h"
 
-
-Equipment::Equipment()
+Equipment::Equipment() :
+	m_pEquipmentIcon(NULL)
 {
 }
 
 
-Equipment::~Equipment()
+Equipment::~Equipment() 
 {
+	SAFE_RELEASE(m_pEquipmentIcon);
 }
 
 void Equipment::Init()
 {
-	m_pEquipmentUI = new UIImage(m_pSprite);
-	m_pEquipmentUI->SetTexture("resources/ui/UI_PLAYER.png");
-	m_pRootUI = m_pEquipmentUI;
-	m_pEquipmentUI->SetPosition(&D3DXVECTOR3(100, 0, 0));
+	m_pEquipmentIcon = new UIImage(m_pSprite);
+	m_pEquipmentIcon->SetTexture("resources/ui/UI_PLAYER.png");
+	m_pEquipmentIcon->SetPosition(&D3DXVECTOR3(100, 0, 0));
 }
 
 void Equipment::Update()
 {
-	if (g_pKeyboardManager->isOnceKeyDown('T'))
-	{
-		m_isEquipmentUI = !m_isEquipmentUI;
-	}
-
-	if (m_isEquipmentUI)
-	{
-		SAFE_UPDATE(m_pRootUI);
-		EquipmentItemUIUpdate();
-	}
+	EquipmentItemIconUpdate();
 }
 
 void Equipment::Render()
 {
-	//g_pDevice->SetTexture(0, NULL);
-
-	if (m_isEquipmentUI)
-	{
-		SAFE_RENDER(m_pRootUI);
-		EquipmentItemUIRender();
-	}
+	EquipmentItemIconRender();
 }
 
 void Equipment::OnClick(UIButton * pSender)
@@ -50,12 +36,57 @@ void Equipment::OnClick(UIButton * pSender)
 
 void Equipment::AddItemToEquipment(ITEM_LIST IL)
 {
+	switch (IL)
+	{
+	case ITEM_LIST::AK47:
+	{
+		Item * CItem;
+		CItem = new Item;
+		//CItem = new Item(D3DXVECTOR3(1100, 200, 0));
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::AK47);
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(1100, 200, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/ak47.png");
+
+		m_vecEquipmentItemIcon.push_back(CItem);
+	}
+	break;
+
+	case ITEM_LIST::ARMOR:
+	{
+		Item * CItem;
+		CItem = new Item;
+		//CItem = new Item(D3DXVECTOR3(1100, 350, 0));
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::ARMOR);
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(1100, 350, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/ak47.png");
+
+		m_vecEquipmentItemIcon.push_back(CItem);
+	}
+	break;
+
+	}
 }
 
-void Equipment::EquipmentItemUIUpdate()
+void Equipment::EquipmentItemIconUpdate()
 {
+	if (m_vecEquipmentItemIcon.size()>0)
+	{
+		for (m_iterEquipmentItemIcon = m_vecEquipmentItemIcon.begin(); m_iterEquipmentItemIcon != m_vecEquipmentItemIcon.end(); m_iterEquipmentItemIcon++)
+		{
+			(*m_iterEquipmentItemIcon)->GetPIconImage()->Update();
+		}
+	}
 }
 
-void Equipment::EquipmentItemUIRender()
+void Equipment::EquipmentItemIconRender()
 {
+	if (m_vecEquipmentItemIcon.size()>0)
+	{
+		for (m_iterEquipmentItemIcon = m_vecEquipmentItemIcon.begin(); m_iterEquipmentItemIcon != m_vecEquipmentItemIcon.end(); m_iterEquipmentItemIcon++)
+		{
+			(*m_iterEquipmentItemIcon)->GetPIconImage()->Render();
+		}
+	}
 }

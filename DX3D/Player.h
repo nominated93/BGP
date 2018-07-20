@@ -7,6 +7,7 @@ class UIImage;
 class UIText;
 class BulletManager;
 class OBB;
+class Inventory;
 
 enum eAniDirection {
 	Front = 4, Left_front, Left, Left_back, Back, Right_back, Right, Right_front
@@ -26,27 +27,40 @@ private:
 	UIImage*				m_pAk47Img;
 	UIText*					m_pBulletCurrText;
 	UIText*					m_pBulletTotalText;
-	int						m_bulletCurrCnt;
-	int						m_bulletTotalCnt;
-	BoundingSphere			m_tCollisionSphere_Item;
-	LPD3DXMESH				m_pMesh;
-	string					m_szCurrentFile;
-	ePlayerState			m_ePlayerState;
-	int						m_eState;
 	LPD3DXSPRITE			m_pSprite;
+	LPD3DXMESH				m_pMesh;
 	BulletManager*			m_pBM;
 	ProgressBarManager*		m_pPB;
 	OBB*					m_pOBB;		
+	Inventory*				m_pInven;
+
+private:
+	int						m_eState;
+	ePlayerState			m_ePlayerState;
 
 
+private:
 	char					m_bulletCntStr[1024];
 	char					m_bulletTotalStr[1024];
+	string					m_szCurrentFile;
 
+private:
+	int						m_bulletCurrCnt;
+	int						m_bulletTotalCnt;
+
+private:
+	float					 m_fCurrHP;
+	float					 m_fMaxHP;
+
+private:
+	BoundingSphere			m_tCollisionSphere_Item;
 
 	//D3DXMATRIXA16 matS, matRX, matRY, matT, matWorld, matBone;
+private:
 
 	bool						m_isZoom;
 	bool						m_isReload;
+	bool						m_isInven;
 
 	float						aniTime;
 	LPD3DXANIMATIONCONTROLLER	aniControlerTmp; 
@@ -61,9 +75,7 @@ private:
 
 	int actionIndex;
 
-private:
-	float m_fCurrHP;
-	float m_fMaxHP;
+
 
 
 public:
@@ -85,10 +97,12 @@ public:
 	void PlayerMotion();
 
 	void BulletHit();
-	OBB * GetOBB() { return m_pOBB; }
+
 	void SetCurrHP(float hp) { m_fCurrHP = hp; }
 
 public:
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere_Item; }
 	BulletManager* GetPBulletManager() { return m_pBM; }
+	Inventory* GetPInven() { return m_pInven; }
+	OBB * GetOBB() { return m_pOBB; }
 };

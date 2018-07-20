@@ -28,6 +28,13 @@ void Cursor::Update()
 	ScreenToClient(g_hWnd, &mousePoint);
 	m_pCursorImg->SetPosition(&D3DXVECTOR3(mousePoint.x, mousePoint.y, 0));
 	m_pCursorImg->Update();
+
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		m_isClick = true;
+	}
+	else
+		m_isClick = false;
 }
 
 void Cursor::Render()

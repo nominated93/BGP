@@ -9,6 +9,9 @@ private:
 	LPD3DXSPRITE	m_pSprite;
 
 public:
+	bool m_isClick;
+
+public:
 	Cursor();
 	~Cursor();
 

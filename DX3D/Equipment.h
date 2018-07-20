@@ -4,12 +4,14 @@
 #include "UIImage.h"
 #include "IUIObject.h"
 
+class Item;
+
 class Equipment : public IDisplayObject, public IUIButtonDelegate
 {
 private:
-	UIImage * m_pEquipmentUI;
+	UIImage *		m_pEquipmentIcon;
 	LPD3DXSPRITE	m_pSprite;
-	IUIObject*		m_pRootUI;
+
 public:
 	Equipment();
 	~Equipment();
@@ -21,18 +23,18 @@ public:
 	virtual void OnClick(UIButton * pSender) override;
 
 private:
-	vector<UIImage*> m_vecEquipmentItemUI;
-	vector<UIImage*>::iterator m_iterEquipmentItemUI;
+	vector<Item*> m_vecEquipmentItemIcon;
+	vector<Item*>::iterator m_iterEquipmentItemIcon;
 
 private:
 	bool m_isEquipmentUI;
 
 public:
 	void AddItemToEquipment(ITEM_LIST IL);
-	void EquipmentItemUIUpdate();
-	void EquipmentItemUIRender();
+	void EquipmentItemIconUpdate();
+	void EquipmentItemIconRender();
 
 public:
-	vector<UIImage*> GetVecInvenItemUI() { return m_vecEquipmentItemUI; }
+	vector<Item*> GetVecInvenItemIcon() { return m_vecEquipmentItemIcon; }
 };
 
