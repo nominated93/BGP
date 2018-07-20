@@ -53,7 +53,9 @@ void Inventory::Update()
 
 	if (m_isInvenUI)
 	{
+
 		SAFE_UPDATE(m_pRootUI);
+		m_pEquipment->Update();
 		ItemIconImageUpdate();
 		m_pCursor->Update();
 	
@@ -69,23 +71,22 @@ void Inventory::Update()
 		}
 	}
 
-	m_pEquipment->Update();
+
 
 
 }
 
 void Inventory::Render()
 {
-	g_pDevice->SetTexture(0, NULL);
+	
 
 	if (m_isInvenUI)
 	{
 		SAFE_RENDER(m_pRootUI);
+		m_pEquipment->Render();
 		ItemIconImageRender();
 		m_pCursor->Render();
 	}
-	
-	m_pEquipment->Render();
 }
 
 void Inventory::OnClick(UIButton * pSender)
@@ -135,9 +136,9 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		Item * CItem;
 		CItem = new Item();
 		CItem->Init();
-		CItem->SetItemName(ITEM_LIST::AK47);
+		CItem->SetItemName(ITEM_LIST::ARMOR);
 		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
-		CItem->GetPIconImage()->SetTexture("resources/ui/AK47ICON_INVEN.png");
+		CItem->GetPIconImage()->SetTexture("resources/ui/¹æÅºÁ¶³¢¾ÆÀÌÄÜ.png");
 		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
 
 		CItem->m_pRootIcon = CItem->GetPBGIconImage();
@@ -148,6 +149,44 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		m_vecInvenItemIcon.push_back(CItem);
 	}
 		break;
+
+	case ITEM_LIST::HEAD:
+	{
+		Item * CItem;
+		CItem = new Item();
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::HEAD);
+		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
+		CItem->GetPIconImage()->SetTexture("resources/ui/¶Ñ²±¾ÆÀÌÄÜ.png");
+		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
+
+		CItem->m_pRootIcon = CItem->GetPBGIconImage();
+		CItem->m_pRootIcon->AddChild(CItem->GetPIconImage());
+
+		CItem->GetPBGIconImage()->m_AlphaBlendValue = 15;
+
+		m_vecInvenItemIcon.push_back(CItem);
+	}
+	break;
+
+	case ITEM_LIST::BACKPACK:
+	{
+		Item * CItem;
+		CItem = new Item();
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::BACKPACK);
+		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
+		CItem->GetPIconImage()->SetTexture("resources/ui/°¡¹æ¾ÆÀÌÄÜ.png");
+		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
+
+		CItem->m_pRootIcon = CItem->GetPBGIconImage();
+		CItem->m_pRootIcon->AddChild(CItem->GetPIconImage());
+
+		CItem->GetPBGIconImage()->m_AlphaBlendValue = 15;
+
+		m_vecInvenItemIcon.push_back(CItem);
+	}
+	break;
 
 	}
 }

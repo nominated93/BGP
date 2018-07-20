@@ -45,8 +45,9 @@ void Equipment::AddItemToEquipment(ITEM_LIST IL)
 		//CItem = new Item(D3DXVECTOR3(1100, 200, 0));
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::AK47);
-		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(1100, 200, 0));
-		CItem->GetPIconImage()->SetTexture("resources/ui/ak47.png");
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(870, 50, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/AK47ICON_EQ.png");
+		CItem->GetPIconImage()->m_AlphaBlendValue = 200;
 
 		m_vecEquipmentItemIcon.push_back(CItem);
 	}
@@ -59,8 +60,38 @@ void Equipment::AddItemToEquipment(ITEM_LIST IL)
 		//CItem = new Item(D3DXVECTOR3(1100, 350, 0));
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::ARMOR);
-		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(1100, 350, 0));
-		CItem->GetPIconImage()->SetTexture("resources/ui/ak47.png");
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(447, 269, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/¹æÅºÁ¶³¢¾ÆÀÌÄÜ.png");
+		CItem->GetPIconImage()->m_AlphaBlendValue = 200;
+		m_vecEquipmentItemIcon.push_back(CItem);
+	}
+	break;
+
+	case ITEM_LIST::HEAD:
+	{
+		Item * CItem;
+		CItem = new Item;
+		//CItem = new Item(D3DXVECTOR3(1100, 350, 0));
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::HEAD);
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(447, 108, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/¶Ñ²±¾ÆÀÌÄÜ.png");
+		CItem->GetPIconImage()->m_AlphaBlendValue = 200;
+
+		m_vecEquipmentItemIcon.push_back(CItem);
+	}
+	break;
+
+	case ITEM_LIST::BACKPACK:
+	{
+		Item * CItem;
+		CItem = new Item;
+		//CItem = new Item(D3DXVECTOR3(1100, 350, 0));
+		CItem->Init();
+		CItem->SetItemName(ITEM_LIST::BACKPACK);
+		CItem->GetPIconImage()->SetPosition(&D3DXVECTOR3(447, 228, 0));
+		CItem->GetPIconImage()->SetTexture("resources/ui/°¡¹æ¾ÆÀÌÄÜ.png");
+		CItem->GetPIconImage()->m_AlphaBlendValue = 200;
 
 		m_vecEquipmentItemIcon.push_back(CItem);
 	}

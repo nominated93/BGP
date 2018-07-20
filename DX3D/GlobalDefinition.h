@@ -72,6 +72,8 @@ enum class ITEM_LIST
 {
 	AK47,
 	ARMOR,
+	BACKPACK,
+	HEAD,
 	END
 };
 
