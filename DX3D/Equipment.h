@@ -5,11 +5,13 @@
 #include "IUIObject.h"
 
 class Item;
+class Inventory;
 
 class Equipment : public IDisplayObject, public IUIButtonDelegate
 {
 private:
 	UIImage *		m_pEquipmentIcon;
+	Inventory*		m_pIeven;
 	LPD3DXSPRITE	m_pSprite;
 
 public:
@@ -17,6 +19,7 @@ public:
 	~Equipment();
 
 	virtual void Init() override;
+	void Init(Inventory* pinven);
 	virtual void Update() override;
 	virtual void Render() override;
 
@@ -31,6 +34,7 @@ private:
 
 public:
 	void AddItemToEquipment(ITEM_LIST IL);
+	void RemoveItemFromEquipment();
 	void EquipmentItemIconUpdate();
 	void EquipmentItemIconRender();
 

@@ -23,6 +23,7 @@ private:
 
 	LPD3DXSPRITE	m_pSprite;
 	ITEM_LIST		m_tItemName;
+	ITEM_INTO		m_tItemInto;
 	eMouseState		m_eMouseState;
 
 private:
@@ -30,7 +31,7 @@ private:
 	bool		m_isPick;
 
 public:
-	ITEM_INTO		m_tItemInto;
+	
 	IUIObject*		m_pRootIcon;
 public:
 	Item();
@@ -51,7 +52,10 @@ public:
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere; }
 
 	ITEM_LIST GetItemName() { return m_tItemName; }
-	void SetItemName(ITEM_LIST tItemName) { m_tItemName = tItemName; }
+	void SetItemName(ITEM_LIST tItemInto) { m_tItemName = tItemInto; }
+
+	ITEM_INTO GetItemInto() { return m_tItemInto; }
+	void SetItemInto(ITEM_INTO tItemName) { m_tItemInto = tItemName; }
 
 	UIImage* GetPIconImage() { return m_pIconImage; }
 

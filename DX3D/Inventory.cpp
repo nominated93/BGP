@@ -27,23 +27,17 @@ Inventory::~Inventory()
 
 void Inventory::Init()
 {
-	m_pEquipment = new Equipment; m_pEquipment->Init();
+	m_pEquipment = new Equipment; m_pEquipment->Init(this);
 	m_pCursor = new Cursor; m_pCursor->Init();
 
 	m_pInvenUI = new UIImage(m_pSprite);
 	m_pInvenUI->SetTexture("resources/ui/inven.bmp");
 	m_pRootUI = m_pInvenUI;
 	m_pInvenUI->SetPosition(&D3DXVECTOR3(0, 0, 0));
-
-
-
-	//m_pInvenExitUI->SetPosition(&D3DXVECTOR3(371, 7, 0));
 }
 
 void Inventory::Update()
 {
-	
-
 	//인벤창 띄우기
 	if (g_pKeyboardManager->isOnceKeyDown('I'))
 	{
@@ -53,7 +47,6 @@ void Inventory::Update()
 
 	if (m_isInvenUI)
 	{
-
 		SAFE_UPDATE(m_pRootUI);
 		m_pEquipment->Update();
 		ItemIconImageUpdate();
@@ -62,6 +55,7 @@ void Inventory::Update()
 		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
 		{
 			RemoveItemFromInven();
+			m_pEquipment->RemoveItemFromEquipment();
 		}
 
 		//인벤창에 아이템이 하나라도 있을때
@@ -70,16 +64,10 @@ void Inventory::Update()
 			Drag();
 		}
 	}
-
-
-
-
 }
 
 void Inventory::Render()
 {
-	
-
 	if (m_isInvenUI)
 	{
 		SAFE_RENDER(m_pRootUI);
@@ -91,18 +79,11 @@ void Inventory::Render()
 
 void Inventory::OnClick(UIButton * pSender)
 {
-	//if (pSender->m_uiTag == INVENUI_EXIT)
-	//{
-	//	g_pCamera->SetIsAngleMove(!(g_pCamera->GetIsAngleMove()));
-	//	m_isInvenUI = !m_isInvenUI;
-	//}
 }
 
 void Inventory::AddItemToInven(ITEM_LIST IL)
 {
 	D3DXVECTOR3 vDeltaPos(250, 95, 0);
-
-
 	int iDeltaY = 42;
 		
 	if (m_vecInvenItemIcon.size())
@@ -118,6 +99,8 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		CItem = new Item();
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::AK47);
+		CItem->SetItemInto(ITEM_INTO::INVEN);
+
 		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
 		CItem->GetPIconImage()->SetTexture("resources/ui/AK47ICON_INVEN.png");
 		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
@@ -137,6 +120,7 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		CItem = new Item();
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::ARMOR);
+		CItem->SetItemInto(ITEM_INTO::INVEN);
 		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
 		CItem->GetPIconImage()->SetTexture("resources/ui/방탄조끼아이콘.png");
 		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
@@ -156,6 +140,7 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		CItem = new Item();
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::HEAD);
+		CItem->SetItemInto(ITEM_INTO::INVEN);
 		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
 		CItem->GetPIconImage()->SetTexture("resources/ui/뚜껑아이콘.png");
 		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
@@ -175,6 +160,7 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 		CItem = new Item();
 		CItem->Init();
 		CItem->SetItemName(ITEM_LIST::BACKPACK);
+		CItem->SetItemInto(ITEM_INTO::INVEN);
 		CItem->GetPBGIconImage()->SetTexture("resources/ui/Itembase.bmp");
 		CItem->GetPIconImage()->SetTexture("resources/ui/가방아이콘.png");
 		CItem->GetPBGIconImage()->SetPosition(&vDeltaPos);
