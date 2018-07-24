@@ -81,12 +81,12 @@ void Player::Init()
 	D3DXCreateSprite(g_pDevice, &m_pSprite);
 
 	m_pCrossImg = new UIImage(m_pSprite);
-	m_pCrossImg->SetTexture("resources/images/crosshair_g.png");	
+	m_pCrossImg->SetTexture("resources/images/cross5.png");	
 	m_pCrossImg->SetPosition(&D3DXVECTOR3(rc.right/2-10, rc.bottom/2, 0));
 	m_pCrossImg->Update();
 
 	m_pZoomin = new UIImage(m_pSprite);
-	m_pZoomin->SetTexture("resources/weapons/zoom_in.png");
+	m_pZoomin->SetTexture("resources/images/zoom.png");
 	m_pZoomin->SetPosition(&D3DXVECTOR3(rc.right / 2 - m_pZoomin->GetInfo().Width / 2 , rc.bottom / 2 - m_pZoomin->GetInfo().Height / 2, 0));
 	m_pZoomin->Update();
 

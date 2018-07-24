@@ -68,6 +68,32 @@ void SceneObjMap::Init()
 	m_pEnemyManager->MakeEnemy(D3DXVECTOR3(4, -60, 0), D3DXVECTOR3(0.8, 0, 0.6), 1);
 	m_pEnemyManager->MakeEnemy(D3DXVECTOR3(12, -60, -99), D3DXVECTOR3(-0.07, 0, 0.99), 2);
 
+
+
+	/*m_pEnemyManager->makeEnemy(D3DXVECTOR3(-69, -60, -101), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(-70, -60, -87), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(-112, -60, -115), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(-117, -60, -126), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(23, -60, -97), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(6, -60, -97), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(95, -60, -57), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(135, -60, -103), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(154, -60, -100), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(216, -60, 0), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(272, -60, -12), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(269, -60, -37), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(346, -60, -63), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(268, -60, -93), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(180, -60, -155), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(225, -60, -131), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(256, -60, -194), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(175, -60, -230), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(175, -60, -218), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(91, -60, -161), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->makeEnemy(D3DXVECTOR3(109, -60, -159), D3DXVECTOR3(0.8, 0, 0.6), 1);*/
+
+
+
 	D3DXVECTOR3 dir(1.0f, -1.0f, 1.0f);
 	D3DXVec3Normalize(&dir, &dir);
 	D3DLIGHT9 light = DXUtil::InitDirectional(&dir, &WHITE);
