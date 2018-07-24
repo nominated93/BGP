@@ -60,7 +60,7 @@ void EnemyManager::Init()
 {
 }
 
-void EnemyManager::makeEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 dir, int patternNum)
+void EnemyManager::MakeEnemy(D3DXVECTOR3 pos, D3DXVECTOR3 dir, int patternNum)
 {
 	for (int i = 0; i < MAXENEMY; i++)
 	{

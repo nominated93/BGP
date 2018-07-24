@@ -39,6 +39,6 @@ public:
 	void EquipmentItemIconRender();
 
 public:
-	vector<Item*> GetVecInvenItemIcon() { return m_vecEquipmentItemIcon; }
+	vector<Item*> GetVecEquipmentItemIcon() { return m_vecEquipmentItemIcon; }
 };
 

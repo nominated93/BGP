@@ -6,32 +6,24 @@ class Camera;
 class Bullet : public IDisplayObject
 {
 private:
+	SYNTHESIZE(float, m_fDamage, Damage);
+	SYNTHESIZE(float, m_fSpeed, Speed);
+	SYNTHESIZE(float, m_fRange, Range);
+	SYNTHESIZE(bool, m_isAlive, isAlive);
+	D3DXVECTOR3 firstPos;
+
 	LPD3DXMESH	m_pSphere;
 
-private:
-	bool		m_isFire;
-	float		m_fSpeed;
-	D3DXVECTOR3 m_vStartPos;
-
 public:
-	
-
-public:
+	void Init(float damage, float speed, float range, D3DXVECTOR3* pos, D3DXVECTOR3* dir);
+	void Update();
+	void Render();
 	Bullet();
 	~Bullet();
 
+	D3DXVECTOR3 GetStartPosition() { return firstPos; }
+
+	// Inherited via IDisplayObject
 	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Render() override;
-
-	void Move();
-
-	void Setup(D3DXVECTOR3* pos, D3DXVECTOR3* dir);
-
-public:
-	//D3DXVECTOR3 GetPosition() { return m_pos; }
-	D3DXVECTOR3 GetStartPosition() { return m_vStartPos; }
-
-	// Inherited via IUnitObject
 };
 

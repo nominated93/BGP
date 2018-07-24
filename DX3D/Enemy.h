@@ -78,6 +78,7 @@ public:
 	void SetAnimationIndex(int nIndex);
 	void SetAnimationIndexBlend(int nIndex);
 	void BulletHit(int damage);
+	float GetLength();
 
 	Enemy();
 	~Enemy();

@@ -27,6 +27,9 @@ private:
 	Cursor*			m_pCursor;
 
 private:
+	SYNTHESIZE(bool, m_isGun, IsGun);
+
+private:
 	vector<Item*> m_vecInvenItemIcon;
 	vector<Item*>::iterator m_iterInvenItemIcon;
 
@@ -50,8 +53,10 @@ public:
 	void ItemIconImageRender();
 
 	void Drag();
+
 public:
 	vector<Item*> GetVecInvenItemIcon() { return m_vecInvenItemIcon; }
 
+	void SetIsEquipFromPlayer();
 };
 

@@ -11,11 +11,15 @@ private:
 	float m_fWidth;
 
 	UIImage* m_pProgressBarTop;
+	UIImage* m_pProgressBarRedTop;
 	UIImage* m_pProgressBarBottom;
 
 	LPD3DXSPRITE m_pSprite;
 
 	float m_alphaValue;
+
+	float _currentGauge;
+	float _maxGauge;
 
 public:
 	ProgressBarManager();

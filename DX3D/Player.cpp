@@ -22,13 +22,16 @@ Player::Player() :
 	m_eState(Melee_stand_idle),
 	aniControlerTmp(NULL),
 	m_pAniSet(NULL),
-	m_pInven(NULL)
+	m_pInven(NULL),
+	m_pGun(NULL),
+	m_isAlive(false)
 {
 }
 
 Player::~Player()
 {
 	SAFE_RELEASE(m_pSkinnedMesh);
+	SAFE_RELEASE(m_pGun);
 	SAFE_DELETE(m_pOBB);
 	SAFE_RELEASE(m_pBM);
 	SAFE_RELEASE(m_pCrossImg);
@@ -47,7 +50,7 @@ void Player::Init(BulletManager* bm)
 
 void Player::Init()
 {
-	m_pos = D3DXVECTOR3(0, -60, 0);
+	m_pos = D3DXVECTOR3(-207, -87, -47);
 	m_bulletCurrCnt = m_bulletTotalCnt;
 
 	g_pObjMgr->AddToTagList(TAG_PLAYER, this);
@@ -62,12 +65,14 @@ void Player::Init()
 	//	m_pSkinnedMesh->GetAnimationController()->GetMaxNumEvents(),
 	//	&aniControlerTmp);
 	aniControlerTmp = m_pSkinnedMesh->GetAnimationController();
-	//m_pSkinnedMesh->SetAnimationIndex(6);
+	m_pSkinnedMesh->SetAnimationIndex(6);
 
 	m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Character");
 	walkAniIndex = 0;
-	curAniIndex = baseAniIndex = Rifle_stand_idle;
+	curAniIndex = baseAniIndex = Melee_stand_idle;
 	m_pSkinnedMesh->SetAnimationIndex(curAniIndex);
+
+
 
 	//crosshair
 	RECT rc;
@@ -90,10 +95,10 @@ void Player::Init()
 
 	//인벤토리
 	m_pInven = new Inventory(); m_pInven->Init();
-
+	
 	//충돌
 	m_pOBB = new OBB;
-	m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
+	m_pOBB->Init(D3DXVECTOR3(-30.0f, m_pos.y, -30.0f), D3DXVECTOR3(30.0f, m_pos.y + 100, 30.0f));
 
 	m_bulletCntStr[0] = '\0';
 	m_bulletTotalStr[0] = '\0';
@@ -137,12 +142,87 @@ void Player::Update()
 {
 	//m_isReload = false;
 
-	IUnitObject::UpdateKeyboardState();
-	m_rot.y = g_pCamera->m_rotY;
-	IUnitObject::UpdatePosition();
+	if (!m_isAlive)
+	{
+		IUnitObject::UpdateKeyboardState();
+		m_rot.y = g_pCamera->m_rotY;
+		IUnitObject::UpdatePosition();
+
+		//재장전
+		if (g_pKeyboardManager->isOnceKeyDown('R'))
+		{
+			m_isReload = true;
+			//ReloadAction();
+		}
+		else
+		{
+			m_isReload = false;
+		}
+
+
+		//AnimationConversion();
+
+		m_pSkinnedMesh->Update();
+
+		//스피어충돌 좌표갱신
+		m_tCollisionSphere_Item.center = m_pos;
+
+		m_pOBB->Update(&matWorld);
+
+		//인벤이 아닐때
+		if (!(m_pInven->m_isInvenUI))
+		{
+			//총쏘기
+			if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+			{
+				if (m_pGun && m_bulletCurrCnt > 0)
+				{
+					m_bulletCurrCnt--;
+					UpdateBulletText();
+				}
+				RECT rc;
+				GetClientRect(g_hWnd, &rc);
+
+				D3DXVECTOR3 tmpPos = D3DXVECTOR3(rc.right / 2, rc.bottom / 2, 0);
+				//m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
+				m_pBM->Fire(10, 0.1f, 100.0f, &(m_pos + D3DXVECTOR3(0.0f, 3.0f, 0.0f) + 2.2f * (g_pCamera->m_forward)), &(g_pCamera->m_forward));
+				//m_pBM->Fire(10, 0.1f, 100.0f, &(tmpPos + 1.2f * (g_pCamera->m_forward)), &(g_pCamera->m_forward));
+				//m_pBM->Fire(10, 0.1f, 100.0f, &m_pos, &m_rot);
+				//m_pBM->Fire(&m_pos, &D3DXVECTOR3(10,10,0));
+			}
+
+			//줌
+			if (m_isZoom == false)
+			{
+				if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
+				{
+					m_isZoom = true;
+					m_pZoomin->Update();
+					g_pCamera->SetDistance(-30.0f);
+				}
+			}
+			else
+			{
+				if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON) || g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
+				{
+					m_isZoom = false;
+					m_pZoomin->Update();
+					g_pCamera->SetDistance(5.0f);
+				}
+			}
+		}
+
+
+		//PlayerMotion();
+
+		//인벤토리
+		m_pInven->Update();
+	}
 
 	if (m_eState == Falldown)
 	{
+		m_isAlive = true;
+
 		LPD3DXKEYFRAMEDANIMATIONSET aniset = NULL;
 		D3DXTRACK_DESC td;
 
@@ -158,75 +238,10 @@ void Player::Update()
 			SAFE_RELEASE(pAnimSet);
 
 			SAFE_RELEASE(aniset);
-
-		}
-	}
-	//m_pSkinnedMesh->Update();
-
-	//재장전
-	if (g_pKeyboardManager->isOnceKeyDown('R'))
-	{
-		m_isReload = true;
-		//ReloadAction();
-	}
-	else
-	{
-		m_isReload = false;
-	}
-	
-
-	//AnimationConversion();
-
-	m_pSkinnedMesh->Update();
-
-	//스피어충돌 좌표갱신
-	m_tCollisionSphere_Item.center = m_pos;
-
-	m_pOBB->Update(&m_matWorld);
-
-	//인벤이 아닐때
-	if (!(m_pInven->m_isInvenUI))
-	{
-		//총쏘기
-		if (g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
-		{
-			if (m_bulletCurrCnt > 0)
-			{
-				m_bulletCurrCnt--;
-				UpdateBulletText();
-			}
-			m_pBM->Fire(&m_pos, &(g_pCamera->m_forward));
-			//m_pBM->Fire(&m_pos, &D3DXVECTOR3(10,10,0));
-		}
-
-		//줌
-		if (m_isZoom == false)
-		{
-			if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
-			{
-				m_isZoom = true;
-				m_pZoomin->Update();
-				g_pCamera->SetDistance(-30.0f);
-			}
-		}
-		else
-		{
-			if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON) || g_pKeyboardManager->isOnceKeyDown(VK_LBUTTON))
-			{
-				m_isZoom = false;
-				m_pZoomin->Update();
-				g_pCamera->SetDistance(5.0f);
-			}
 		}
 	}
 
-
-	//PlayerMotion();
-
-	//인벤토리
-	m_pInven->Update();
-
-	//체력바
+	//체력바 디버그
 	if (g_pKeyboardManager->isStayKeyDown('1'))
 	{
 		if (m_fCurrHP > 0)
@@ -236,21 +251,15 @@ void Player::Update()
 	}
 	if (g_pKeyboardManager->isStayKeyDown('2'))
 	{
-		if (m_fCurrHP < 100)
+		if (m_fCurrHP <= 100)
 		{
 			m_fCurrHP += 0.5f;
 		}
 	}
-	if (m_fCurrHP == 100)
-	{
-		m_pPB->SetAlphaValue(80);
-	}
-	else
-	{
-		m_pPB->SetAlphaValue(50);
-	}
-	m_pPB->Update();
+
+	
 	m_pPB->SetGauge(m_fCurrHP, m_fMaxHP);
+	m_pPB->Update();
 
 	//위치
 	Debug->AddText("pos : ");
@@ -261,7 +270,7 @@ void Player::Update()
 
 void Player::Render()
 {
-	D3DXMATRIXA16 matS, matR, matRY, matT, matWorld, matBone;
+	D3DXMATRIXA16 matS, matR, matRY, matT, matBone;
 	D3DXMatrixScaling(&matS, 0.04f, 0.04f, 0.04f);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixRotationY(&matR, D3DX_PI);
@@ -269,33 +278,44 @@ void Player::Render()
 	D3DXMatrixTranslation(&matT, m_pos.x, m_pos.y, m_pos.z);
 	m_matWorld = matS  * matRY * matT;
 
-	g_pSkinnedMeshManager->GetBoneMatrix("Character", "hand_r", matBone);
-	matWorld = matBone * matR * m_matWorld;
-	g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	g_pMeshManager->Render("AK-47");
+	m_pGun = g_pMeshManager->GetStaticMesh("AK-47");
 
-	if (m_isZoom)
+	if (!m_isAlive)
 	{
-		m_pZoomin->Render();
-	}
-	else 
-	{
-		m_pCrossImg->Render();
-	}
+		if (m_pInven->GetIsGun())
+		{
+			m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Character");
+			m_pSkinnedMesh->SetAnimationIndex(Rifle_stand_idle);
 
+			g_pSkinnedMeshManager->GetBoneMatrix("Character", "hand_r", matBone);
+			matWorld = matBone * matR * m_matWorld;
+			g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+			m_pGun->Render();
+		}
+		else
+		{
+			m_pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh("Character");
+			m_pSkinnedMesh->SetAnimationIndex(Melee_stand_idle);
+		}
 
-
-	//m_pMesh->DrawSubset(0);
-	//m_pBM->Render();
-
-	aniControlerTmp->AdvanceTime(g_pTimeManager->GetEllapsedTime() * 1.2f, NULL);
-	m_pSkinnedMesh->Render(NULL, &m_matWorld);
-
-	m_pOBB->Render_Debug(255);
-
-	//인벤토리
-	m_pInven->Render();
+		if (m_isZoom)
+		{
+			m_pZoomin->Render();
+		}
+		else
+		{
+			m_pCrossImg->Render();
+		}
 	
+
+		//aniControlerTmp->AdvanceTime(g_pTimeManager->GetEllapsedTime() * 1.2f, NULL);
+		m_pSkinnedMesh->Render(NULL, &m_matWorld);
+
+		m_pOBB->Render_Debug(255);
+
+		//인벤토리
+		m_pInven->Render();
+	}
 
 	//체력바
 	m_pBulletCurrText->Render();
@@ -330,13 +350,11 @@ void Player::AnimationConversion()
 		{
 			m_currMoveSpeedRate = 0.5f;
 			baseAniIndex = Rifle_crouch_idle;
-			m_eState = Rifle_crouch_idle; //sj
 			g_pCamera->SetLookAt(m_rot + D3DXVECTOR3(0, -10, 0));
 		}
 		else
 		{
 			baseAniIndex = Rifle_stand_idle;
-			m_eState = Rifle_crouch_idle; //sj
 			g_pCamera->SetLookAt(m_rot);
 		}
 
@@ -787,10 +805,6 @@ void Player::BulletHit()
 		aniControlerTmp->SetTrackAnimationSet(0, pAnimSet);
 
 		SAFE_RELEASE(pAnimSet);
-	}
-	else if (m_fCurrHP >= 100)
-	{
-		m_fCurrHP = 100;
 	}
 	else
 	{

@@ -121,10 +121,15 @@ void Enemy::reMake(D3DXVECTOR3 pos, D3DXVECTOR3 dir, int patternNum)
 
 void Enemy::Update()
 {
+	float length = GetLength();
+
 	setDirByGetPlayerPos();
 
-	if(m_ePattern != Pattern_RELOAD &&
-		m_ePattern != Pattern_Dying &&
+	setWorldMat();
+
+	m_pOBB->Update(&m_matWorld);
+
+	if( m_ePattern != Pattern_Dying &&
 		m_ePattern != Pattern_End)
 	{
 		Move();
@@ -134,14 +139,6 @@ void Enemy::Update()
 	{
 		BulletHit(30);
 	}
-	else if(m_pPlayer->GetIsFire() == true)
-	{
-		//BulletHit(30);
-	}
-
-	setWorldMat();
-
-	m_pOBB->Update(&m_matWorld);
 
 	if (m_ePattern == Pattern_Move)
 	{
@@ -150,7 +147,10 @@ void Enemy::Update()
 
 	if (m_ePattern == Pattern_ATTACK)
 	{
-		attackPattern();
+		if (length >= 50 && length <= 30)
+		{
+			attackPattern();
+		}
 	}
 	if (m_ePattern == Pattern_RELOAD)
 	{
@@ -185,7 +185,7 @@ void Enemy::Update()
 		{
 			m_IsAlive = false;
 			m_fEndPatternCount = 0.0f;
-			m_pOBB->Init(D3DXVECTOR3(-30.0f, 0.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
+			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
 		}
 	}
 	if (m_ePattern == Pattern_MOVE_LEFT)
@@ -220,7 +220,6 @@ void Enemy::Update()
 
 void Enemy::Render()
 {
-	float Start = 30.0f, End = 35.8f, Density = 0.1f;
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
@@ -298,14 +297,11 @@ void Enemy::SetAnimationIndexBlend(int nIndex)
 	m_pAniController->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAniController->SetTrackDesc(1, &stTrackDesc);
 
-
 	m_pAniController->GetAnimationSet(nIndex, &pNextAnimSet);
 	m_pAniController->SetTrackAnimationSet(0, pNextAnimSet);
 
-
 	m_pAniController->SetTrackWeight(0, 0.0f);
 	m_pAniController->SetTrackWeight(1, 1.0f);
-
 
 	m_pAniController->GetAnimationSet(nIndex, &m_pAniSet);
 	m_pAniController->SetTrackAnimationSet(0, m_pAniSet);
@@ -361,7 +357,7 @@ void Enemy::setDirByGetPlayerPos()
 
 void Enemy::bulletFire()
 {
-	m_pBulletsManager->Fire(&m_pos, &m_rot);
+	m_pBulletsManager->Fire(10, 1.0f, 100.0f, &(m_pos + D3DXVECTOR3(0.0f, 1.0f, 0.0f) + 1.2f * m_rot), &m_rot);
 }
 
 void Enemy::attackPattern()
@@ -372,7 +368,7 @@ void Enemy::attackPattern()
 		{
 			SetAnimationIndexBlend(18);
 			m_ePattern = Pattern_RELOAD;
-			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
+			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
 			return;
 		}
 		if (m_nPatternNum == 1)
@@ -408,7 +404,7 @@ void Enemy::reloadPattern()
 	{
 		m_fReloadPatternCount = 0.0f;
 		m_nAmmoRemain = 5;
-		m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
+		m_pOBB->Init(D3DXVECTOR3(-30.0f, -60, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
 		if (m_nPatternNum == 0)
 		{
 			SetAnimationIndexBlend(38);
@@ -436,7 +432,7 @@ void Enemy::moveLeftPattern()
 {
 	//이동이랑 관련된 코드
 	float speed;
-	speed = 0.15f;
+	speed = 0.5f;
 	D3DXVECTOR3 moveDirTemp;
 	D3DXVec3Cross(&moveDirTemp, &D3DXVECTOR3(m_vDirForMoving.x, -60, m_vDirForMoving.z), &D3DXVECTOR3(0, 1.0f, 0));
 	D3DXVec3Normalize(&moveDirTemp, &moveDirTemp);
@@ -450,7 +446,7 @@ void Enemy::moveLeftPattern()
 		{
 			SetAnimationIndexBlend(18);
 			m_ePattern = Pattern_RELOAD;
-			m_pOBB->Init(D3DXVECTOR3(-30.0f, 0.0f, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
+			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
 			return;
 		}
 		if (m_nPatternNum == 1)
@@ -465,7 +461,7 @@ void Enemy::moveRightPattern()
 {
 	//이동이랑 관련된 코드
 	float speed;
-	speed = 0.05f;
+	speed = 0.5f;
 	D3DXVECTOR3 moveDirTemp;
 	D3DXVec3Cross(&moveDirTemp, &D3DXVECTOR3(m_vDirForMoving.x, 0, m_vDirForMoving.z), &D3DXVECTOR3(0, 1.0f, 0));
 	D3DXVec3Normalize(&moveDirTemp, &moveDirTemp);
@@ -479,7 +475,7 @@ void Enemy::moveRightPattern()
 		{
 			SetAnimationIndexBlend(18);
 			m_ePattern = Pattern_RELOAD;
-			m_pOBB->Init(D3DXVECTOR3(-30.0f, 0.0f, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
+			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 100.0f, 30.0f));
 			return;
 		}
 		if (m_nPatternNum == 2)
@@ -490,6 +486,21 @@ void Enemy::moveRightPattern()
 	}
 }
 
+float Enemy::GetLength()
+{
+	float a;
+	D3DXVECTOR3 playerPos = m_pPlayer->GetPosition();
+	D3DXVECTOR3 enemyPos = GetPosition();
+	D3DXVECTOR3 direction = playerPos - enemyPos;
+	D3DXVECTOR3 length = playerPos - enemyPos;
+
+	// 방향벡터 정규화
+	D3DXVec3Normalize(&direction, &direction);
+	a = D3DXVec3Length(&length);
+	
+	return a;
+}
+
 
 void Enemy::Move()
 {
@@ -497,9 +508,6 @@ void Enemy::Move()
 	float a;
 	D3DXVECTOR3 playerPos = m_pPlayer->GetPosition();
 
-	Debug->AddText("플레이어 좌표: ");
-	Debug->AddText(playerPos);
-	Debug->EndLine();
 	// 추격 스피드
 	float speed = 0.5;
 	// 적 위치 구하기
@@ -512,9 +520,9 @@ void Enemy::Move()
 
 	// 방향벡터 정규화
 	D3DXVec3Normalize(&direction, &direction);
-	a = D3DXVec3Length(&length);
+	a = GetLength();
 
-	if (a <= 50) {
+	if (a <= 50 && a >= 30) {
 		direction *= speed;
 		D3DXVECTOR3 pos(enemyPos.x + direction.x, enemyPos.y, enemyPos.z + direction.z);
 		SetPosition(&pos);
@@ -524,7 +532,7 @@ void Enemy::Move()
 		{
 			m_fReloadPatternCount = 0.0f;
 			m_nAmmoRemain = 5;
-			m_pOBB->Init(D3DXVECTOR3(-30.0f, -60.0f, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
+			//m_pOBB->Init(D3DXVECTOR3(-30.0f, -60, -30.0f), D3DXVECTOR3(30.0f, 160.0f, 30.0f));
 
 			SetAnimationIndexBlend(19);
 			m_ePattern = Pattern_Move;

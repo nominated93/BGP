@@ -10,7 +10,8 @@ Inventory::Inventory():
 	m_pEquipment(NULL),
 	m_pCursor(NULL),
 	m_pRootUI(NULL),
-	m_isInvenUI(false)
+	m_isInvenUI(false),
+	m_isGun(false)
 {
 }
 
@@ -51,6 +52,7 @@ void Inventory::Update()
 		m_pEquipment->Update();
 		ItemIconImageUpdate();
 		m_pCursor->Update();
+
 	
 		if (g_pKeyboardManager->isOnceKeyDown(VK_RBUTTON))
 		{
@@ -64,6 +66,8 @@ void Inventory::Update()
 			Drag();
 		}
 	}
+
+	SetIsEquipFromPlayer();
 }
 
 void Inventory::Render()
@@ -258,3 +262,17 @@ void Inventory::Drag()
 		}
 	}
 }
+
+void Inventory::SetIsEquipFromPlayer()
+{
+	m_isGun = false;
+
+	for (int i = 0; i < m_pEquipment->GetVecEquipmentItemIcon().size(); i++)
+	{
+		if (m_pEquipment->GetVecEquipmentItemIcon()[i]->GetItemName() == ITEM_LIST::AK47)
+		{
+			m_isGun = true;
+		}
+	}
+}
+

@@ -33,6 +33,9 @@ private:
 	ProgressBarManager*		m_pPB;
 	OBB*					m_pOBB;		
 	Inventory*				m_pInven;
+	D3DXMATRIXA16			matWorld;
+	Mesh*					m_pGun;
+	SYNTHESIZE(bool, m_isAlive, IsAlive);
 
 private:
 	int						m_eState;
@@ -72,9 +75,7 @@ private:
 	int nextAniIndex;
 	int baseAniIndex;
 	int walkAniIndex;
-
 	int actionIndex;
-
 
 
 

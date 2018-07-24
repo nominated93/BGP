@@ -64,9 +64,9 @@ void SceneObjMap::Init()
 	m_pPlayer->Init(m_pBulletManager);
 
 	m_pEnemyManager->Init(m_pPlayer, m_pBulletManager, m_pObjMap);
-	m_pEnemyManager->makeEnemy(D3DXVECTOR3(16, -60, 0), D3DXVECTOR3(0, 0, 1), 0);
-	m_pEnemyManager->makeEnemy(D3DXVECTOR3(4, -60, 0), D3DXVECTOR3(0.8, 0, 0.6), 1);
-	m_pEnemyManager->makeEnemy(D3DXVECTOR3(12, -60, -99), D3DXVECTOR3(-0.07, 0, 0.99), 2);
+	m_pEnemyManager->MakeEnemy(D3DXVECTOR3(16, -60, 0), D3DXVECTOR3(0, 0, 1), 0);
+	m_pEnemyManager->MakeEnemy(D3DXVECTOR3(4, -60, 0), D3DXVECTOR3(0.8, 0, 0.6), 1);
+	m_pEnemyManager->MakeEnemy(D3DXVECTOR3(12, -60, -99), D3DXVECTOR3(-0.07, 0, 0.99), 2);
 
 	D3DXVECTOR3 dir(1.0f, -1.0f, 1.0f);
 	D3DXVec3Normalize(&dir, &dir);
