@@ -116,8 +116,8 @@ void SkyBox::Render()
 	matWrd = matS * matT;
 
 	g_pDevice->SetTransform(D3DTS_WORLD, &matWrd);
-	g_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	g_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	/*g_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	g_pDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);*/
 
 	for (int i = 0; i<6; i++)
 	{
