@@ -110,6 +110,7 @@ void SceneObjMap::Update()
 
 void SceneObjMap::Render()
 {
+	m_pSkyBox->Render();
 	OnRenderIScene();
 }
 

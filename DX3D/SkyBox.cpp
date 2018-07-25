@@ -103,7 +103,7 @@ void SkyBox::Render()
 
 															
 															
-	D3DXVECTOR3 vPos = g_pCamera->m_lookAt;
+	D3DXVECTOR3 vPos = g_pCamera->m_eye;
 
 	D3DXMATRIX matWrd, matS, matT;
 	D3DXMatrixIdentity(&matWrd);
