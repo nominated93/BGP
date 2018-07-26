@@ -7,7 +7,7 @@
 class Item;
 class Inventory;
 
-class Equipment : public IDisplayObject, public IUIButtonDelegate
+class Equipment : public IDisplayObject
 {
 private:
 	UIImage *		m_pEquipmentIcon;
@@ -19,15 +19,11 @@ public:
 	~Equipment();
 
 	virtual void Init() override;
-	void Init(Inventory* pinven);
 	virtual void Update() override;
 	virtual void Render() override;
 
-	virtual void OnClick(UIButton * pSender) override;
-
 private:
 	vector<Item*> m_vecEquipmentItemIcon;
-	vector<Item*>::iterator m_iterEquipmentItemIcon;
 
 private:
 	bool m_isEquipmentUI;
@@ -40,5 +36,6 @@ public:
 
 public:
 	vector<Item*> GetVecEquipmentItemIcon() { return m_vecEquipmentItemIcon; }
+	void AddressLink(Inventory* pinven) { m_pIeven = pinven; }
 };
 

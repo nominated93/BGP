@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Inventory.h"
 #include "Equipment.h"
+#include "ItemBox.h"
 #include "Cursor.h"
 #include "Item.h"
 
 Inventory::Inventory():
 	m_pInvenUI(NULL),
-	m_pInvenExitUI(NULL),
 	m_pEquipment(NULL),
 	m_pCursor(NULL),
 	m_pRootUI(NULL),
@@ -18,7 +18,6 @@ Inventory::Inventory():
 Inventory::~Inventory()
 {
 	SAFE_RELEASE(m_pInvenUI);
-	SAFE_RELEASE(m_pInvenExitUI);
 	SAFE_RELEASE(m_pEquipment);
 	SAFE_RELEASE(m_pInvenUI);
 	SAFE_RELEASE(m_pCursor);
@@ -28,7 +27,8 @@ Inventory::~Inventory()
 
 void Inventory::Init()
 {
-	m_pEquipment = new Equipment; m_pEquipment->Init(this);
+	m_pEquipment = new Equipment; m_pEquipment->AddressLink(this); m_pEquipment->Init();
+	m_pItemBox = new ItemBox;  m_pItemBox->AddressLink(m_pIM, this); m_pItemBox->Init();
 	m_pCursor = new Cursor; m_pCursor->Init();
 
 	m_pInvenUI = new UIImage(m_pSprite);
@@ -50,6 +50,7 @@ void Inventory::Update()
 	{
 		SAFE_UPDATE(m_pRootUI);
 		m_pEquipment->Update();
+		m_pItemBox->Update();
 		ItemIconImageUpdate();
 		m_pCursor->Update();
 
@@ -58,6 +59,7 @@ void Inventory::Update()
 		{
 			RemoveItemFromInven();
 			m_pEquipment->RemoveItemFromEquipment();
+			m_pItemBox->RemoveItemFromItemBox_Item();
 		}
 
 		//인벤창에 아이템이 하나라도 있을때
@@ -76,6 +78,7 @@ void Inventory::Render()
 	{
 		SAFE_RENDER(m_pRootUI);
 		m_pEquipment->Render();
+		m_pItemBox->Render();
 		ItemIconImageRender();
 		m_pCursor->Render();
 	}
@@ -183,9 +186,7 @@ void Inventory::AddItemToInven(ITEM_LIST IL)
 
 void Inventory::RemoveItemFromInven()
 {
-	int iNum = 0;	//vec번호
-
-	for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); )
+	for (int i = 0; i<m_vecInvenItemIcon.size(); )
 	{
 		LPD3DXSPRITE pSprite;
 		D3DXCreateSprite(g_pDevice, &pSprite);
@@ -194,10 +195,10 @@ void Inventory::RemoveItemFromInven()
 
 		pSprite->GetTransform(&mat);
 
-		int left = mat._41 + (*m_iterInvenItemIcon)->GetPIconImage()->GetCombinedPosition().x;
-		int top = mat._42 + (*m_iterInvenItemIcon)->GetPIconImage()->GetCombinedPosition().y;
-		int right = left + (*m_iterInvenItemIcon)->GetPIconImage()->GetInfo().Width;
-		int bottom = top + (*m_iterInvenItemIcon)->GetPIconImage()->GetInfo().Height;
+		int left = mat._41 + m_vecInvenItemIcon[i]->GetPIconImage()->GetCombinedPosition().x;
+		int top = mat._42 + m_vecInvenItemIcon[i]->GetPIconImage()->GetCombinedPosition().y;
+		int right = left + m_vecInvenItemIcon[i]->GetPIconImage()->GetInfo().Width;
+		int bottom = top + m_vecInvenItemIcon[i]->GetPIconImage()->GetInfo().Height;
 
 		RECT rc;
 		SetRect(&rc, left, top, right, bottom);
@@ -208,60 +209,59 @@ void Inventory::RemoveItemFromInven()
 
 		if (PtInRect(&rc, mousePoint))
 		{
-			(*m_iterInvenItemIcon)->m_pRootIcon->RemoveChild(0);
-			m_pEquipment->AddItemToEquipment((*m_iterInvenItemIcon)->GetItemName());
-			m_iterInvenItemIcon = m_vecInvenItemIcon.erase(m_iterInvenItemIcon);
+			m_vecInvenItemIcon[i]->m_pRootIcon->RemoveChild(0);
+			m_pEquipment->AddItemToEquipment(m_vecInvenItemIcon[i]->GetItemName());
+			m_vecInvenItemIcon.erase(m_vecInvenItemIcon.begin() + i);
 
 			int iDeltaY = 42;
-			for (int i = 0; i < m_vecInvenItemIcon.size(); i++)
+			for (int j = 0; j < m_vecInvenItemIcon.size(); j++)
 			{
 				D3DXVECTOR3 vDeltaPos(250, 95, 0);
 
-				vDeltaPos.y = vDeltaPos.y + i * iDeltaY;
-				m_vecInvenItemIcon[i]->GetPBGIconImage()->SetPosition(&vDeltaPos);
+				vDeltaPos.y = vDeltaPos.y + j * iDeltaY;
+				m_vecInvenItemIcon[j]->GetPBGIconImage()->SetPosition(&vDeltaPos);
 			}
 		}
 		else
 		{
-			m_iterInvenItemIcon++;
-			iNum++;
+			i++;
 		}
 	}
 }
 
 void Inventory::ItemIconImageUpdate()
 {
-	if (m_vecInvenItemIcon.size()>0)
+	if (m_vecInvenItemIcon.size() > 0)
 	{
-		for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); m_iterInvenItemIcon++)
+		for (int i = 0; i<m_vecInvenItemIcon.size(); i++)
 		{
-			(*m_iterInvenItemIcon)->IconUpdate();
+			m_vecInvenItemIcon[i]->IconUpdate();
 		}
 	}
-
 }
 
 void Inventory::ItemIconImageRender()
 {
 	if (m_vecInvenItemIcon.size() > 0)
 	{
-		for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); m_iterInvenItemIcon++)
+		for (int i = 0; i<m_vecInvenItemIcon.size(); i++)
 		{
-			(*m_iterInvenItemIcon)->IconRender();
+			m_vecInvenItemIcon[i]->IconRender();
 		}
 	}
 }
 
 void Inventory::Drag()
 {
-	if (m_vecInvenItemIcon.size()>0)
+	if (m_vecInvenItemIcon.size() > 0)
 	{
-		for (m_iterInvenItemIcon = m_vecInvenItemIcon.begin(); m_iterInvenItemIcon != m_vecInvenItemIcon.end(); m_iterInvenItemIcon++)
+		for (int i = 0; i<m_vecInvenItemIcon.size(); i++)
 		{
-			(*m_iterInvenItemIcon)->MouseDrag(m_pCursor->m_isClick);
+			m_vecInvenItemIcon[i]->MouseDrag(m_pCursor->m_isClick);
 		}
 	}
 }
+
 
 void Inventory::SetIsEquipFromPlayer()
 {

@@ -31,23 +31,6 @@ void Item::Init()
 
 }
 
-void Item::Init(char* fileName,D3DXVECTOR3 pos, D3DXVECTOR3 rot , ITEM_LIST IL, ITEM_INTO II)
-{
-	m_pSkinnedMesh = new SkinnedMesh();
-	m_pIconImage = new UIImage(m_pSprite);
-
-	m_pos = pos;
-	m_rot = rot;
-	m_pSkinnedMesh->Setup("resources/weapons", fileName);
-	m_tItemName = IL;
-	m_tItemInto = II;
-
-	m_tCollisionSphere.center = m_pos;
-	m_tCollisionSphere.radius = 20;
-	D3DXCreateSphere(g_pDevice, m_tCollisionSphere.radius, 10, 10, &m_pMesh, NULL);
-
-}
-
 void Item::Update()
 {
 	m_tCollisionSphere.center = m_pos;
@@ -80,6 +63,66 @@ void Item::Render()
 	Debug->AddText("isC : ");
 	Debug->AddText(m_isCollision);
 	Debug->EndLine();
+}
+
+void Item::Setup(D3DXVECTOR3 pos, D3DXVECTOR3 rot, ITEM_LIST IL, ITEM_INTO II)
+{
+	m_pSkinnedMesh = new SkinnedMesh();
+	m_pIconImage = new UIImage(m_pSprite);
+
+	switch (IL)
+	{
+	case ITEM_LIST::AK47:
+		m_pos = pos;
+		m_rot = rot;
+		m_pSkinnedMesh->Setup("resources/weapons", "AK-47.X");
+		m_tItemName = IL;
+		m_tItemInto = II;
+
+		m_tCollisionSphere.center = m_pos;
+		m_tCollisionSphere.radius = 20;
+		D3DXCreateSphere(g_pDevice, m_tCollisionSphere.radius, 10, 10, &m_pMesh, NULL);
+		break;
+	case ITEM_LIST::ARMOR:
+		m_pos = pos;
+		m_rot = rot;
+		m_pSkinnedMesh->Setup("resources/weapons", "F_Armor_C_01.X");
+		m_tItemName = IL;
+		m_tItemInto = II;
+
+		m_tCollisionSphere.center = m_pos;
+		m_tCollisionSphere.radius = 20;
+		D3DXCreateSphere(g_pDevice, m_tCollisionSphere.radius, 10, 10, &m_pMesh, NULL);
+		break;
+	case ITEM_LIST::BACKPACK:
+		m_pos = pos;
+		m_rot = rot;
+		m_pSkinnedMesh->Setup("resources/weapons", "F_Back_C_01_.X");
+		m_tItemName = IL;
+		m_tItemInto = II;
+
+		m_fFixRenderZ = 10.f;
+		m_tCollisionSphere.center = m_pos;
+		m_tCollisionSphere.radius = 20;
+		D3DXCreateSphere(g_pDevice, m_tCollisionSphere.radius, 10, 10, &m_pMesh, NULL);
+		break;
+	case ITEM_LIST::HEAD:
+		m_pos = pos;
+		m_rot = rot;
+		m_pSkinnedMesh->Setup("resources/weapons", "F_Head_G_01.X");
+		m_tItemName = IL;
+		m_tItemInto = II;
+
+		m_tCollisionSphere.center = m_pos;
+		m_tCollisionSphere.radius = 20;
+		D3DXCreateSphere(g_pDevice, m_tCollisionSphere.radius, 10, 10, &m_pMesh, NULL);
+		break;
+	case ITEM_LIST::END:
+		break;
+	default:
+		break;
+	}
+
 }
 
 void Item::MouseDrag(bool isClick)

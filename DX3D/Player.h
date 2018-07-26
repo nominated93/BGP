@@ -1,6 +1,7 @@
 #pragma once
 #include "IUnitObject.h"
 #include "ProgressBarManager.h"
+#include "ItemManager.h"
 
 class SkinnedMesh;
 class UIImage;
@@ -33,6 +34,7 @@ private:
 	ProgressBarManager*		m_pPB;
 	OBB*					m_pOBB;		
 	Inventory*				m_pInven;
+	ItemManager*			m_pIM;
 	D3DXMATRIXA16			matWorld;
 	Mesh*					m_pGun;
 	SYNTHESIZE(bool, m_isAlive, IsAlive);
@@ -100,6 +102,8 @@ public:
 	void BulletHit();
 
 	void SetCurrHP(float hp) { m_fCurrHP = hp; }
+
+	void AddressLink(ItemManager* pIM) { m_pIM = pIM; }
 
 public:
 	BoundingSphere GetCollisionSphere() { return m_tCollisionSphere_Item; }

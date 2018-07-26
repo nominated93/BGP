@@ -3,28 +3,23 @@
 #include "UIButton.h"
 #include "UIImage.h"
 #include "IUIObject.h"
-
-
-
-enum INVENUI
-{
-	INVENUI_EXIT,
-	INVENUI_NONE
-};
+#include "ItemManager.h"
 
 class Cursor;
 class Equipment;
 class Item;
+class ItemBox;
 class Inventory : public IDisplayObject, public IUIButtonDelegate
 {
 private:
 	UIImage *		m_pInvenUI;
 	UIImage *		m_pInvenUI2;
-	UIButton *		m_pInvenExitUI;
 	LPD3DXSPRITE	m_pSprite;
 	IUIObject*		m_pRootUI;
 	Equipment*		m_pEquipment;
 	Cursor*			m_pCursor;
+	ItemBox*		m_pItemBox;
+	ItemManager*	m_pIM;
 
 private:
 	SYNTHESIZE(bool, m_isGun, IsGun);
@@ -52,10 +47,13 @@ public:
 	void ItemIconImageUpdate();
 	void ItemIconImageRender();
 
+	void AddressLink(ItemManager* pIM) { m_pIM = pIM; }
+
 	void Drag();
 
 public:
 	vector<Item*> GetVecInvenItemIcon() { return m_vecInvenItemIcon; }
+	ItemBox* GetPItemBox() { return m_pItemBox; }
 
 	void SetIsEquipFromPlayer();
 };

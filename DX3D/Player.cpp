@@ -94,7 +94,7 @@ void Player::Init()
 	//m_pBM = new BulletManager(); m_pBM->Init();
 
 	//인벤토리
-	m_pInven = new Inventory(); m_pInven->Init();
+	m_pInven = new Inventory(); m_pInven->AddressLink(m_pIM); m_pInven->Init();
 	
 	//충돌
 	m_pOBB = new OBB;

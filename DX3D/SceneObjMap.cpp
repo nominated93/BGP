@@ -49,16 +49,22 @@ void SceneObjMap::Init()
 	g_pMeshManager->AddMesh("AK-47", "resources/weapons", "AK-47.X"); //AK-47 추가
 
 	m_pObjMap = new ObjMap; m_pObjMap->Init(); AddSimpleDisplayObj(m_pObjMap);
-	m_pPlayer = new Player; m_pPlayer->Init();  AddSimpleDisplayObj(m_pPlayer);
+	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
+
+	m_pPlayer = new Player; m_pPlayer->AddressLink(m_pItemManager); m_pPlayer->Init();  AddSimpleDisplayObj(m_pPlayer);
 	m_pEnemyManager = new EnemyManager; m_pEnemyManager->Init(); AddSimpleDisplayObj(m_pEnemyManager);
 	m_pBulletManager = new BulletManager; m_pBulletManager->Setup(m_pPlayer, m_pEnemyManager, m_pObjMap); AddSimpleDisplayObj(m_pBulletManager);
 	//m_pMonsterManager = new MonsterManager; m_pMonsterManager->Init(); AddSimpleDisplayObj(m_pMonsterManager);
 	m_pPicking = new Picking; m_pPicking->Init(); AddSimpleDisplayObj(m_pPicking);
 	m_pMinimap = new Minimap; m_pMinimap->Init(); AddSimpleDisplayObj(m_pMinimap);
-	m_pItemManager = new ItemManager; m_pItemManager->Init(); AddSimpleDisplayObj(m_pItemManager);
-
+	
 	//Collision Init이 제일 뒤에 있어야됨
-	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer, m_pPlayer->GetPBulletManager(), m_pItemManager, m_pPlayer->GetPInven()); AddSimpleDisplayObj(m_pCollision);
+	m_pCollision = new Collision; m_pCollision->Init(m_pPlayer,		//플레이어
+								m_pPlayer->GetPBulletManager(),		//볼렛메니저
+												m_pItemManager,		//아이템매니저
+										m_pPlayer->GetPInven(),		//인벤
+						m_pPlayer->GetPInven()->GetPItemBox());		//아이템박스
+	AddSimpleDisplayObj(m_pCollision);
 
 	//test
 	m_pPlayer->Init(m_pBulletManager);

@@ -82,6 +82,7 @@ enum class ITEM_INTO
 	FIELD,
 	INVEN,
 	EQUIPMENT,
+	ITEMBOX,
 	END
 };
 
